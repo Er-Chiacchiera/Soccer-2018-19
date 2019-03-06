@@ -1,0 +1,33 @@
+Partlist exported from C:/Users/Punturo/Dropbox/Calciatore/Calciatore 2015/Phoenix rev 2/Schemi e boards/Sensore Linea Rev 1/sensore_linea.sch at 26/01/2016 11:30:23
+
+Part   Value   Device      Package Description                      MF MPN OC_FARNELL OC_NEWARK
+ALIM           JP1E        JP1     JUMPER                                                      
+ANALOG         JP2E        JP2     JUMPER                                                      
+C1     100nF   C2.5/2      C2.5-2  CAPACITOR                                                   
+C2     100nF   C2.5/2      C2.5-2  CAPACITOR                                                   
+C3     100nF   C2.5/2      C2.5-2  CAPACITOR                                                   
+C4     100nF   C2.5/2      C2.5-2  CAPACITOR                                                   
+C5     100nF   C2.5/2      C2.5-2  CAPACITOR                                                   
+D1             LED3MM      LED3MM  LEDs                                                        
+D2             LED3MM      LED3MM  LEDs                                                        
+D3             LED3MM      LED3MM  LEDs                                                        
+EXTRA          JP2E        JP2     JUMPER                                                      
+IC1    LM358MX LM358MX     SO08    OP AMP also LM158; LM258; LM2904                            
+IC2    LM358MX LM358MX     SO08    OP AMP also LM158; LM258; LM2904                            
+JP1            JP1E        JP1     JUMPER                                                      
+R1     220     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R2     220     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R3     220     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R7     10k     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R8     10k     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R9     10k     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R10            3386-J      3386J   3386 Series                                                 
+R11            3386-J      3386J   3386 Series                                                 
+R12            3386-J      3386J   3386 Series                                                 
+R13    10k     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R14    10k     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+R15    10k     R-US_0207/7 0207/7  RESISTOR, American symbol                                   
+SV1            MA03-2      MA03-2  PIN HEADER                              unknown    unknown  
+TCX    BP103   BP103       BP103   PHOTO TRANSISTOR                        unknown    unknown  
+TDX    BP103   BP103       BP103   PHOTO TRANSISTOR                        unknown    unknown  
+TSX    BP103   BP103       BP103   PHOTO TRANSISTOR                        unknown    unknown  

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="7.1.0">
+<drawing>
+<settings>
+<setting alwaysvectorfont="no"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
+<layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+</layers>
+<library>
+<packages>
+<package name="LVL-CONVERTER">
+<pad name="HV1" x="-6.35" y="5.08" drill="0.8" diameter="1.7526"/>
+<pad name="HV2" x="-3.81" y="5.08" drill="0.8" diameter="1.7526"/>
+<pad name="HV" x="-1.27" y="5.08" drill="0.8" diameter="1.7526"/>
+<pad name="GND" x="1.27" y="5.08" drill="0.8" diameter="1.7526"/>
+<pad name="HV3" x="3.81" y="5.08" drill="0.8" diameter="1.7526"/>
+<pad name="HV4" x="6.35" y="5.08" drill="0.8" diameter="1.7526"/>
+<pad name="LV1" x="-6.35" y="-5.08" drill="0.8" diameter="1.7526"/>
+<pad name="LV2" x="-3.81" y="-5.08" drill="0.8" diameter="1.7526"/>
+<pad name="LV" x="-1.27" y="-5.08" drill="0.8" diameter="1.7526"/>
+<pad name="GND2" x="1.27" y="-5.08" drill="0.8" diameter="1.7526"/>
+<pad name="LV3" x="3.81" y="-5.08" drill="0.8" diameter="1.7526"/>
+<pad name="LV4" x="6.35" y="-5.08" drill="0.8" diameter="1.7526"/>
+<wire x1="-7.62" y1="6.35" x2="7.62" y2="6.35" width="0.127" layer="22"/>
+<wire x1="7.62" y1="6.35" x2="7.62" y2="3.81" width="0.127" layer="22"/>
+<wire x1="7.62" y1="3.81" x2="7.62" y2="-3.81" width="0.127" layer="22"/>
+<wire x1="7.62" y1="-3.81" x2="7.62" y2="-6.35" width="0.127" layer="22"/>
+<wire x1="7.62" y1="-6.35" x2="-7.62" y2="-6.35" width="0.127" layer="22"/>
+<wire x1="-7.62" y1="-6.35" x2="-7.62" y2="-3.81" width="0.127" layer="22"/>
+<wire x1="-7.62" y1="-3.81" x2="-7.62" y2="3.81" width="0.127" layer="22"/>
+<wire x1="-7.62" y1="3.81" x2="-7.62" y2="6.35" width="0.127" layer="22"/>
+<wire x1="-7.62" y1="3.81" x2="7.62" y2="3.81" width="0.127" layer="22"/>
+<wire x1="7.62" y1="-3.81" x2="-7.62" y2="-3.81" width="0.127" layer="22"/>
+<text x="-7.62" y="7.62" size="1.27" layer="21">&gt;NAME</text>
+<text x="-7.3025" y="2.8575" size="0.6096" layer="21">HV1</text>
+<text x="-4.7625" y="2.8575" size="0.6096" layer="21">HV2</text>
+<text x="-2.2225" y="2.8575" size="0.6096" layer="21">HV</text>
+<text x="2.8575" y="2.8575" size="0.6096" layer="21">HV3</text>
+<text x="5.3975" y="2.8575" size="0.6096" layer="21">HV4</text>
+<text x="0.3175" y="2.8575" size="0.6096" layer="21">GND</text>
+<text x="-7.3025" y="-3.4925" size="0.6096" layer="21">LV1</text>
+<text x="-4.7625" y="-3.4925" size="0.6096" layer="21">LV2</text>
+<text x="-2.2225" y="-3.4925" size="0.6096" layer="21">LV</text>
+<text x="0.3175" y="-3.4925" size="0.6096" layer="21">GND</text>
+<text x="2.8575" y="-3.4925" size="0.6096" layer="21">LV3</text>
+<text x="5.3975" y="-3.4925" size="0.6096" layer="21">LV4</text>
+</package>
+</packages>
+<symbols>
+<symbol name="LVL-CONVERTER">
+<wire x1="-7.62" y1="15.24" x2="-7.62" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-2.54" x2="10.16" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-2.54" x2="10.16" y2="15.24" width="0.254" layer="94"/>
+<wire x1="10.16" y1="15.24" x2="-7.62" y2="15.24" width="0.254" layer="94"/>
+<text x="-7.62" y="20.32" size="1.778" layer="96">&gt;NAME</text>
+<pin name="HV1" x="-12.7" y="12.7" visible="pin" length="middle"/>
+<pin name="HV2" x="-12.7" y="10.16" visible="pin" length="middle"/>
+<pin name="HV" x="-12.7" y="7.62" visible="pin" length="middle"/>
+<pin name="GND" x="-12.7" y="5.08" visible="pin" length="middle"/>
+<pin name="HV3" x="-12.7" y="2.54" visible="pin" length="middle"/>
+<pin name="HV4" x="-12.7" y="0" visible="pin" length="middle"/>
+<pin name="LV1" x="15.24" y="12.7" visible="pin" length="middle" rot="R180"/>
+<pin name="LV2" x="15.24" y="10.16" visible="pin" length="middle" rot="R180"/>
+<pin name="LV" x="15.24" y="7.62" visible="pin" length="middle" rot="R180"/>
+<pin name="GND2" x="15.24" y="5.08" visible="pin" length="middle" rot="R180"/>
+<pin name="LV3" x="15.24" y="2.54" visible="pin" length="middle" rot="R180"/>
+<pin name="LV4" x="15.24" y="0" visible="pin" length="middle" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="LVL-CONVERTER" prefix="LVL">
+<description>Description:&lt;br&gt; If you’ve ever tried to connect a 3.3V device to a 5V system, you know what a challenge it can be.&lt;br&gt; The SparkFun bi-directional logic level converter is a small device that safely steps down &lt;br&gt;5V signals to 3.3V AND steps up 3.3V to 5V at the same time.&lt;br&gt; This level converter also works with 2.8V and 1.8V devices.&lt;br&gt; What really separates this Logic level converter from our previous versions is that you can successfully set your high and low voltages&lt;br&gt; and step up and down between them safely on the same channel.&lt;br&gt; Each level converter has the capability of converting 4 pins on the high side to 4 pins on the low side with two inputs and two outputs provided for each side.&lt;br&gt;&lt;br&gt;
+
+The level converter is very easy to use.&lt;br&gt;The board needs to be powered from the two voltages sources (high voltage and low voltage) that your system is using.&lt;br&gt; High voltage (5V for example) to the ‘HV’ pin, low voltage (3.3V for example) to ‘LV’, and ground from the system to the ‘GND’ pin.&lt;br&gt;&lt;br&gt;
+
+&lt;b&gt;Dimensions: 0.63 x 0.52" (16.05 x 13.33mm)&lt;b/&gt;</description>
+<gates>
+<gate name="LVL-CONV" symbol="LVL-CONVERTER" x="-2.54" y="0"/>
+</gates>
+<devices>
+<device name="" package="LVL-CONVERTER">
+<connects>
+<connect gate="LVL-CONV" pin="GND" pad="GND"/>
+<connect gate="LVL-CONV" pin="GND2" pad="GND2"/>
+<connect gate="LVL-CONV" pin="HV" pad="HV"/>
+<connect gate="LVL-CONV" pin="HV1" pad="HV1"/>
+<connect gate="LVL-CONV" pin="HV2" pad="HV2"/>
+<connect gate="LVL-CONV" pin="HV3" pad="HV3"/>
+<connect gate="LVL-CONV" pin="HV4" pad="HV4"/>
+<connect gate="LVL-CONV" pin="LV" pad="LV"/>
+<connect gate="LVL-CONV" pin="LV1" pad="LV1"/>
+<connect gate="LVL-CONV" pin="LV2" pad="LV2"/>
+<connect gate="LVL-CONV" pin="LV3" pad="LV3"/>
+<connect gate="LVL-CONV" pin="LV4" pad="LV4"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="LVL" value="" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+</drawing>
+</eagle>
