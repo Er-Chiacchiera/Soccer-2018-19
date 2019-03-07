@@ -16,7 +16,7 @@ void PhoenixRullo_init()
 
 void PhoenixRullo_start()
 {
-    PhoenixJoint_setSpeed(&rullo, -SPEED_RULLO);
+    PhoenixJoint_setSpeed(&rullo, SPEED_RULLO);
     PhoenixJoint_handle(&rullo);
 }
 
