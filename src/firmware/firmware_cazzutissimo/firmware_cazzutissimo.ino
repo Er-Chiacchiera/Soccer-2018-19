@@ -31,17 +31,13 @@ void setup() {
   Serial.println("Serial initialized...");
   PhoenixDrive_init(&drive, joints);
   
-  for(int i=0;i<NUM_LINE_SENSORS;++i) {
-    PhoenixLineSensor_init(&line_sensors[i]);
-  }
-  Serial.println("Line Sensors initialized...");
-  PhoenixLineHandler_init(&line_handler, line_sensors);
-  Serial.println("Line Handler initialized...");
-
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
-
+  
+  PhoenixImu_init(&imu);
+  Serial.println("Imu inizialized");
+/*
   Serial.println("Joint inizialized...");
   if(PhoenixImu_init(&imu)==0)
   {
@@ -62,6 +58,13 @@ void setup() {
  Serial.println("Mo funziona");
  /*PhoenixRullo_init();
  Serial.println("Rullo inizialized...");*/
+
+ for(int i=0;i<NUM_LINE_SENSORS;++i) {
+    PhoenixLineSensor_init(&line_sensors[i]);
+  }
+  Serial.println("Line Sensors initialized...");
+  PhoenixLineHandler_init(&line_handler, line_sensors);
+  Serial.println("Line Handler initialized...");
 }
   
 /**
@@ -80,6 +83,7 @@ void setup() {
  */
 void loop() {
 /*
+ //IMU
  PhoenixImu_handle(&imu);
  PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
  PhoenixDrive_handle(&drive);
@@ -92,8 +96,14 @@ void loop() {
  delay(10);
   /*PhoenixDrive_setSpeed(&drive, 0,2,0);
   PhoenixDrive_handle(&drive);*/
-  //PhoenixRullo_start();
 
+  //RULLO
+  /*PhoenixRullo_start();*/
 
+  //LINEEE
 
+  for(int i=0;i<NUM_LINE_SENSORS;i++)
+  {
+  PhoenixLineSensor_handle(&line_sensors->misura);
+  }
 }
