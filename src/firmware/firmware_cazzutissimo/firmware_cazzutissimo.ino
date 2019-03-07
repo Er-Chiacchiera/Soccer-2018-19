@@ -37,7 +37,7 @@ void setup() {
   
   PhoenixImu_init(&imu);
   Serial.println("Imu inizialized");
-/*
+
   Serial.println("Joint inizialized...");
   if(PhoenixImu_init(&imu)==0)
   {
@@ -56,8 +56,8 @@ void setup() {
   Serial.println("non funziona");
  }
  Serial.println("Mo funziona");
- /*PhoenixRullo_init();
- Serial.println("Rullo inizialized...");*/
+ PhoenixRullo_init();
+ Serial.println("Rullo inizialized...");
 
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -82,28 +82,44 @@ void setup() {
  * PhoenixDrive_handle(&drive);
  */
 void loop() {
-/*
- //IMU
- PhoenixImu_handle(&imu);
- PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
- PhoenixDrive_handle(&drive);
- Serial.print(imu.heading_target);
- Serial.print("\t");
- Serial.print(imu.sum_i);
- Serial.print("\t");
- Serial.print(imu.output_pid/180);
- Serial.println("\t");
- delay(10);
-  /*PhoenixDrive_setSpeed(&drive, 0,2,0);
-  PhoenixDrive_handle(&drive);*/
+
+  //PROVA CONNESSIONI MOTORI 
+  PhoenixJoint_setSpeed(&joints[0], 255);
+  PhoenixJoint_handle(&joints[0]);
+  PhoenixJoint_setSpeed(&joints[0], -255);
+  PhoenixJoint_handle(&joints[0]);
+
+  PhoenixJoint_setSpeed(&joints[1], 255);
+  PhoenixJoint_handle(&joints[1]);
+  PhoenixJoint_setSpeed(&joints[1], -255);
+  PhoenixJoint_handle(&joints[1]);
+
+  PhoenixJoint_setSpeed(&joints[2], 255);
+  PhoenixJoint_handle(&joints[2]);
+  PhoenixJoint_setSpeed(&joints[2], -255);
+  PhoenixJoint_handle(&joints[2]);
+
+  //IMU
+  /*
+  PhoenixImu_handle(&imu);
+  PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
+  PhoenixDrive_handle(&drive);
+  Serial.print(imu.heading_target);
+  Serial.print("\t");
+  Serial.print(imu.sum_i);
+  Serial.print("\t");
+  Serial.print(imu.output_pid/180);
+  Serial.println("\t");
+  delay(10);
 
   //RULLO
   /*PhoenixRullo_start();*/
 
-  //LINEEE
-
-  for(int i=0;i<NUM_LINE_SENSORS;i++)
-  {
-  PhoenixLineSensor_handle(&line_sensors->misura);
+  //LINEEE LETTURA MISURA
+  /*
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
+  PhoenixLineSensor_handle(&line_sensors[i]);
+  Serial.println(&line_sensors[i].misura);
   }
+  */
 }
