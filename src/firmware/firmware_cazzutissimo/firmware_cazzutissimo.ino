@@ -30,9 +30,15 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Serial initialized...");
   PhoenixDrive_init(&drive, joints);
+  
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
+  
+  PhoenixImu_init(&imu);
+  Serial.println("Imu inizialized");
+
+  Serial.println("Joint inizialized...");
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -44,12 +50,21 @@ void setup() {
   delay(1000);
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);
- /*
+ 
  while(PhoenixImu_init(&imu)) {
   delay(500);
   Serial.println("non funziona");
  }
- Serial.println("Mo funziona");*/
+ Serial.println("Mo funziona");
+ PhoenixRullo_init();
+ Serial.println("Rullo inizialized...");
+
+ for(int i=0;i<NUM_LINE_SENSORS;++i) {
+    PhoenixLineSensor_init(&line_sensors[i]);
+  }
+  Serial.println("Line Sensors initialized...");
+  PhoenixLineHandler_init(&line_handler, line_sensors);
+  Serial.println("Line Handler initialized...");
 }
   
 /**
@@ -67,23 +82,44 @@ void setup() {
  * PhoenixDrive_handle(&drive);
  */
 void loop() {
-  /**
-  PhoenixDrive_setSpeed(&drive, 0,0,-imu.output_pid/295);  //-imu.output_pid/295
+
+  //PROVA CONNESSIONI MOTORI 
+  PhoenixJoint_setSpeed(&joints[0], 255);
+  PhoenixJoint_handle(&joints[0]);
+  PhoenixJoint_setSpeed(&joints[0], -255);
+  PhoenixJoint_handle(&joints[0]);
+
+  PhoenixJoint_setSpeed(&joints[1], 255);
+  PhoenixJoint_handle(&joints[1]);
+  PhoenixJoint_setSpeed(&joints[1], -255);
+  PhoenixJoint_handle(&joints[1]);
+
+  PhoenixJoint_setSpeed(&joints[2], 255);
+  PhoenixJoint_handle(&joints[2]);
+  PhoenixJoint_setSpeed(&joints[2], -255);
+  PhoenixJoint_handle(&joints[2]);
+
+  //IMU
+  /*
+  PhoenixImu_handle(&imu);
+  PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
   PhoenixDrive_handle(&drive);
-  Serial.print(imu.errore);
+  Serial.print(imu.heading_target);
   Serial.print("\t");
-  Serial.print(imu.output_pid);
+  Serial.print(imu.sum_i);
+  Serial.print("\t");
+  Serial.print(imu.output_pid/180);
   Serial.println("\t");
-  **/
- //BNO055_handle(imu.imu);
- PhoenixImu_handle(&imu);
- PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
- PhoenixDrive_handle(&drive);
- Serial.print(imu.heading_target);
- Serial.print("\t");
- Serial.print(imu.sum_i);
- Serial.print("\t");
- Serial.print(imu.output_pid/180);
- Serial.println("\t");
- delay(10);
+  delay(10);
+
+  //RULLO
+  /*PhoenixRullo_start();*/
+
+  //LINEEE LETTURA MISURA
+  /*
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
+  PhoenixLineSensor_handle(&line_sensors[i]);
+  Serial.println(&line_sensors[i].misura);
+  }
+  */
 }
