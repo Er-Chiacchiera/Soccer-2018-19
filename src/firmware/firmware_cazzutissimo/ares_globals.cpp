@@ -55,8 +55,8 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   detect_flag : 0,
   calibra_flag : 0,
   adc_addr : 1,
-  adc_idx : 1,
-  pin_reading: 0
+  adc_idx : 0,
+  pin_reading: 1
   },
   {// Sensore 2
   x : 0,
@@ -68,8 +68,8 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   detect_flag : 0,
   calibra_flag : 0,
   adc_addr : 2,
-  adc_idx : 2,
-  pin_reading: 0
+  adc_idx : 0,
+  pin_reading: 2
   }
 };
 
@@ -90,6 +90,6 @@ PhoenixImu imu = {
   max_i: 180,
   max_output: 180,
   kp : 9,
-  ki : 40,
+  ki : 120,
   kd : 0
 };
