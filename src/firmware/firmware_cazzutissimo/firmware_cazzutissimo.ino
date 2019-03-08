@@ -84,21 +84,19 @@ void setup() {
 void loop() {
 
   //PROVA CONNESSIONI MOTORI 
+
+  PhoenixJoint_handle(&joints[0]);
   PhoenixJoint_setSpeed(&joints[0], 255);
-  PhoenixJoint_handle(&joints[0]);
   PhoenixJoint_setSpeed(&joints[0], -255);
-  PhoenixJoint_handle(&joints[0]);
-
+  delay(500);
+  PhoenixJoint_handle(&joints[1]);
   PhoenixJoint_setSpeed(&joints[1], 255);
-  PhoenixJoint_handle(&joints[1]);
   PhoenixJoint_setSpeed(&joints[1], -255);
-  PhoenixJoint_handle(&joints[1]);
-
+  delay(500);
+  PhoenixJoint_handle(&joints[2]);
   PhoenixJoint_setSpeed(&joints[2], 255);
-  PhoenixJoint_handle(&joints[2]);
   PhoenixJoint_setSpeed(&joints[2], -255);
-  PhoenixJoint_handle(&joints[2]);
-
+  delay(500);
   //IMU
   /*
   PhoenixImu_handle(&imu);
