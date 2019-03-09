@@ -34,7 +34,6 @@ void setup() {
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
-  
   Serial.println("Joint inizialized...");
   
   if(PhoenixImu_init(&imu)==0)
@@ -99,9 +98,10 @@ void loop() {
   PhoenixJoint_setSpeed(&joints[2], 255);
   PhoenixJoint_setSpeed(&joints[2], -255);
   delay(500);
-  //IMU
-  */
 
+  */
+ 
+  //IMU
   PhoenixImu_handle(&imu);
   PhoenixDrive_setSpeed(&drive , 0,1,-imu.output_pid/180);
   PhoenixDrive_handle(&drive);
@@ -123,11 +123,10 @@ void loop() {
 */
 
   //LINEEE LETTURA MISURA
-/*
 
+/*
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
   Serial.println(line_sensors[i].misura);
   }*/
-
 }
