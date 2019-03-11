@@ -74,6 +74,7 @@ void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
    **/
     double lettura = 0;
     lettura = line_adc[l->adc_addr].readADC_SingleEnded(l->adc_idx);
+    
     if(l->calibra_flag = 1)
     {
       if(l->misura < l->misura_min)

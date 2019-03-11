@@ -24,6 +24,7 @@
 #include "ares_imu.h"
 #include "ares_timer.h"
 #include "ares_rullo.h"
+#include "ares_encoders.h"
 
 
 void setup() {
@@ -55,8 +56,8 @@ void setup() {
  Serial.println("Mo funziona");
 
 
- /*PhoenixRullo_init();
- Serial.println("Rullo inizialized...");*/
+ PhoenixRullo_init();
+ Serial.println("Rullo inizialized...");
 
 
 /*
@@ -82,6 +83,7 @@ void setup() {
  * PhoenixDrive_setSpeed(&drive, 0,2,0);
  * PhoenixDrive_handle(&drive);
  */
+
 void loop() {
 
   //PROVA CONNESSIONI MOTORI 
@@ -102,8 +104,9 @@ void loop() {
   */
  
   //IMU
+  
   PhoenixImu_handle(&imu);
-  PhoenixDrive_setSpeed(&drive , 0,1,-imu.output_pid/180);
+  PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
   PhoenixDrive_handle(&drive);
   Serial.print(imu.heading_target);
   Serial.print("\t");
@@ -112,6 +115,7 @@ void loop() {
   Serial.print(imu.output_pid/180);
   Serial.println("\t");
   delay(10);
+
   //PhoenixRullo_start();
 
 
@@ -122,11 +126,10 @@ void loop() {
   PhoenixDrive_handle(&drive);
 */
 
-  //LINEEE LETTURA MISURA
-
+  //LINEEE LETTURA 
 /*
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
-  Serial.println(line_sensors[i].misura);
-  }*/
+  Serial.println(line_sensors[i].misura); 
+  }*/ 
 }

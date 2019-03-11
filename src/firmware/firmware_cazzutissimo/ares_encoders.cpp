@@ -2,7 +2,7 @@
  * phoenix_encoders.cpp
  **/
 
-#include "phoenix_encoders.h"
+#include "ares_encoders.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -53,6 +53,10 @@ void Encoder_init(void) {
  **/
 void Encoder_sample(void) {
   cli();
+  for(int i=0;i<NUM_ENCODERS;++i)
+  {
+  _encoder_current_value[i] = _encoder_sampled_value[i];
+  }
   // Da completare...
   sei();
 }

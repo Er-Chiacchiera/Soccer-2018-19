@@ -21,7 +21,6 @@ uint8_t PhoenixImu_init(PhoenixImu* m) {
   m->errore = 0;
   m->imu->i2c_addr = BNO055_I2C_ADDR;
   m->imu->op = NDOF;
-  
   if(BNO055_init(m->imu) != 0)   //mi da problemi con le linee
   {
     return -1;
