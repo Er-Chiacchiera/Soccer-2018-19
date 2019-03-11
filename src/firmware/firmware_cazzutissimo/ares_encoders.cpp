@@ -39,6 +39,7 @@ void Encoder_init(void) {
     _encoder_current_value[i]=0;
     _encoder_sampled_value[i]=0;
   }
+  _encoder_prev = 0;
   DDRK &= ~ENCODER_MASK; // set encoder pins as INPUT
   PORTK |= ENCODER_MASK; // enable pullup resistors
   PCICR |= (1 << PCIE2); // set interrupt on change, looking up PCMSK2
@@ -53,11 +54,9 @@ void Encoder_init(void) {
  **/
 void Encoder_sample(void) {
   cli();
-  for(int i=0;i<NUM_ENCODERS;++i)
-  {
-  _encoder_current_value[i] = _encoder_sampled_value[i];
+  for(int i=0;i<NUM_ENCODERS;++i){
+    _encoder_sampled_value[i] = _encoder_current_value[i];
   }
-  // Da completare...
   sei();
 }
 
@@ -66,7 +65,7 @@ void Encoder_sample(void) {
  * di _encoder_sampled_value
  **/
 uint16_t Encoder_getValue(uint8_t num_encoder) {
-  return 0;// Da completare...
+     return _encoder_sampled_value[num_encoder];
 }
 
 static const int8_t _transition_table []= {

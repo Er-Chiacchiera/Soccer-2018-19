@@ -60,13 +60,13 @@ void setup() {
  Serial.println("Rullo inizialized...");
 
 
-/*
+
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
-  Serial.println("Line Handler initialized...");*/
+  Serial.println("Line Handler initialized...");
 }
   
 /**
@@ -104,7 +104,7 @@ void loop() {
   */
  
   //IMU
-  
+  /*
   PhoenixImu_handle(&imu);
   PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
   PhoenixDrive_handle(&drive);
@@ -114,7 +114,7 @@ void loop() {
   Serial.print("\t");
   Serial.print(imu.output_pid/180);
   Serial.println("\t");
-  delay(10);
+  delay(10);*/
 
   //PhoenixRullo_start();
 
@@ -127,9 +127,9 @@ void loop() {
 */
 
   //LINEEE LETTURA 
-/*
+
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
   Serial.println(line_sensors[i].misura); 
-  }*/ 
+  }
 }
