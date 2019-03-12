@@ -135,10 +135,10 @@ ISR(PCINT2_vect) {
   for(uint8_t i=0;i<NUM_ENCODERS;++i) {
     uint8_t table_idx=((prev_value&0x03)<<2) | c_value&0x03;
     *curr_enc += ttable[table_idx];  
-    *curr_enc ++;
+    curr_enc ++;
     c_value >>=2;
     prev_value >>=2;
-    _encoder_prev = port_value;
   }
+  _encoder_prev = port_value;
   sei();
 }

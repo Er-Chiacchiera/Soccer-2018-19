@@ -86,7 +86,7 @@ void Test_connections(){
   delay(1000);
 }
   
-void Test_ImuPid(){
+void Test_ImuPid(void){
   PhoenixImu_handle(&imu);
   PhoenixDrive_setSpeed(&drive , 0,0,-imu.output_pid/180);
   PhoenixDrive_handle(&drive);
@@ -99,17 +99,29 @@ void Test_ImuPid(){
   delay(10);
 }
 
-void Test_Line(){
+void Test_Line(void){
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
   Serial.println(line_sensors[i].misura); }
 }
 
-void TestRullo(){
+void Test_Rullo(void){
   PhoenixRullo_start();
   PhoenixDrive_setSpeed(&drive, 0,1,0);
   PhoenixDrive_handle(&drive);
 }
+
+void Test_Encoder(void){
+  Encoder_sample();
+  Serial.print(Encoder_getValue(0));
+  Serial.print("\t");
+  Serial.print(Encoder_getValue(1));
+  Serial.print("\t");
+  Serial.print(Encoder_getValue(2));
+  Serial.println("\t");
+}
+
+
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
  * indietro = 0, -1, 0
@@ -126,12 +138,6 @@ void TestRullo(){
  */
 
 void loop() {
-  
-  Encoder_sample();
-  Serial.print(Encoder_getValue(0));
-  Serial.print("\t");
-  Serial.print(Encoder_getValue(1));
-  Serial.print("\t");
-  Serial.print(Encoder_getValue(2));
-  Serial.println("\t");
+  Test_connections();
+  Test_Encoder();
 }
