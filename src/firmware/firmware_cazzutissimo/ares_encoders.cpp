@@ -129,8 +129,15 @@ ISR(PCINT2_vect) {
   register const int8_t* ttable=0;
   register int16_t* curr_enc=0;
   for(uint8_t i=0;i<NUM_ENCODERS;++i) {
-    // build the following data:
-    // first 2 bits of prev_value | first 2 bits of c_value
+    port_value = PINK;
+    _encoder_prev & ENCODER_MASK;
+    prev_value = _encoder_prev;
+    ttable = _transition_table;
+    curr_enc = _encoder_current_value;
+    prev_value | c_value;
+    c_value + ttable[i];  //SO CHE NON E' COSì MA NON HO CAPITO // first 2 bits of prev_value | first 2 bits of c_value
+    c_value >>=2;
+    prev_value >>=2;
     uint8_t table_idx=0;
   }
   sei();
