@@ -24,19 +24,19 @@
 #include "ares_imu.h"
 #include "ares_timer.h"
 #include "ares_rullo.h"
-#include "ares_encoders.h"
+//#include "ares_encoders.h"
 
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Serial initialized...");
-  PhoenixDrive_init(&drive, joints);
-  
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
   Serial.println("Joint inizialized...");
-  
+
+  PhoenixDrive_init(&drive, joints);
+  /*
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -53,20 +53,20 @@ void setup() {
   delay(500);
   Serial.println("non funziona");
  }
- Serial.println("Mo funziona");
+ Serial.println("Mo funziona");*/
 
-
+/*
  PhoenixRullo_init();
- Serial.println("Rullo inizialized...");
+ Serial.println("Rullo inizialized...");*/
 
 
-
+/*
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
-  Serial.println("Line Handler initialized...");
+  Serial.println("Line Handler initialized...");*/
 }
   
 /**
@@ -101,8 +101,7 @@ void loop() {
   PhoenixJoint_setSpeed(&joints[2], -255);
   delay(500);
 
-  */
- 
+*/ 
   //IMU
   /*
   PhoenixImu_handle(&imu);
@@ -114,8 +113,8 @@ void loop() {
   Serial.print("\t");
   Serial.print(imu.output_pid/180);
   Serial.println("\t");
-  delay(10);*/
-
+  delay(10);
+*/
   //PhoenixRullo_start();
 
 
@@ -127,9 +126,11 @@ void loop() {
 */
 
   //LINEEE LETTURA 
-
+/*
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
   Serial.println(line_sensors[i].misura); 
-  }
+  }*/
+
+  
 }
