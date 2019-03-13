@@ -24,7 +24,7 @@ void setup() {
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  
+  /*
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -35,9 +35,9 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
 
-  Encoder_init();
+ // Encoder_init();
  
  /*while(PhoenixImu_init(&imu)) {
   delay(500);
@@ -46,8 +46,8 @@ void setup() {
  Serial.println("Mo funziona");*/
 
 
- PhoenixRullo_init();
- Serial.println("Rullo inizialized...");
+ /*PhoenixRullo_init();
+ Serial.println("Rullo inizialized...");*/
 
 
 
@@ -87,8 +87,10 @@ void Test_ImuPid(void){
 void Test_Line(void){
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
-  Serial.println(line_sensors[i].misura); 
+  Serial.print(line_sensors[i].misura); 
+  Serial.print("\t");
   }
+  Serial.println();
 }
 
 void Test_Rullo(void){
@@ -98,7 +100,7 @@ void Test_Rullo(void){
 }
 
 void Test_RulloSingleStart(void){
-  PhoenixRullo_start(&rullo);
+  PhoenixRullo_start();
 }
 
 void Test_Encoder(void){
