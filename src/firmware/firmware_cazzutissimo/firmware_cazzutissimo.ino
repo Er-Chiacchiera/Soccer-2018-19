@@ -1,18 +1,6 @@
 /**
-   
    firmware.ino
-
 -----------------------------------------------------
-
-   Copyright 2018 Emanuele Giacomini
-   
-   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an 
-   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and limitations under the License.
 **/
 
 #include "ares_params.h"
@@ -36,7 +24,7 @@ void setup() {
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  /*
+  
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -47,7 +35,7 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);
 
   Encoder_init();
  
@@ -57,32 +45,29 @@ void setup() {
  }
  Serial.println("Mo funziona");*/
 
-/*
+
  PhoenixRullo_init();
- Serial.println("Rullo inizialized...");*/
+ Serial.println("Rullo inizialized...");
 
 
-/*
+
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
-  Serial.println("Line Handler initialized...");*/
+  Serial.println("Line Handler initialized...");
 }
 
-void Test_connections(){
+void Test_connections(void){
   PhoenixJoint_handle(&joints[0]);
-  PhoenixJoint_setSpeed(&joints[0], 255);
-  //Serial.println("MOTORE 0 (ALTO A DESTRA)");
+  PhoenixJoint_setSpeed(&joints[0], 255); //(ALTO A DESTRA)
   delay(1000);
   PhoenixJoint_handle(&joints[1]);
-  PhoenixJoint_setSpeed(&joints[1], 255);
-  //Serial.println("MOTORE 1 (ALTO A SINISTRA)");
+  PhoenixJoint_setSpeed(&joints[1], 255); //(ALTO A SINISTRA)
   delay(1000);
   PhoenixJoint_handle(&joints[2]);
-  PhoenixJoint_setSpeed(&joints[2], 255);
-  //Serial.println("MOTORE 0 (BASSO)");
+  PhoenixJoint_setSpeed(&joints[2], 255); //(BASSO)
   delay(1000);
 }
   
@@ -102,13 +87,18 @@ void Test_ImuPid(void){
 void Test_Line(void){
   for(int i=0;i<NUM_LINE_SENSORS;i++){
   PhoenixLineSensor_handle(&line_sensors[i]);
-  Serial.println(line_sensors[i].misura); }
+  Serial.println(line_sensors[i].misura); 
+  }
 }
 
 void Test_Rullo(void){
   PhoenixRullo_start();
   PhoenixDrive_setSpeed(&drive, 0,1,0);
   PhoenixDrive_handle(&drive);
+}
+
+void Test_RulloSingleStart(void){
+  PhoenixRullo_start(&rullo);
 }
 
 void Test_Encoder(void){
@@ -127,17 +117,7 @@ void Test_Encoder(void){
  * indietro = 0, -1, 0
  * destra = 1, 0, 0
  * sinistra -1, 0, 0
- * 
- * per IMPOSTARE VELOCITA' ad un motore:
- * PhoenixJoint_handle(&joints[0]);
- * PhoenixJoint_setSpeed(&joints[0], 255);
- * 
- * per Mandare avanti il robot:
- * PhoenixDrive_setSpeed(&drive, 0,2,0);
- * PhoenixDrive_handle(&drive);
  */
 
 void loop() {
-  Test_connections();
-  Test_Encoder();
 }
