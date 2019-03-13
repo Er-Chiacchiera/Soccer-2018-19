@@ -101,7 +101,7 @@ double PhoenixLineHandler_getEscapeX(PhoenixLineHandler* d) {
 }
 
 /**
- * restituisce il valore di escape_x (hai sbagliato a scrivere è "y")
+ * restituisce il valore di escape_y
  **/
 double PhoenixLineHandler_getEscapeY(PhoenixLineHandler* d) {
   return d->escape_y;

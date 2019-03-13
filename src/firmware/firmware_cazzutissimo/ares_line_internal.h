@@ -37,15 +37,6 @@ typedef struct {
   uint8_t adc_addr;// Indice x adc nell'array di ADC
   uint8_t adc_idx;// Indice interno all'adc per l'individuazione
                   // del sensore
-
-  // Sezione gruppo Sara
-  /**
-   * Ogni sensore e' collegato direttamente ad un analogico
-   * di Arduino.
-   * Possiamo leggere il valore del sensore, attraverso il pin
-   * a cui il sensore e' collegato (pin_reading)
-   **/
-  uint8_t pin_reading;// Pin relativo al sensore
 } PhoenixLineSensor;
 
 

@@ -20,9 +20,9 @@ PhoenixJoint joints[NUM_JOINTS] = {
   velocita : 0
   },
   {// Joint 2
-  pin_dira : 24,  //24
-  pin_dirb : 25,  //25
-  pin_pwm : 3,   //3
+  pin_dira : 24,  
+  pin_dirb : 25, 
+  pin_pwm : 3,   
   direzione : 0,
   velocita : 0
   }
@@ -42,8 +42,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   detect_flag : 0,
   calibra_flag : 0,
   adc_addr : 0x48,
-  adc_idx : 0,
-  pin_reading: 0
+  adc_idx : 0
   },
   {// Sensore 1
   x : 0,
@@ -55,8 +54,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   detect_flag : 0,
   calibra_flag : 0,
   adc_addr : 0x48,
-  adc_idx : 1,
-  pin_reading: 0
+  adc_idx : 1
   },
   {// Sensore 2
   x : 0,
@@ -68,8 +66,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   detect_flag : 0,
   calibra_flag : 0,
   adc_addr : 0x48,
-  adc_idx : 2,
-  pin_reading: 0
+  adc_idx : 2
   }
 };
 

@@ -50,8 +50,8 @@ void setup() {
  Serial.println("Rullo inizialized...");*/
 
 
-
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
+    PhoenixLineSensor_startCalib(&line_sensors[i]);
     PhoenixLineSensor_init(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
@@ -86,6 +86,7 @@ void Test_ImuPid(void){
 
 void Test_Line(void){
   for(int i=0;i<NUM_LINE_SENSORS;i++){
+  PhoenixLineSensor_startCalib(&line_sensors[i]);
   PhoenixLineSensor_handle(&line_sensors[i]);
   Serial.print(line_sensors[i].misura); 
   Serial.print("\t");
@@ -122,4 +123,5 @@ void Test_Encoder(void){
  */
 
 void loop() {
+  Test_Line();
 }
