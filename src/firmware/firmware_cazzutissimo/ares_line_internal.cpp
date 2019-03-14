@@ -10,19 +10,34 @@
 // x attivare la sezione relativa all'ADS1015
 
 #include "Adafruit_ADS1015.h"
-#define NUM_ADC 4
+#define NUM_ADC 3
 #define LINE_ADC_ADDR_FRONT  0
 #define LINE_ADC_ADDR_LEFT   1
 #define LINE_ADC_ADDR_RIGHT  2
-#define LINE_ADC_ADDR_BACK   3
 static Adafruit_ADS1015 line_adc[NUM_ADC] = {
  Adafruit_ADS1015(LINE_ADC_ADDR_FRONT),
  Adafruit_ADS1015(LINE_ADC_ADDR_LEFT),
- Adafruit_ADS1015(LINE_ADC_ADDR_RIGHT),
- Adafruit_ADS1015(LINE_ADC_ADDR_BACK)
+ Adafruit_ADS1015(LINE_ADC_ADDR_RIGHT)
 };
 
+void PhoenixLineSensor_ADCBegin(PhoenixLineSensor * l){
+  for(int i=0;i<NUM_ADC;i++){
+    line_adc[i].begin();
+  }
+  return;
+}
 
+void Test_ADCBegin(PhoenixLineSensor * l){
+    int16_t adc0, adc1, adc2;
+
+    adc0 = line_adc[0].readADC_SingleEnded(0);
+    adc1 = line_adc[1].readADC_SingleEnded(1);
+    adc2 = line_adc[2].readADC_SingleEnded(2);
+    Serial.print("AIN0: "); Serial.println(adc0);
+    Serial.print("AIN1: "); Serial.println(adc1);
+    Serial.print("AIN2: "); Serial.println(adc2);
+    Serial.println(" ");
+}
 
 /**
  * inizializza l (PhoenixLineSensor) azzerando i valori di
@@ -44,7 +59,6 @@ void PhoenixLineSensor_init(PhoenixLineSensor* l) {
   l->misura_min = 0;
   l->detect_flag = 0;
   l->calibra_flag = 0;
-  line_adc[l->adc_addr].begin();
   return;
 }
 

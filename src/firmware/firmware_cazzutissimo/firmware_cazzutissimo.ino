@@ -49,14 +49,16 @@ void setup() {
  /*PhoenixRullo_init();
  Serial.println("Rullo inizialized...");*/
 
-
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
-    PhoenixLineSensor_startCalib(&line_sensors[i]);
-    PhoenixLineSensor_init(&line_sensors[i]);
+    PhoenixLineSensor_ADCBegin(&line_sensors[i]);
+    PhoenixLineSensor_init(&line_sensors[i]);}
+    /*PhoenixLineSensor_startCalib(&line_sensors[i]);
+    PhoenixLineSensor_handle(&line_sensors[i]);
+    PhoenixLineSensor_stopCalib(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
-  Serial.println("Line Handler initialized...");
+  Serial.println("Line Handler initialized...");*/
 }
 
 void Test_connections(void){
@@ -115,6 +117,7 @@ void Test_Encoder(void){
 }
 
 
+
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
  * indietro = 0, -1, 0
@@ -123,5 +126,8 @@ void Test_Encoder(void){
  */
 
 void loop() {
-  Test_Line();
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
+    Test_ADCBegin(&line_sensors[i]);
+  }
+  delay(1000);
 }

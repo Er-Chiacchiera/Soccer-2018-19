@@ -12,6 +12,7 @@
 #include "bno055.h"
 #include "ares_imu.h"
 #include "ares_rullo.h"
+#include "Adafruit_ADS1015.h"
 
 extern PhoenixJoint joints[NUM_JOINTS];
 extern PhoenixDrive drive;
@@ -19,4 +20,5 @@ extern PhoenixLineSensor line_sensors[NUM_LINE_SENSORS];
 extern PhoenixLineHandler line_handler;
 extern BNO055 dev_bno055;
 extern PhoenixImu imu;
+extern Adafruit_ADS1015 line_adc;
 

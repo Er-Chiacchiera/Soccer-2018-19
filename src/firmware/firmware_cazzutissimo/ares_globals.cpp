@@ -37,7 +37,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   y : 0,
   soglia : 0,
   misura : 0,
-  misura_min : 0,
+  misura_min : 65535,
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
@@ -69,6 +69,8 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   adc_idx : 2
   }
 };
+
+Adafruit_ADS1015 line_adc;
 
 PhoenixLineHandler line_handler;
 
