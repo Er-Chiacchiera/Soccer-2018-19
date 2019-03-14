@@ -41,7 +41,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
-  adc_addr : LINE_ADC_ADDR_J0,
+  adc_addr : 0,
   adc_idx : 0
   },
   {// Sensore 1
@@ -49,11 +49,11 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   y : 0,
   soglia : 0,
   misura : 0,
-  misura_min : 0,
+  misura_min : 65535,
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
-  adc_addr : LINE_ADC_ADDR_J0,
+  adc_addr : 0,
   adc_idx : 1
   },
   {// Sensore 2
@@ -61,11 +61,11 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   y : 0,
   soglia : 0,
   misura : 0,
-  misura_min : 0,
+  misura_min : 65535,
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
-  adc_addr : LINE_ADC_ADDR_J0,
+  adc_addr : 0,
   adc_idx : 2
   }
 };
@@ -88,7 +88,7 @@ PhoenixImu imu = {
   sum_i: 0,
   max_i: 180,
   max_output: 180,
-  kp : 9,
-  ki : 40,  //40
+  kp : 9.6,   //9
+  ki : 220,  //40
   kd : 0
 };
