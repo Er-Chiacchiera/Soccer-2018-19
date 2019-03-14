@@ -11,13 +11,18 @@
 
 #include "Adafruit_ADS1015.h"
 #define NUM_ADC 3
-#define LINE_ADC_ADDR_FRONT  0
-#define LINE_ADC_ADDR_LEFT   1
-#define LINE_ADC_ADDR_RIGHT  2
+
+#define LINE_ADC_I2C_ADDR_0 0x48
+#define LINE_ADC_I2C_ADDR_1 0x49
+#define LINE_ADC_I2C_ADDR_2 0x4A
+
+#define LINE_ADC_ADDR_J0 0
+#define LINE_ADC_ADDR_J1 1
+#define LINE_ADC_ADDR_J2 2
 static Adafruit_ADS1015 line_adc[NUM_ADC] = {
- Adafruit_ADS1015(LINE_ADC_ADDR_FRONT),
- Adafruit_ADS1015(LINE_ADC_ADDR_LEFT),
- Adafruit_ADS1015(LINE_ADC_ADDR_RIGHT)
+ Adafruit_ADS1015(LINE_ADC_I2C_ADDR_0),
+ Adafruit_ADS1015(LINE_ADC_I2C_ADDR_1),
+ Adafruit_ADS1015(LINE_ADC_I2C_ADDR_2),
 };
 
 void PhoenixLineSensor_ADCBegin(PhoenixLineSensor * l){
@@ -41,9 +46,10 @@ void Test_ADCBegin(PhoenixLineSensor * l){
 
 /**
  * inizializza l (PhoenixLineSensor) azzerando i valori di
- * soglia, misura, misura_max, misura_min, detect_flag e 
+ * soglia, misura, misura_max, detect_flag e 
  * calibra_flag
  * OCCHIO a NON azzerare le variabili x ed y !
+ * UPDATE: misura_min deve essere inizializzato a 65535
  **/
 void PhoenixLineSensor_init(PhoenixLineSensor* l) {
   /**
@@ -56,7 +62,7 @@ void PhoenixLineSensor_init(PhoenixLineSensor* l) {
   l->soglia = 0;
   l->misura = 0;
   l->misura_max = 0;
-  l->misura_min = 0;
+  l->misura_min = 65535;
   l->detect_flag = 0;
   l->calibra_flag = 0;
   return;
@@ -119,12 +125,12 @@ void PhoenixLineSensor_startCalib(PhoenixLineSensor* l) {
  * pari a 0 
  * Poi imposta soglia secondo la formula:
  * soglia = (misura_max + misura_min) / 2
- * Poi azzera anche misura_min e misura_max
+ * Poi azzera misura_max e imposta misura_min pari a 65535
  **/
 void PhoenixLineSensor_stopCalib(PhoenixLineSensor* l) {
   l->calibra_flag= 0;
   l->soglia = (l->misura_max + l->misura_min) / 2;
-  l->misura_min = 0;
+  l->misura_min = 65535;
   l->misura_max = 0;
   // Da completare...
   return;
