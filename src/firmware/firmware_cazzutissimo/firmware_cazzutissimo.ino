@@ -126,8 +126,5 @@ void Test_Encoder(void){
  */
 
 void loop() {
-  for(int i=0;i<NUM_LINE_SENSORS;i++){
-    Test_ADCBegin(&line_sensors[i]);
-  }
-  delay(1000);
+  Test_RulloSingleStart();
 }
