@@ -41,7 +41,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
-  adc_addr : 0x48,
+  adc_addr : LINE_ADC_ADDR_J0,
   adc_idx : 0
   },
   {// Sensore 1
@@ -53,7 +53,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
-  adc_addr : 0x48,
+  adc_addr : LINE_ADC_ADDR_J0,
   adc_idx : 1
   },
   {// Sensore 2
@@ -65,7 +65,7 @@ PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {
   misura_max : 0,
   detect_flag : 0,
   calibra_flag : 0,
-  adc_addr : 0x48,
+  adc_addr : LINE_ADC_ADDR_J0,
   adc_idx : 2
   }
 };
