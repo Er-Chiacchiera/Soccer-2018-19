@@ -89,15 +89,15 @@ void Test_ImuPid(void){
 
 void Test_Line(void){
   for(int i=0;i<NUM_LINE_SENSORS;i++){
+  Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
   PhoenixLineSensor_handle(&line_sensors[i]);
-  Serial.println(PhoenixLineSensor_getStatus(&line_sensors[i]));
-  /*Serial.print(line_sensors[i].misura); 
+  Serial.print("\t");
+  Serial.print(line_sensors[i].misura); 
   Serial.print("\t");
   Serial.print(line_sensors[i].soglia);
   Serial.print("\t");
   }
-  Serial.println();*/
-  }
+  Serial.println();
 }
 
 void Test_Rullo(void){
@@ -124,7 +124,6 @@ void Test_ADC(void){
   for(int i=0;i<NUM_LINE_SENSORS;++i){
     Test_ADCBegin(&line_sensors[i]);
   }
-  delay(1000);
 }
 
 /**

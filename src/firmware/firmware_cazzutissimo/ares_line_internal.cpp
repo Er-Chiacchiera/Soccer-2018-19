@@ -38,6 +38,8 @@ void Test_ADCBegin(PhoenixLineSensor * l){
     Serial.print("AIN1: "); Serial.println(adc1);
     Serial.print("AIN2: "); Serial.println(adc2);
     Serial.println(" ");
+
+    delay(1000);
 }
 
 /**
@@ -71,7 +73,7 @@ void PhoenixLineSensor_init(PhoenixLineSensor* l) {
  * misura < misura_min ? => misura_min = misura
  * misura > misura_max ? => misura_max = misura
  *
- *In oltre se la lettura e' maggiore della soglia
+ * In oltre se la lettura e' maggiore della soglia
  * allora imposta ad 1 lo status (detect_flag)
  **/
 void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
@@ -84,9 +86,6 @@ void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
    * il seguente comando:
    * lettura = line_adc[d->adc_addr].readADC_SingleEnded(d->adc_idx);
    *
-   * Per Sara:
-   * Puoi effettuare la lettura del sensore tramite una lettura analogica
-   * al pin: l->pin_reading
    **/
     double lettura = 0;
     lettura = line_adc[l->adc_addr].readADC_SingleEnded(l->adc_idx);
@@ -101,10 +100,10 @@ void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
       {
         l->misura_max = l->misura;
       }
-      if(l->misura > l->soglia)
-      {
-        l->detect_flag = 1;
-      }
+    }
+    if(l->misura > l->soglia)
+    {
+      l->detect_flag = 1;
     }
   return;
 }
