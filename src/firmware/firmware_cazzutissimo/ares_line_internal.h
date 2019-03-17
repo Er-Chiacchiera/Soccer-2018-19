@@ -78,7 +78,7 @@ void PhoenixLineSensor_stopCalib(PhoenixLineSensor* l);
 /**
  * restituisce il valore di detect_flag
  **/
-uint8_t PhoenixLineSensor_getStatus(PhoenixLineSensor* l);
+int PhoenixLineSensor_getStatus(PhoenixLineSensor* l);
 
 /**
  * imposta la variabile  detect_flag di l (PhoenixLineSensor)

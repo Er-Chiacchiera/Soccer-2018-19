@@ -101,7 +101,7 @@ void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
         l->misura_max = l->misura;
       }
     }
-    if(l->misura > l->soglia)
+    if(l->misura < l->soglia)
     {
       l->detect_flag = 1;
     }
@@ -135,7 +135,7 @@ void PhoenixLineSensor_stopCalib(PhoenixLineSensor* l) {
 /**
  * restituisce il valore di detect_flag
  **/
-uint8_t PhoenixLineSensor_getStatus(PhoenixLineSensor* l) {
+int PhoenixLineSensor_getStatus(PhoenixLineSensor* l) {
   return l->detect_flag;
 }
 

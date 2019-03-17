@@ -55,7 +55,6 @@ void setup() {
     PhoenixLineSensor_startCalib(&line_sensors[i]);
     PhoenixLineSensor_handle(&line_sensors[i]);
     PhoenixLineSensor_stopCalib(&line_sensors[i]);
-    PhoenixLineSensor_reset(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
