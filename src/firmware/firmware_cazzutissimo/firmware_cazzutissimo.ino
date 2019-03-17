@@ -13,6 +13,7 @@
 #include "ares_timer.h"
 #include "ares_rullo.h"
 #include "ares_encoders.h"
+#include "ares_eeprom.h"
 
 
 void setup() {
@@ -59,6 +60,7 @@ void setup() {
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
   Serial.println("Line Handler initialized...");
+  PhoenixEeprom_init();
 }
 
 void Test_connections(void){
