@@ -65,6 +65,8 @@ void PhoenixLineHandler_init(PhoenixLineHandler* d, PhoenixLineSensor* s);
  *
  * lancia la funzione PhoenixLineSensor_handle su tutti i sensori
  * presenti nell'array d->line_sensors
+ *
+ * In caso calib_flag fosse 1, la funzione puo' fermarsi qui...
  * 
  * In modo ciclico, per ogni sensore nell'array d->line_sensors
  * controlla se il bit associato al sensore nella maschera (d->mask)
@@ -107,3 +109,15 @@ double PhoenixLineHandler_getEscapeY(PhoenixLineHandler* d);
  * PhoenixLineSensor_reset
  **/
 void PhoenixLineHandler_reset(PhoenixLineHandler* d);
+
+/**
+ * imposta calib_flag pari ad 1, e lancia la funzione 
+ * PhoenixLineSensor_startCalib per ogni sensore in line_sensors 
+ **/
+void PhoenixLineHandler_startCalib(PhoenixLineHandler* d);
+
+/**
+ * azzera calib_flag e lancia la funzione PhoenixLineSensor_stopCalib
+ * per ogni sensore in line_sensors
+ **/
+void PhoenixLineHandler_stopCalib(PhoenixLineHandler* d);

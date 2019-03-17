@@ -60,6 +60,9 @@ void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
   for(int a=0;a<NUM_LINE_SENSORS;a++){
     PhoenixLineSensor_handle(&d->line_sensors[a]);
   }
+  if(d->calib_flag == 1){
+    return;
+  }
   for(int b=0;b<NUM_LINE_SENSORS;b++)
   {
     if(mask_read(&d->mask,b) == 0)
@@ -123,6 +126,23 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
     mask_clearBit(&d->mask, i); 
     PhoenixLineSensor_reset(&d->line_sensors[i]);
   }
-  return;
 }
 
+void PhoenixLineHandler_startCalib(PhoenixLineHandler* d){
+  d->calib_flag = 1;
+  for(int i=0;i<NUM_LINE_SENSORS;++i){
+    PhoenixLineSensor_startCalib(&d->line_sensors[i]);
+  }
+}
+
+/**
+ * azzera calib_flag e lancia la funzione PhoenixLineSensor_stopCalib
+ * per ogni sensore in line_sensors
+ **/
+void PhoenixLineHandler_stopCalib(PhoenixLineHandler* d) {
+  d->calib_flag = 0;
+  for(int i=0;i<NUM_LINE_SENSORS;++i){
+    PhoenixLineSensor_stopCalib(&d->line_sensors[i]);
+  }
+  return;
+}

@@ -15,6 +15,8 @@
 #include "ares_encoders.h"
 #include "ares_eeprom.h"
 
+#define ENABLE_LINE_CALIB 1
+
 
 void setup() {
   Serial.begin(9600);
@@ -61,6 +63,25 @@ void setup() {
   PhoenixLineHandler_init(&line_handler, line_sensors);
   Serial.println("Line Handler initialized...");
   PhoenixEeprom_init();
+  
+  #if ENABLE_LINE_CALIB == 1 
+  PhoenixLineHandler_startCalib(&line_handler);
+  PhoenixDrive_setSpeed(&drive, 0,0,1);
+  PhoenixDrive_handle(&drive);
+  uint16_t start = millis();
+  while(1){
+    PhoenixLineHandler_handle(&line_handler);
+    if(millis() - start > 20000){
+      break; 
+    }
+  }
+  PhoenixDrive_setSpeed(&drive, 0,0,0);
+  PhoenixDrive_handle(&drive);
+  PhoenixLineHandler_stopCalib(&line_handler);
+  PhoenixEeprom_storeLineSensor();
+  while(1);
+  #endif 
+  PhoenixEeprom_loadLineSensor();
 }
 
 void Test_connections(void){
