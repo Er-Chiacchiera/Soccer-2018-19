@@ -15,8 +15,26 @@
 #include "ares_encoders.h"
 #include "ares_eeprom.h"
 
-#define ENABLE_LINE_CALIB 1
+#define ENABLE_LINE_CALIB 0
 
+
+
+void TestEncoderFn() {
+  static volatile int state=0;
+  static volatile int joint=0;
+  switch(state) {
+    case 0:
+    PhoenixJoint_setSpeed(&joints[joint], 100);
+    PhoenixJoint_handle(&joints[joint]);
+    break;
+    case 1:
+    PhoenixJoint_setSpeed(&joints[joint], 0);
+    PhoenixJoint_handle(&joints[joint]);
+    joint = (joint+1)%3;
+    break;
+  }
+  state = (state+1)%2;
+}
 
 void setup() {
   Serial.begin(9600);
@@ -40,7 +58,7 @@ void setup() {
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
 
- // Encoder_init();
+ //Encoder_init();
  
  /*while(PhoenixImu_init(&imu)) {
   delay(500);
@@ -62,6 +80,7 @@ void setup() {
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
   Serial.println("Line Handler initialized...");
+  
   PhoenixEeprom_init();
   
   #if ENABLE_LINE_CALIB == 1 
@@ -71,7 +90,7 @@ void setup() {
   uint16_t start = millis();
   while(1){
     PhoenixLineHandler_handle(&line_handler);
-    if(millis() - start > 20000){
+    if(millis() - start > 10000){
       break; 
     }
   }
@@ -82,18 +101,26 @@ void setup() {
   while(1);
   #endif 
   PhoenixEeprom_loadLineSensor();
+/*
+  struct Timer* t1_fn=Timer_create(1000, 
+  &TestEncoderFn, NULL);
+  Timer_start(t1_fn);
+  Timer_init();*/
 }
 
 void Test_connections(void){
   PhoenixJoint_handle(&joints[0]);
   PhoenixJoint_setSpeed(&joints[0], 255); //(ALTO A DESTRA)
-  delay(1000);
+  PhoenixJoint_setSpeed(&joints[0], 0);
+  PhoenixJoint_handle(&joints[0]);
   PhoenixJoint_handle(&joints[1]);
   PhoenixJoint_setSpeed(&joints[1], 255); //(ALTO A SINISTRA)
-  delay(1000);
+  PhoenixJoint_setSpeed(&joints[1], 0);
+  PhoenixJoint_handle(&joints[1]);
   PhoenixJoint_handle(&joints[2]);
   PhoenixJoint_setSpeed(&joints[2], 255); //(BASSO)
-  delay(1000);
+  PhoenixJoint_setSpeed(&joints[1], 0);
+  PhoenixJoint_handle(&joints[2]);
 }
   
 void Test_ImuPid(void){
@@ -110,21 +137,22 @@ void Test_ImuPid(void){
 }
 
 void Test_Line(void){
-  for(int i=0;i<NUM_LINE_SENSORS;i++){
+  for(int i=0;i<6;i++){
   Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
   PhoenixLineSensor_handle(&line_sensors[i]);
-  Serial.print("\t");
+  Serial.print(" ");
+  /*
   Serial.print(line_sensors[i].misura); 
-  Serial.print("\t");
+  Serial.print(" ");
   Serial.print(line_sensors[i].soglia);
-  Serial.print("\t");
+  Serial.print(" ");*/
   }
   Serial.println();
 }
 
 void Test_Rullo(void){
   PhoenixRullo_start();
-  PhoenixDrive_setSpeed(&drive, 0,1,-imu.output_pid/180);
+  PhoenixDrive_setSpeed(&drive, 0,1,0);
   PhoenixDrive_handle(&drive);
 }
 
@@ -155,8 +183,25 @@ void Test_ADC(void){
  * sinistra -1, 0, 0
  */
 
+
+
 void loop() {
+
   Test_Line();
+
+  /*
+  Encoder_sample();
+  for(int i=0;i<3;++i) {
+    Serial.print(Encoder_getValue(i));
+    Serial.print("\t");
+  }
+  Serial.println();*/
+  //Test_connections();
+  //Test_Encoder();
+  /*
+  PhoenixDrive_setSpeed(&drive, 0,1,0);
+  PhoenixDrive_handle(&drive);
+  Serial.println("sono nel loop");*/
 }
 
 

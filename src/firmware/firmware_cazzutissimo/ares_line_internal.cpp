@@ -8,16 +8,16 @@
 #define NUM_ADC 3
 
 #define LINE_ADC_I2C_ADDR_0 0x48
-#define LINE_ADC_I2C_ADDR_1 0x49
+//#define LINE_ADC_I2C_ADDR_1 0x49
 #define LINE_ADC_I2C_ADDR_2 0x4A
 
 #define LINE_ADC_ADDR_J0 0
-#define LINE_ADC_ADDR_J1 1
+//#define LINE_ADC_ADDR_J1 1
 #define LINE_ADC_ADDR_J2 2
 
 static Adafruit_ADS1015 line_adc[NUM_ADC] = {
  Adafruit_ADS1015(LINE_ADC_I2C_ADDR_0),
- Adafruit_ADS1015(LINE_ADC_I2C_ADDR_1),
+ //Adafruit_ADS1015(LINE_ADC_I2C_ADDR_1),
  Adafruit_ADS1015(LINE_ADC_I2C_ADDR_2),
 };
 
@@ -101,9 +101,11 @@ void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
         l->misura_max = l->misura;
       }
     }
-    if(l->misura < l->soglia)
+    if(l->misura > l->soglia)
     {
       l->detect_flag = 1;
+    } else {
+      l->detect_flag=0;
     }
   return;
 }

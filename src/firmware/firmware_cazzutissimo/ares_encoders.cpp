@@ -132,6 +132,7 @@ ISR(PCINT2_vect) {
   prev_value = _encoder_prev;
   ttable = _transition_table;
   curr_enc = _encoder_current_value;
+  c_value=port_value;
   for(uint8_t i=0;i<NUM_ENCODERS;++i) {
     uint8_t table_idx=((prev_value&0x03)<<2) | c_value&0x03;
     *curr_enc += ttable[table_idx];  

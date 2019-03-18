@@ -10,8 +10,8 @@
  **/
 static double kmatrix[NUM_JOINTS][NUM_JOINTS] =
 {
-  {-0.5, -0.5, 1},
-  {0.86, -0.86, 0},   
+  {-0.5, 1, -0.5},
+  {0.86, 0, -0.86},   
   {1, 1, 1}
 };
 
@@ -22,8 +22,8 @@ static double kmatrix[NUM_JOINTS][NUM_JOINTS] =
 static double ikmatrix[NUM_JOINTS][NUM_JOINTS] =
 {
   {-0.33, 0.58, 0.33},
-  {-0.33, -0.58, 0.33},   
-  {0.66, 0, 0.33}
+  {0.66, 0, 0.33},   
+  {-0.33, -0.58, 0.33}
 };
 
 /**
