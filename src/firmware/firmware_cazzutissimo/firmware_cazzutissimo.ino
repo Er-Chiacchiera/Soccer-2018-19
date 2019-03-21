@@ -46,7 +46,7 @@ void setup() {
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  /*
+  
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -57,7 +57,7 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);
  //Encoder_init();
  
  /*while(PhoenixImu_init(&imu)) {
@@ -69,7 +69,7 @@ void setup() {
 
  /*PhoenixRullo_init();
  Serial.println("Rullo inizialized...");*/
-/*
+
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_ADCBegin(&line_sensors[i]);
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -100,7 +100,7 @@ void setup() {
   PhoenixEeprom_storeLineSensor();
   while(1);
   #endif 
-  PhoenixEeprom_loadLineSensor();*/
+  PhoenixEeprom_loadLineSensor();
   
   struct Timer* t1_fn=Timer_create(1000/60, 
   PhoenixCamera_handle, (void*)&_pixy);
@@ -213,8 +213,11 @@ void Test_EscapeLine(void){
 }
 
 void Test_pixy(void){
-  if(PhoenixCamera_getBallStatus(&_pixy)) {
-    Serial.println(PhoenixCamera_getBallX(&_pixy));
+  double x=0;
+  x = _pixy.ball_x;
+  if(PhoenixCamera_getBallStatus(&_pixy)){
+    PhoenixDrive_setSpeed(&drive, x-150, 0,0);
+    PhoenixDrive_handle(&drive);
   }
 }
 
@@ -226,23 +229,40 @@ void Test_pixy(void){
  */
 
 
-
 void loop() {
- // Test_pixy();
+  
+  Test_pixy();
 
-    /*
-  Encoder_sample();
-  for(int i=0;i<3;++i) {
-    Serial.print(Encoder_getValue(i));
-    Serial.print("\t");
+
+/*
+  if(PhoenixCamera_getBallStatus(&_pixy)){
+    double x = _pixy.ball_x;
+    double y = _pixy.ball_y;
+    PhoenixDrive_setSpeed(&drive, x,y,0);
+    PhoenixDrive_handle(&drive);
+    if(line_handler.escape_flag == 1){
+      double x = line_handler.escape_x;
+      double y = line_handler.escape_y;
+      double r = 0;
+      PhoenixDrive_setSpeed(&drive, x,y,r);
+      PhoenixDrive_handle(&drive);
+    }
   }
-  Serial.println();*/
-  //Test_connections();
-  //Test_Encoder();
-  /*
-  PhoenixDrive_setSpeed(&drive, 0,1,0);
-  PhoenixDrive_handle(&drive);
-  Serial.println("sono nel loop");*/
+  else{
+    PhoenixImu_handle(&imu);
+    double r = -imu.output_pid/180;
+    double x = 0;
+    double y = 1;
+    PhoenixDrive_setSpeed(&drive, x,y,r);
+    PhoenixDrive_handle(&drive);
+    if(line_handler.escape_flag == 1){
+      double x = line_handler.escape_x;
+      double y = line_handler.escape_y;
+      double r = -imu.output_pid/180;
+      PhoenixDrive_setSpeed(&drive, x,y,r);
+      PhoenixDrive_handle(&drive);
+    }
+  }*/
 }
 
 
