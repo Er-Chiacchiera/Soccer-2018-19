@@ -3,11 +3,10 @@
  **/
 
 #pragma once
-
-#include <Pixy2.h>
+#include <Arduino.h>
 
 #define BALL_SIG 1
-#define BALL_RELIABLE_AGE 100
+#define BALL_RELIABLE_AGE 80
 
 typedef struct {
   int8_t ball_detection;
@@ -16,6 +15,7 @@ typedef struct {
   uint16_t ball_w;
   uint16_t ball_h;
   uint8_t ball_age;
+  int area;
 }PhoenixCamera;
 
 
@@ -39,6 +39,7 @@ uint16_t PhoenixCamera_getBallW(PhoenixCamera* p);
 
 
 uint16_t PhoenixCamera_getBallH(PhoenixCamera* p);
+
 
 uint8_t PhoenixCamera_getBallAge(PhoenixCamera * p);
 

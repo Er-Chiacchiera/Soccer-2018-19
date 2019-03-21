@@ -167,4 +167,4 @@ PhoenixImu imu = {
   kd : 0
 };
 
-PhoenixCamera pixy;
+PhoenixCamera _pixy;

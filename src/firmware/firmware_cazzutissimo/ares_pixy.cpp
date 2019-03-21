@@ -3,9 +3,10 @@
  **/
 
 #include "ares_pixy.h"
+#include <Pixy2.h>
 
 // Oggetto Pixy privato (nascosto all'esterno della libreria)
-static Pixy2 pixy;
+Pixy2 pixy;
 
 /**
  * Inizializza p (PhoenixCamera*) azzerando i valori
@@ -15,12 +16,14 @@ static Pixy2 pixy;
  **/
 void PhoenixCamera_init(PhoenixCamera* p) 
 {
+  pixy.init();
   p->ball_detection = 0;
   p->ball_x = 0;
   p->ball_y = 0;
   p->ball_w = 0;
   p->ball_h = 0;
-  pixy.init();
+  p->ball_age = 0;
+  Serial.println("Wooo");
   return;
 }
 
@@ -48,8 +51,8 @@ void PhoenixCamera_init(PhoenixCamera* p)
 void PhoenixCamera_handle(PhoenixCamera* p) {
   uint8_t dect_ball=0;// variabile temporanea
   p->ball_detection = 0;
-  uint8_t blocks_num = pixy.getBlocks();
-  if(blocks_num >= 1)
+  uint8_t blocks_num = pixy.ccc.getBlocks();
+  if(blocks_num > 0)
   {
 
     for(int i=0;i<blocks_num;i++)
@@ -63,11 +66,17 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
           p->ball_w = pixy.ccc.blocks[i].m_width;
           p->ball_h = pixy.ccc.blocks[i].m_height;
           p->ball_detection = 1;
+          p->area = p->ball_w * p->ball_h;
+          Serial.println(p->area);
         }
       }
     }
   return;
+  }
 }
+
+
+
 
 /**
  * Restituisce il valore ball_detection
@@ -107,13 +116,12 @@ uint16_t PhoenixCamera_getBallH(PhoenixCamera* p) {
  * Restituisce il valore dei blocchi visti
  **/
 uint16_t PhoenixCamera_getBlocks(PhoenixCamera* p){
-  uint8_t NUM_BLOCKS = pixy.getBlocks();
+   uint8_t NUM_BLOCKS = pixy.ccc.getBlocks();
   return NUM_BLOCKS;
 }
 
 
-uint8_t PhoenixCamera_getBallAge(PhoenixCamera * p)
-{
+uint8_t PhoenixCamera_getBallAge(PhoenixCamera * p){
   return p->ball_age;
 }
 

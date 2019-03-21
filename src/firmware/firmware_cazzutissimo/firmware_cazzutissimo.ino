@@ -46,7 +46,7 @@ void setup() {
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  
+  /*
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -57,7 +57,7 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
  //Encoder_init();
  
  /*while(PhoenixImu_init(&imu)) {
@@ -101,12 +101,13 @@ void setup() {
   while(1);
   #endif 
   PhoenixEeprom_loadLineSensor();*/
-/*
-  struct Timer* t1_fn=Timer_create(1000, 
-  &TestEncoderFn, NULL);
+  
+  struct Timer* t1_fn=Timer_create(1000/60, 
+  PhoenixCamera_handle, (void*)&_pixy);
   Timer_start(t1_fn);
-  Timer_init();*/
-  PhoenixCamera_init(&pixy);
+  Timer_init();
+  PhoenixCamera_init(&_pixy);
+  Serial.println("Camera initialized...");
 }
 
 void Test_connections(void){
@@ -211,9 +212,10 @@ void Test_EscapeLine(void){
   Serial.println(PhoenixLineHandler_getStatus(&line_handler));
 }
 
-Test_pixy(void){
-  PhoenixCamera_handle(&pixy);
-  Serial.print(PhoenixCamera_getBallAge(&pixy));
+void Test_pixy(void){
+  if(PhoenixCamera_getBallStatus(&_pixy)) {
+    Serial.println(PhoenixCamera_getBallX(&_pixy));
+  }
 }
 
 /**
@@ -226,8 +228,7 @@ Test_pixy(void){
 
 
 void loop() {
-
-  Test_EscapeLine();
+ // Test_pixy();
 
     /*
   Encoder_sample();
