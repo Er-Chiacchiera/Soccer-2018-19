@@ -5,7 +5,7 @@
 #include "ares_pixy.h"
 
 // Oggetto Pixy privato (nascosto all'esterno della libreria)
-static Pixy pixy;
+static Pixy2 pixy;
 
 /**
  * Inizializza p (PhoenixCamera*) azzerando i valori
@@ -54,32 +54,18 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
 
     for(int i=0;i<blocks_num;i++)
     {
-      p->ball_age = pixy.blocks[i].age;
-      if(pixy.blocks[i].signature == BALL_SIG)
+      if(pixy.ccc.blocks[i].m_signature == BALL_SIG)
       {
-        if(p->ball_detection < BALL_RELIABLE_CTR)
-        {
-          ++p->ball_detection;
+        p->ball_age = pixy.ccc.blocks[i].m_age;
+        if(p->ball_age > BALL_RELIABLE_AGE){
+          p->ball_x = pixy.ccc.blocks[i].m_x;
+          p->ball_y = pixy.ccc.blocks[i].m_y;
+          p->ball_w = pixy.ccc.blocks[i].m_width;
+          p->ball_h = pixy.ccc.blocks[i].m_height;
+          p->ball_detection = 1;
         }
-        dect_ball = 1;
-        p->ball_x = pixy.blocks[i].x;
-        p->ball_y = pixy.blocks[i].y;
-        p->ball_w = pixy.blocks[i].width;
-        p->ball_h = pixy.blocks[i].height;
       }
     }
-    if(p->ball_detection > 0)
-     {
-       --p->ball_detection;
-     }
-  }
-  else
-  {
-   if(p->ball_detection > 0)
-   {
-     --p->ball_detection;
-   }
-  }
   return;
 }
 
@@ -123,5 +109,11 @@ uint16_t PhoenixCamera_getBallH(PhoenixCamera* p) {
 uint16_t PhoenixCamera_getBlocks(PhoenixCamera* p){
   uint8_t NUM_BLOCKS = pixy.getBlocks();
   return NUM_BLOCKS;
+}
+
+
+uint8_t PhoenixCamera_getBallAge(PhoenixCamera * p)
+{
+  return p->ball_age;
 }
 

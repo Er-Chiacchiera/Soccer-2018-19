@@ -166,3 +166,5 @@ PhoenixImu imu = {
   ki : 220,  //40
   kd : 0
 };
+
+PhoenixCamera pixy;

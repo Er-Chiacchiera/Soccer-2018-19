@@ -14,6 +14,7 @@
 #include "ares_rullo.h"
 #include "ares_encoders.h"
 #include "ares_eeprom.h"
+#include "ares_pixy.h"
 
 #define ENABLE_LINE_CALIB 0
 
@@ -68,7 +69,7 @@ void setup() {
 
  /*PhoenixRullo_init();
  Serial.println("Rullo inizialized...");*/
-
+/*
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_ADCBegin(&line_sensors[i]);
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -99,12 +100,13 @@ void setup() {
   PhoenixEeprom_storeLineSensor();
   while(1);
   #endif 
-  PhoenixEeprom_loadLineSensor();
+  PhoenixEeprom_loadLineSensor();*/
 /*
   struct Timer* t1_fn=Timer_create(1000, 
   &TestEncoderFn, NULL);
   Timer_start(t1_fn);
   Timer_init();*/
+  PhoenixCamera_init(&pixy);
 }
 
 void Test_connections(void){
@@ -207,6 +209,11 @@ void Test_EscapeLine(void){
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
   Serial.println(PhoenixLineHandler_getStatus(&line_handler));
+}
+
+Test_pixy(void){
+  PhoenixCamera_handle(&pixy);
+  Serial.print(PhoenixCamera_getBallAge(&pixy));
 }
 
 /**
