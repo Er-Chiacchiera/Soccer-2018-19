@@ -15,6 +15,7 @@ typedef struct {
   uint16_t ball_y;
   uint16_t ball_w;
   uint16_t ball_h;
+  uint16_t ball_age;
 }PhoenixCamera;
 
 

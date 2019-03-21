@@ -51,8 +51,10 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
   uint8_t blocks_num = pixy.getBlocks();
   if(blocks_num >= 1)
   {
+
     for(int i=0;i<blocks_num;i++)
     {
+      p->ball_age = pixy.blocks[i].age;
       if(pixy.blocks[i].signature == BALL_SIG)
       {
         if(p->ball_detection < BALL_RELIABLE_CTR)
