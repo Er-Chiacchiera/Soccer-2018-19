@@ -31,10 +31,10 @@ PhoenixJoint joints[NUM_JOINTS] = {
 
 PhoenixDrive drive;
 
-PhoenixLineSensor line_sensors[] = {
+PhoenixLineSensor line_sensors[] = {   // sen = y
   {
-  x : 0,
-  y : 0,
+  x : 0.97,
+  y : 0.23,
   soglia : 0,
   misura : 0,
   misura_min : 65535,
@@ -45,7 +45,7 @@ PhoenixLineSensor line_sensors[] = {
   adc_idx : 0
   },
   {
-  x : 0,
+  x : 0.5,
   y : 0,
   soglia : 0,
   misura : 0,
@@ -57,8 +57,8 @@ PhoenixLineSensor line_sensors[] = {
   adc_idx : 1
   },
   {
-  x : 0,
-  y : 0,
+  x : 0.7,
+  y : 0.7,
   soglia : 0,
   misura : 0,
   misura_min : 65535,
@@ -68,10 +68,10 @@ PhoenixLineSensor line_sensors[] = {
   adc_addr : 0,
   adc_idx : 2
   },
-
+  //sensor_2
   {
-  x : 0,
-  y : 0,
+  x : -0.7,
+  y : 0.7,
   soglia : 0,
   misura : 0,
   misura_min : 65535,
@@ -82,8 +82,8 @@ PhoenixLineSensor line_sensors[] = {
   adc_idx : 0
   },
   {
-  x : 0,
-  y : 0,
+  x : 0.5,
+  y : -0.86,
   soglia : 0,
   misura : 0,
   misura_min : 65535,
@@ -94,8 +94,8 @@ PhoenixLineSensor line_sensors[] = {
   adc_idx : 1
   },
   {
-  x : 0,
-  y : 0,
+  x : -0.97,
+  y : 0.23,
   soglia : 0,
   misura : 0,
   misura_min : 65535,
@@ -105,6 +105,7 @@ PhoenixLineSensor line_sensors[] = {
   adc_addr : 2,
   adc_idx : 2
   },
+  //sensor_3
   {
   x : 0,
   y : 0,
@@ -161,7 +162,7 @@ PhoenixImu imu = {
   sum_i: 0,
   max_i: 180,
   max_output: 180,
-  kp : 9.6,   //9
+  kp : 10,   //9
   ki : 220,  //40
   kd : 0
 };

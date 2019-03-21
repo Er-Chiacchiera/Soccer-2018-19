@@ -45,7 +45,7 @@ void setup() {
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  /*
+  
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -56,8 +56,7 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
-
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);
  //Encoder_init();
  
  /*while(PhoenixImu_init(&imu)) {
@@ -136,18 +135,30 @@ void Test_ImuPid(void){
   delay(10);
 }
 
-void Test_Line(void){
+void Test_LineInternal(void){
   for(int i=0;i<6;i++){
-  Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
+  //Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
   PhoenixLineSensor_handle(&line_sensors[i]);
-  Serial.print(" ");
-  /*
+  //Serial.print(" ");
+
   Serial.print(line_sensors[i].misura); 
   Serial.print(" ");
+  /*
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");*/
   }
   Serial.println();
+}
+
+void Test_Line(void){
+  PhoenixLineHandler_handle(&line_handler);
+  Serial.print(PhoenixLineHandler_getStatus(&line_handler));
+  Serial.print(" ");
+  Serial.print(PhoenixLineHandler_getEscapeX(&line_handler));
+  Serial.print(" ");
+  Serial.print(PhoenixLineHandler_getEscapeY(&line_handler));
+  Serial.println();
+  PhoenixLineHandler_reset(&line_handler);
 }
 
 void Test_Rullo(void){
@@ -176,6 +187,28 @@ void Test_ADC(void){
   }
 }
 
+void Test_EscapeLine(void){
+  double x=0;
+  double y=0;
+  double t=0;
+
+  PhoenixImu_handle(&imu);
+  t=-imu.output_pid/180.0;
+  PhoenixLineHandler_handle(&line_handler);
+  if(line_handler.escape_flag == 1){
+    x=line_handler.escape_x;
+    y=line_handler.escape_y;
+  }
+  else{
+    x=0;
+    y=1;
+  }
+  
+  PhoenixDrive_setSpeed(&drive, x, y, t);
+  PhoenixDrive_handle(&drive);
+  Serial.println(PhoenixLineHandler_getStatus(&line_handler));
+}
+
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
  * indietro = 0, -1, 0
@@ -187,9 +220,9 @@ void Test_ADC(void){
 
 void loop() {
 
-  Test_Line();
+  Test_EscapeLine();
 
-  /*
+    /*
   Encoder_sample();
   for(int i=0;i<3;++i) {
     Serial.print(Encoder_getValue(i));

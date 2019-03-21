@@ -81,7 +81,7 @@ void PhoenixLineHandler_handle(PhoenixLineHandler* d) {
   {
     d->escape_ttl = d->escape_ttl - 1;
   }
-  if(d->escape_ttl == 0)
+  if(d->escape_ttl == 0 && d->escape_flag==1)
   {
     PhoenixLineHandler_reset(d);
   }
@@ -126,6 +126,7 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
     mask_clearBit(&d->mask, i); 
     PhoenixLineSensor_reset(&d->line_sensors[i]);
   }
+  Serial.println("Resettato");
 }
 
 void PhoenixLineHandler_startCalib(PhoenixLineHandler* d){
