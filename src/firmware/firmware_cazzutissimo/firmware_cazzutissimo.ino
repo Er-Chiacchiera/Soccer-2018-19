@@ -218,11 +218,11 @@ void Test_EscapeLine(void){
 void Test_pixy(void){
   int Xmin = 70;
   int Xmax = 200;
-  int minArea = 0;
-  int maxArea = 0;
+  int minArea;
+  int maxArea;
   double x = _pixy.ball_x;
   double y = _pixy.ball_y;
-  while(millis()<2000)
+  while(millis()<5000)
   {
     unsigned int area = _pixy.area_ball;
     maxArea = area + 550;
