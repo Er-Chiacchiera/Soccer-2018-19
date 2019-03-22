@@ -37,6 +37,9 @@ void TestEncoderFn() {
   state = (state+1)%2;
 }
 
+
+
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Serial initialized...");
@@ -213,19 +216,46 @@ void Test_EscapeLine(void){
 }
 
 void Test_pixy(void){
-  double value_palla = 130;
+  int Xmin = 70;
+  int Xmax = 200;
+  int minArea = 0;
+  int maxArea = 0;
   double x = _pixy.ball_x;
+  double y = _pixy.ball_y;
+  while(millis()<2000)
+  {
+    unsigned int area = _pixy.area_ball;
+    maxArea = area + 550;
+    minArea = area - 550;
+  }
   if(PhoenixCamera_getBallStatus(&_pixy)){
-    if(x < 130){
-      do{
-      double valore_drive = x - value_palla;
-      Serial.println(valore_drive);
+    unsigned int new_area = _pixy.area_ball;
+    if(x < Xmin){
       PhoenixDrive_setSpeed(&drive, -1,0,0);
       PhoenixDrive_handle(&drive);
-      }
-      while(x != -21);
     }
+    else if(x > Xmax){
+      PhoenixDrive_setSpeed(&drive, 1,0,0);
+      PhoenixDrive_handle(&drive);
     }
+    else if(new_area < minArea){
+      PhoenixDrive_setSpeed(&drive, 0,1,0);
+      PhoenixDrive_handle(&drive);
+    }
+    else if(new_area > maxArea){
+      PhoenixDrive_setSpeed(&drive, 0,1,0);
+      PhoenixDrive_handle(&drive); 
+    }
+    /*else{
+      PhoenixDrive_setSpeed(&drive, 0,0,0);
+      PhoenixDrive_handle(&drive);
+    }*/
+  }
+  else{
+    PhoenixDrive_setSpeed(&drive, 0,0,0);
+    PhoenixDrive_handle(&drive);
+  }
+
   }
 
 
@@ -238,7 +268,6 @@ void Test_pixy(void){
 
 
 void loop() {
-
   Test_pixy();
 }
 
