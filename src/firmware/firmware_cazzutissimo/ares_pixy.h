@@ -23,6 +23,7 @@ typedef struct {
   uint16_t door_h;
   uint8_t ball_age;
   uint8_t door_age;
+  double value_prec;
   int area_ball;
   int area_door;
 }PhoenixCamera;
@@ -60,5 +61,6 @@ uint8_t PhoenixCamera_getDoorAge(PhoenixCamera * p);
 
 
 uint16_t PhoenixCamera_getBlocks(PhoenixCamera* p);
+
 
 

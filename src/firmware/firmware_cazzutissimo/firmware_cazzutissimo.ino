@@ -46,7 +46,7 @@ void setup() {
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  
+  /*
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -57,7 +57,7 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
  //Encoder_init();
  
  /*while(PhoenixImu_init(&imu)) {
@@ -69,7 +69,7 @@ void setup() {
 
  /*PhoenixRullo_init();
  Serial.println("Rullo inizialized...");*/
-
+/*
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_ADCBegin(&line_sensors[i]);
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -100,7 +100,7 @@ void setup() {
   PhoenixEeprom_storeLineSensor();
   while(1);
   #endif 
-  PhoenixEeprom_loadLineSensor();
+  PhoenixEeprom_loadLineSensor();*/
   
   struct Timer* t1_fn=Timer_create(1000/60, 
   PhoenixCamera_handle, (void*)&_pixy);
@@ -213,13 +213,21 @@ void Test_EscapeLine(void){
 }
 
 void Test_pixy(void){
-  double x=0;
-  x = _pixy.ball_x;
+  double value_palla = 130;
+  double x = _pixy.ball_x;
   if(PhoenixCamera_getBallStatus(&_pixy)){
-    PhoenixDrive_setSpeed(&drive, x-150, 0,0);
-    PhoenixDrive_handle(&drive);
+    if(x < 130){
+      do{
+      double valore_drive = x - value_palla;
+      Serial.println(valore_drive);
+      PhoenixDrive_setSpeed(&drive, -1,0,0);
+      PhoenixDrive_handle(&drive);
+      }
+      while(x != -21);
+    }
+    }
   }
-}
+
 
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
@@ -230,7 +238,7 @@ void Test_pixy(void){
 
 
 void loop() {
-  
+
   Test_pixy();
 }
 
