@@ -66,8 +66,23 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
           p->ball_w = pixy.ccc.blocks[i].m_width;
           p->ball_h = pixy.ccc.blocks[i].m_height;
           p->ball_detection = 1;
-          p->area = p->ball_w * p->ball_h;
-          Serial.println(p->area);
+          p->area_ball = p->ball_w * p->ball_h;
+          Serial.print("Area della palla:");
+          Serial.println(p->area_ball);
+        }
+      }
+      if(pixy.ccc.blocks[i].m_signature == DOOR_SIG)
+      {
+        p->door_age = pixy.ccc.blocks[i].m_age;
+        if(p->door_age > DOOR_RELIABLE_AGE){
+          p->door_x = pixy.ccc.blocks[i].m_x;
+          p->door_y = pixy.ccc.blocks[i].m_y;
+          p->door_w = pixy.ccc.blocks[i].m_width;
+          p->door_h = pixy.ccc.blocks[i].m_height;
+          p->door_detection = 1;
+          p->area_door = p->door_w * p->door_h;
+          Serial.print("Area della porta:");
+          Serial.println(p->area_door);
         }
       }
     }

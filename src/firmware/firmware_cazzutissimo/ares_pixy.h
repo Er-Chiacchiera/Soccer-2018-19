@@ -6,16 +6,25 @@
 #include <Arduino.h>
 
 #define BALL_SIG 1
+#define DOOR_SIG 2
 #define BALL_RELIABLE_AGE 80
+#define DOOR_RELIABLE_AGE 600
 
 typedef struct {
   int8_t ball_detection;
+  int8_t door_detection;
   uint16_t ball_x;
   uint16_t ball_y;
   uint16_t ball_w;
   uint16_t ball_h;
+  uint16_t door_x;
+  uint16_t door_y;
+  uint16_t door_w;
+  uint16_t door_h;
   uint8_t ball_age;
-  int area;
+  uint8_t door_age;
+  int area_ball;
+  int area_door;
 }PhoenixCamera;
 
 

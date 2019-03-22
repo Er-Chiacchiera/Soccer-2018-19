@@ -232,37 +232,6 @@ void Test_pixy(void){
 void loop() {
   
   Test_pixy();
-
-
-/*
-  if(PhoenixCamera_getBallStatus(&_pixy)){
-    double x = _pixy.ball_x;
-    double y = _pixy.ball_y;
-    PhoenixDrive_setSpeed(&drive, x,y,0);
-    PhoenixDrive_handle(&drive);
-    if(line_handler.escape_flag == 1){
-      double x = line_handler.escape_x;
-      double y = line_handler.escape_y;
-      double r = 0;
-      PhoenixDrive_setSpeed(&drive, x,y,r);
-      PhoenixDrive_handle(&drive);
-    }
-  }
-  else{
-    PhoenixImu_handle(&imu);
-    double r = -imu.output_pid/180;
-    double x = 0;
-    double y = 1;
-    PhoenixDrive_setSpeed(&drive, x,y,r);
-    PhoenixDrive_handle(&drive);
-    if(line_handler.escape_flag == 1){
-      double x = line_handler.escape_x;
-      double y = line_handler.escape_y;
-      double r = -imu.output_pid/180;
-      PhoenixDrive_setSpeed(&drive, x,y,r);
-      PhoenixDrive_handle(&drive);
-    }
-  }*/
 }
 
 
