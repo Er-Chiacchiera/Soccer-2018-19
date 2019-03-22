@@ -100,6 +100,10 @@ uint8_t PhoenixCamera_getBallStatus(PhoenixCamera* p) {
   return p->ball_detection;
 }
 
+uint8_t PhoenixCamera_getDoorStatus(PhoenixCamera* p){
+  return p->door_detection;
+}
+
 /**
  * Restituisce il valore ball_x
  **/
@@ -138,5 +142,9 @@ uint16_t PhoenixCamera_getBlocks(PhoenixCamera* p){
 
 uint8_t PhoenixCamera_getBallAge(PhoenixCamera * p){
   return p->ball_age;
+}
+
+uint8_t PhoenixCamera_getDoorAge(PhoenixCamera * p){
+  return p->door_age;
 }
 

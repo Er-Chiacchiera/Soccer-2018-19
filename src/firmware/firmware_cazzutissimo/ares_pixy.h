@@ -38,6 +38,9 @@ void PhoenixCamera_handle(PhoenixCamera* p);
 uint8_t PhoenixCamera_getBallStatus(PhoenixCamera* p);
 
 
+uint8_t PhoenixCamera_getDoorStatus(PhoenixCamera* p);
+
+
 uint16_t PhoenixCamera_getBallX(PhoenixCamera* p);
 
 
@@ -51,6 +54,9 @@ uint16_t PhoenixCamera_getBallH(PhoenixCamera* p);
 
 
 uint8_t PhoenixCamera_getBallAge(PhoenixCamera * p);
+
+
+uint8_t PhoenixCamera_getDoorAge(PhoenixCamera * p);
 
 
 uint16_t PhoenixCamera_getBlocks(PhoenixCamera* p);
