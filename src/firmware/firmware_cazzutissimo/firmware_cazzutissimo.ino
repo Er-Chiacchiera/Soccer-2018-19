@@ -61,7 +61,7 @@ void setup() {
   delay(1000);
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
- //Encoder_init();
+
  
  /*while(PhoenixImu_init(&imu)) {
   delay(500);
@@ -69,9 +69,10 @@ void setup() {
  }
  Serial.println("Mo funziona");*/
 
+  //Encoder_init();
+  /*PhoenixRullo_init();
+  Serial.println("Rullo inizialized...");*/
 
- /*PhoenixRullo_init();
- Serial.println("Rullo inizialized...");*/
 /*
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_ADCBegin(&line_sensors[i]);
@@ -222,7 +223,7 @@ void Test_pixy(void){
   int maxArea;
   double x = _pixy.ball_x;
   double y = _pixy.ball_y;
-  while(millis()<5000)
+  while(millis()<2000)
   {
     unsigned int area = _pixy.area_ball;
     maxArea = area + 800;
@@ -246,10 +247,10 @@ void Test_pixy(void){
       PhoenixDrive_setSpeed(&drive, 0,1,0);
       PhoenixDrive_handle(&drive); 
     }
-    /*else{
+    else{
       PhoenixDrive_setSpeed(&drive, 0,0,0);
       PhoenixDrive_handle(&drive);
-    }*/
+    }
   }
   else{
     PhoenixDrive_setSpeed(&drive, 0,0,0);
