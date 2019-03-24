@@ -216,7 +216,7 @@ void Test_EscapeLine(void){
 }
 
 void Test_pixy(void){
-  int Xmin = 70;
+  int Xmin = 100;
   int Xmax = 200;
   int minArea;
   int maxArea;
@@ -225,8 +225,8 @@ void Test_pixy(void){
   while(millis()<5000)
   {
     unsigned int area = _pixy.area_ball;
-    maxArea = area + 550;
-    minArea = area - 550;
+    maxArea = area + 800;
+    minArea = area - 800;
   }
   if(PhoenixCamera_getBallStatus(&_pixy)){
     unsigned int new_area = _pixy.area_ball;
