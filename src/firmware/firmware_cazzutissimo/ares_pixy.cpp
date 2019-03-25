@@ -4,10 +4,10 @@
 
 #include "ares_pixy.h"
 #include "utils.h"
-#include <Pixy2.h>
+#include <Pixy2I2C.h>
 
 // Oggetto Pixy privato (nascosto all'esterno della libreria)
-Pixy2 pixy;
+Pixy2I2C pixy;
 
 /**
  * Inizializza p (PhoenixCamera*) azzerando i valori
