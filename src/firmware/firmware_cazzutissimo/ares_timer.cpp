@@ -60,7 +60,9 @@ void Timer_init() {
   OCR5A=1999;
   // Enable Timer Output Compare A interrupt mask on TIMSK5
   TIMSK5|=(1<<OCIE5A);
+
   sei();
+  
 }
 
 /**

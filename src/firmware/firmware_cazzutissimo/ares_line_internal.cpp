@@ -21,7 +21,7 @@ static Adafruit_ADS1015 line_adc[NUM_ADC] = {
  Adafruit_ADS1015(LINE_ADC_I2C_ADDR_2),
 };
 
-void PhoenixLineSensor_ADCBegin(PhoenixLineSensor * l){
+void PhoenixLineSensor_ADCBegin(){
   for(int i=0;i<NUM_ADC;i++){
     line_adc[i].begin();
   }

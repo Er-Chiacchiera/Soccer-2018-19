@@ -3,7 +3,7 @@
  **/
 
 #include "ares_imu.h"
-
+#include "utils.h"
 /**
  * Inizializza la struttura m (PhoenixImu*) tramite la seguente procedura:
  * azzera heading_attuale, heading_target, heading_offset, errore, errore_pid
@@ -49,18 +49,7 @@ uint8_t PhoenixImu_init(PhoenixImu* m) {
  **/
 
 
-double clamp(double v, double m){
-  if(v > m) return m;
-  if(v < -m) return -m;
-  return v;
-}
 
-double cconstrain(double x, double max, double min)
-{
-  if(x > max) return x - (max - min);
-  if(x < min) return x + (max - min);
-  return x;
-}
 
 void PhoenixImu_handle(PhoenixImu* m) {
   BNO055_handle(m->imu);

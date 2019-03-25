@@ -86,6 +86,6 @@ int PhoenixLineSensor_getStatus(PhoenixLineSensor* l);
  **/
 void PhoenixLineSensor_reset(PhoenixLineSensor* l);
 
-void PhoenixLineSensor_ADCBegin(PhoenixLineSensor * l);
+void PhoenixLineSensor_ADCBegin();
 
 void Test_ADCBegin(PhoenixLineSensor * l);

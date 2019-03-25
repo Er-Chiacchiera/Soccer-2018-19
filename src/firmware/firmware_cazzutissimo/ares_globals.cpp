@@ -162,9 +162,35 @@ PhoenixImu imu = {
   sum_i: 0,
   max_i: 180,
   max_output: 180,
-  kp : 10,   //9
-  ki : 220,  //40
+  kp : 9,   //9
+  ki : 40,  //40
   kd : 0
 };
 
-PhoenixCamera _pixy;
+PhoenixCamera _pixy = {
+  ball_detection : 0,
+  door_detection : 0,
+  ball_x : 0,
+  ball_y : 0,
+  ball_w : 0,
+  ball_h : 0,
+  door_x : 0,
+  door_y : 0,
+  door_w : 0,
+  door_h : 0,
+  ball_age : 0,
+  door_age : 0,
+  area_ball : 0,
+  area_door : 0,
+  kp : 1.5,
+  ki : 0,
+  kd : 0.1,
+  errore : 0,
+  errore_prec : 0,
+  idt : 60,
+  sum_i : 0,
+  dt : 0.0167,
+  max_i : 180,
+  output_pid_camera : 0,
+  max_output : 180
+};

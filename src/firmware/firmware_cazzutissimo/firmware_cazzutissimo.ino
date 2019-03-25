@@ -41,15 +41,23 @@ void TestEncoderFn() {
 
 
 void setup() {
+  
   Serial.begin(9600);
   Serial.println("Serial initialized...");
+
+  Serial.println("Initializing Camera...");
+  delay(1000);
+  PhoenixCamera_init(&_pixy);
+  Serial.println("Camera initialized...");
+
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
   Serial.println("Joint inizialized...");
 
   PhoenixDrive_init(&drive, joints);
-  /*
+
+  
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -60,33 +68,27 @@ void setup() {
   }
   delay(1000);
   PhoenixImu_handle(&imu);
-  PhoenixImu_setOffset(&imu, imu.heading_attuale);*/
+  PhoenixImu_setOffset(&imu, imu.heading_attuale);
 
- 
- /*while(PhoenixImu_init(&imu)) {
-  delay(500);
-  Serial.println("non funziona");
- }
- Serial.println("Mo funziona");*/
+  Encoder_init();
+  
+  Serial.println("Initializing EEPRPOM...");
+  PhoenixEeprom_init();
+  Serial.println("EEPROM initialized...");
+  
+  PhoenixRullo_init();
+  Serial.println("Rullo inizialized...");
 
-  //Encoder_init();
-  /*PhoenixRullo_init();
-  Serial.println("Rullo inizialized...");*/
-
-/*
+  PhoenixLineSensor_ADCBegin();
  for(int i=0;i<NUM_LINE_SENSORS;++i) {
-    PhoenixLineSensor_ADCBegin(&line_sensors[i]);
     PhoenixLineSensor_init(&line_sensors[i]);
-    PhoenixLineSensor_startCalib(&line_sensors[i]);
-    PhoenixLineSensor_handle(&line_sensors[i]);
-    PhoenixLineSensor_stopCalib(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
   Serial.println("Line Handler initialized...");
   
-  PhoenixEeprom_init();
   
+
   #if ENABLE_LINE_CALIB == 1 
   PhoenixLineHandler_startCalib(&line_handler);
   PhoenixDrive_setSpeed(&drive, 0,0,1);
@@ -104,14 +106,33 @@ void setup() {
   PhoenixEeprom_storeLineSensor();
   while(1);
   #endif 
-  PhoenixEeprom_loadLineSensor();*/
   
-  struct Timer* t1_fn=Timer_create(1000/60, 
-  PhoenixCamera_handle, (void*)&_pixy);
-  Timer_start(t1_fn);
+
+  Serial.println("Loading line params from eeprom...");
+  PhoenixEeprom_loadLineSensor();
   Timer_init();
-  PhoenixCamera_init(&_pixy);
-  Serial.println("Camera initialized...");
+  Serial.println("Timers initialized...");
+
+  
+  struct Timer* t1_fn=Timer_create(1000/50, 
+    pixyTimerFn, NULL);
+  Timer_start(t1_fn);
+  struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
+  Timer_start(t2_fn);
+  
+  
+  
+}
+
+volatile uint8_t imu_handle_flag=0;
+volatile uint8_t pixy_handle_flag=0;
+
+void* imuTimerFn() {
+  imu_handle_flag=1;
+}
+
+void* pixyTimerFn() {
+  pixy_handle_flag=1;
 }
 
 void Test_connections(void){
@@ -217,46 +238,18 @@ void Test_EscapeLine(void){
 }
 
 void Test_pixy(void){
-  int Xmin = 100;
-  int Xmax = 200;
-  int minArea;
-  int maxArea;
-  double x = _pixy.ball_x;
-  double y = _pixy.ball_y;
-  while(millis()<2000)
-  {
-    unsigned int area = _pixy.area_ball;
-    maxArea = area + 800;
-    minArea = area - 800;
-  }
-  if(PhoenixCamera_getBallStatus(&_pixy)){
-    unsigned int new_area = _pixy.area_ball;
-    if(x < Xmin){
-      PhoenixDrive_setSpeed(&drive, -1,0,0);
-      PhoenixDrive_handle(&drive);
+  double t=0.0;
+  static double t_prev=0.0;
+    if(PhoenixCamera_getBallStatus(&_pixy)){
+      t=-_pixy.output_pid_camera/180;
+      Serial.print(t);
+      Serial.println();
+      t_prev=t;
+    } else {
+      t=-imu.output_pid/180;
     }
-    else if(x > Xmax){
-      PhoenixDrive_setSpeed(&drive, 1,0,0);
-      PhoenixDrive_handle(&drive);
-    }
-    else if(new_area < minArea){
-      PhoenixDrive_setSpeed(&drive, 0,1,0);
-      PhoenixDrive_handle(&drive);
-    }
-    else if(new_area > maxArea){
-      PhoenixDrive_setSpeed(&drive, 0,1,0);
-      PhoenixDrive_handle(&drive); 
-    }
-    else{
-      PhoenixDrive_setSpeed(&drive, 0,0,0);
-      PhoenixDrive_handle(&drive);
-    }
-  }
-  else{
-    PhoenixDrive_setSpeed(&drive, 0,0,0);
+    PhoenixDrive_setSpeed(&drive, 0,0,t);
     PhoenixDrive_handle(&drive);
-  }
-
   }
 
 
@@ -267,8 +260,15 @@ void Test_pixy(void){
  * sinistra -1, 0, 0
  */
 
-
 void loop() {
+  if(imu_handle_flag) {
+    PhoenixImu_handle(&imu);
+    imu_handle_flag=0;
+  }
+  if(pixy_handle_flag) {
+    PhoenixCamera_handle(&_pixy);
+    pixy_handle_flag=0;
+  }
   Test_pixy();
 }
 

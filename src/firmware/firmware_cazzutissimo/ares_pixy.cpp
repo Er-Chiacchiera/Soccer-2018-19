@@ -3,6 +3,7 @@
  **/
 
 #include "ares_pixy.h"
+#include "utils.h"
 #include <Pixy2.h>
 
 // Oggetto Pixy privato (nascosto all'esterno della libreria)
@@ -23,7 +24,6 @@ void PhoenixCamera_init(PhoenixCamera* p)
   p->ball_w = 0;
   p->ball_h = 0;
   p->ball_age = 0;
-  Serial.println("Wooo");
   return;
 }
 
@@ -69,6 +69,16 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
           p->area_ball = p->ball_w * p->ball_h;
           /*Serial.print("Area della palla:");
           Serial.println(p->area_ball);*/
+          p->errore = (int16_t)p->ball_x - 160;
+          p->errore = cconstrain(p->errore, 180, -180);
+
+          double e_p = p->errore * p->kp;
+          double e_d = p->kd*(p->errore - p->errore_prec)*p->idt;
+          p->sum_i += p->ki*p->errore*p->dt;
+          p->sum_i = clamp(p->sum_i, p->max_i);
+          p->output_pid_camera = e_p + e_d + p->sum_i;
+          p->output_pid_camera = clamp(p->output_pid_camera, p->max_output);
+          p->errore_prec = p->errore;
         }
       }
       if(pixy.ccc.blocks[i].m_signature == DOOR_SIG)

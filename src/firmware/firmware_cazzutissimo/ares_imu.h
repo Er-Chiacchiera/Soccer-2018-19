@@ -30,6 +30,7 @@ typedef struct {
 }PhoenixImu;
 
 /**
+ * 
  * Inizializza la struttura m (PhoenixImu*) tramite la seguente procedura:
  * azzera heading_attuale, heading_target, heading_offset, errore, errore_pid
  * Inizializza imu (BNO055*) nel seguente modo:
