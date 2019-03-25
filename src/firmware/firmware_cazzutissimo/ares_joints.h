@@ -12,6 +12,8 @@ typedef struct {
 
   uint8_t direzione;
   uint16_t velocita;
+
+  uint8_t pwm;
 }PhoenixJoint;
 
 

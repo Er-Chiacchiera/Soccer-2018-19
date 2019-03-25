@@ -10,21 +10,24 @@ PhoenixJoint joints[NUM_JOINTS] = {
   pin_dirb : 23,  
   pin_pwm : 2,   
   direzione : 0,
-  velocita : 0
+  velocita : 0,
+  pwm : 0
   },
   {// Joint 1
   pin_dira : 24, //24
   pin_dirb : 25, //25
   pin_pwm : 3,  //3
   direzione : 0,
-  velocita : 0
+  velocita : 0,
+  pwm : 0
   },
   {// Joint 2
   pin_dira : 26,  
   pin_dirb : 27, 
   pin_pwm : 4,   
   direzione : 0,
-  velocita : 0
+  velocita : 0,
+  pwm : 0
   }
 };
 
