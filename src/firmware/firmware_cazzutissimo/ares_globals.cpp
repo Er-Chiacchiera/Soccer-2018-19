@@ -162,8 +162,8 @@ PhoenixImu imu = {
   sum_i: 0,
   max_i: 180,
   max_output: 180,
-  kp : 9,   //9
-  ki : 40,  //40
+  kp : 7,   //9
+  ki : 30,  //40
   kd : 0
 };
 
