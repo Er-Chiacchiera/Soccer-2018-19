@@ -48,7 +48,7 @@ void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
  * analogWrite
  */
 void PhoenixJoint_handle(PhoenixJoint* j) {
-  if(j->velocita < 100){
+  if(j->velocita < 50){
     j->velocita = 0;
   }
   digitalWrite(j->pin_dira, j->direzione);
