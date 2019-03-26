@@ -271,35 +271,4 @@ void loop() {
   }
   Test_EscapeLine();
 
-
-  /**
-  int n_ball=0;
-  int n_door=0;
-  if(PhoenixCamera_getBallStatus(&_pixy)){
-    if(_pixy.area_ball > n){
-      if(_pixy.m_signature == 2){
-        if(_pixy.area_door > n){
-
-        }
-        else{
-          PhoenixDrive_setSpeed(&drive, 0,1,0);
-          PhoenixDrive_handle(&drive);
-        }
-      }
-      else{
-        PhoenixDrive_setSpeed(&drive, 0,0,-imu.output_pid);
-        PhoenixDrive_handle(&drive);
-      }
-    }
-    else{
-      PhoenixDrive_setSpeed(&drive, 0,1,0);
-      PhoenixDrive_handle(&drive);
-    }
-  }
-  else{
-    PhoenixDrive_setSpeed(&drive, 0,0,-imu.output_pid);
-    PhoenixDrive_handle(&drive);
-  }**/
 }
-
-
