@@ -4,6 +4,8 @@
 
 #include "ares_imu.h"
 #include "utils.h"
+#include <math.h>
+
 /**
  * Inizializza la struttura m (PhoenixImu*) tramite la seguente procedura:
  * azzera heading_attuale, heading_target, heading_offset, errore, errore_pid
@@ -21,6 +23,8 @@ uint8_t PhoenixImu_init(PhoenixImu* m) {
   m->errore = 0;
   m->imu->i2c_addr = BNO055_I2C_ADDR;
   m->imu->op = NDOF;
+  m->x = 0;
+  m->y = 0;
   if(BNO055_init(m->imu) != 0)   //mi da problemi con le linee
   {
     return -1;
@@ -55,7 +59,7 @@ void PhoenixImu_handle(PhoenixImu* m) {
   BNO055_handle(m->imu);
   m->heading_attuale = m->imu->eul_heading;
   m->errore = m->heading_target - (m->heading_attuale-m->heading_offset); 
-  m->errore = cconstrain(m->errore, 180, -180);
+  m->errore = cconstraint(m->errore, 180, -180);
   //PID
   // errore proporzionale (calcolo quanto è grande l'errore)
   double e_p = m->errore * m->kp;
@@ -68,6 +72,8 @@ void PhoenixImu_handle(PhoenixImu* m) {
   m->output_pid = e_p + e_d + m->sum_i;
   m->output_pid = clamp(m->output_pid, m->max_output);
   m->errore_prec = m->errore;
+  m->x = sin(degToRad(m->errore));
+  m->y = cos(degToRad(m->errore));
 }
 
 /**

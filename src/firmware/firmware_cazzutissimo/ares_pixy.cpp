@@ -70,7 +70,7 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
           /*Serial.print("Area della palla:");
           Serial.println(p->area_ball);*/
           p->errore = (int16_t)p->ball_x - 160;
-          p->errore = cconstrain(p->errore, 180, -180);
+          p->errore = cconstraint(p->errore, 180, -180);
 
           double e_p = p->errore * p->kp;
           double e_d = p->kd*(p->errore - p->errore_prec)*p->idt;

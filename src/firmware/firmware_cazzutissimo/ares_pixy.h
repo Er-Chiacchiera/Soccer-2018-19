@@ -7,7 +7,7 @@
 
 #define BALL_SIG 1
 #define DOOR_SIG 2
-#define BALL_RELIABLE_AGE 30
+#define BALL_RELIABLE_AGE 1
 #define DOOR_RELIABLE_AGE 600
 
 typedef struct {

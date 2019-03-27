@@ -17,6 +17,8 @@ typedef struct {
   double errore;
   double output_pid;
   double errore_prec;
+  double x;
+  double y;
 
   double dt; //delta tempo
   double idt; //inverso delta tempo

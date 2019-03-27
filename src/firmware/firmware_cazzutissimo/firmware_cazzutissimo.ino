@@ -15,6 +15,7 @@
 #include "ares_encoders.h"
 #include "ares_eeprom.h"
 #include "ares_pixy.h"
+#include "utils.h"
 
 #define ENABLE_LINE_CALIB 0
 
@@ -37,11 +38,20 @@ void TestEncoderFn() {
   state = (state+1)%2;
 }
 
+int led1 = 8;
+int led2 = 9;
+int led3 = 10;
+int led4 = 12;
 
 
 
 void setup() {
   
+
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
   Serial.begin(9600);
   Serial.println("Serial initialized...");
 
@@ -80,7 +90,7 @@ void setup() {
   Serial.println("Rullo inizialized...");
 
   PhoenixLineSensor_ADCBegin();
- for(int i=0;i<NUM_LINE_SENSORS;++i) {
+  for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
   }
   Serial.println("Line Sensors initialized...");
@@ -117,6 +127,7 @@ void setup() {
   struct Timer* t1_fn=Timer_create(1000/50, 
     pixyTimerFn, NULL);
   Timer_start(t1_fn);
+  
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
   Timer_start(t2_fn);
   
@@ -136,17 +147,11 @@ void* pixyTimerFn() {
 }
 
 void Test_connections(void){
+  PhoenixJoint_setSpeed(&joints[0], 255); 
   PhoenixJoint_handle(&joints[0]);
-  PhoenixJoint_setSpeed(&joints[0], 255); //(ALTO A DESTRA)
-  PhoenixJoint_setSpeed(&joints[0], 0);
-  PhoenixJoint_handle(&joints[0]);
+  PhoenixJoint_setSpeed(&joints[1], 255); 
   PhoenixJoint_handle(&joints[1]);
-  PhoenixJoint_setSpeed(&joints[1], 255); //(ALTO A SINISTRA)
-  PhoenixJoint_setSpeed(&joints[1], 0);
-  PhoenixJoint_handle(&joints[1]);
-  PhoenixJoint_handle(&joints[2]);
-  PhoenixJoint_setSpeed(&joints[2], 255); //(BASSO)
-  PhoenixJoint_setSpeed(&joints[1], 0);
+  PhoenixJoint_setSpeed(&joints[2], 255); 
   PhoenixJoint_handle(&joints[2]);
 }
   
@@ -164,7 +169,7 @@ void Test_ImuPid(void){
 }
 
 void Test_LineInternal(void){
-  for(int i=0;i<6;i++){
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
   //Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
   PhoenixLineSensor_handle(&line_sensors[i]);
   //Serial.print(" ");
@@ -229,7 +234,7 @@ void Test_EscapeLine(void){
   }
   else{
     x=0;
-    y=1;
+    y=0;
   }
   
   PhoenixDrive_setSpeed(&drive, x, y, t);
@@ -239,19 +244,72 @@ void Test_EscapeLine(void){
 
 void Test_pixy(void){
   double t=0.0;
+  double x=0.0;
+  double y=0.0;
   static double t_prev=0.0;
     if(PhoenixCamera_getBallStatus(&_pixy)){
       t=-_pixy.output_pid_camera/180;
       Serial.print(t);
       Serial.println();
       t_prev=t;
+      x=-imu.x;
+      y=1-imu.y;
     } else {
       t=-imu.output_pid/180;
+      x=0;
+      y=0;
     }
-    PhoenixDrive_setSpeed(&drive, 0,0,t);
+    if(PhoenixLineHandler_handle)
+    PhoenixDrive_setSpeed(&drive, x,y,t);
     PhoenixDrive_handle(&drive);
   }
 
+void playFn() {
+  double t=0;
+  double x=0;
+  double y=0;
+  static double t_prev=0;
+  PhoenixImu_handle(&imu);
+  PhoenixLineHandler_handle(&line_handler);
+
+  if(PhoenixCamera_getBallStatus(&_pixy)){
+    t=-_pixy.output_pid_camera/180;
+    x=-imu.x;
+    y=1-imu.y;
+    if(modulo(x,y) < 0.10){
+      y = 1;
+      t = -imu.output_pid/180;
+    }
+  }
+  else{
+    if(abs(160 - _pixy.ball_x) < 100){
+      y = 1;
+      Serial.println("condizione verificata");
+      digitalWrite(led2, HIGH);
+    }
+    else{
+        digitalWrite(led2, LOW);
+        t= -imu.output_pid/180;
+    }
+   // Serial.println(_pixy.ball_x);
+    t=-imu.output_pid/180;
+    x=0;
+    y=-1;
+  }
+  if(line_handler.escape_flag == 1){
+    x= line_handler.escape_x;
+    y= line_handler.escape_y;
+  }
+  /**Serial.print(x);
+  Serial.print(" ");
+  Serial.print(y);
+  Serial.print(" ");
+  Serial.print(t);
+  Serial.print(" ");
+  Serial.println();**/
+  PhoenixDrive_setSpeed(&drive, x, y, t);
+  PhoenixDrive_handle(&drive);
+}
 
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
@@ -269,6 +327,13 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-  Test_EscapeLine();
+  
+  //playFn();
+  Serial.println(_pixy.area_ball);
+  //digitalWrite(led1, HIGH);
+  //digitalWrite(led3, HIGH);
+  //digitalWrite(led4, HIGH);
+  //DISABILITARE INIZIALIZZAZIONE PIXY
+  
 
 }
