@@ -60,7 +60,7 @@ void setup() {
 
   Serial.println("Initializing Camera...");
   delay(1000);
-  PhoenixCamera_init(&_pixy);
+  //PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
 
   for(int i=0;i<NUM_JOINTS;++i) {
@@ -201,11 +201,11 @@ void Test_LineInternal(void){
   //Serial.print(" ");
 
   Serial.print(line_sensors[i].misura); 
-  Serial.print(" ");
+ /** Serial.print(" ");
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");
   Serial.print(line_sensors[i].soglia_black);
-  Serial.print(" ");
+  Serial.print(" ");**/
 
   /*
   Serial.print(line_sensors[i].soglia);
@@ -418,13 +418,19 @@ void loop() {
 
   //batteria_bassa();
   
+  //portierefn();
 
-  Serial.println(analogRead(batteria));
-  portierefn();
-
-
+  /**if(_pixy.ball_x > 200 && _pixy.ball_x < 50){
+      digitalWrite(led3, HIGH);
+      delay(500);
+      digitalWrite(led3, LOW);
+      delay(500);
+    }**/
 
   //Test_LineInternal();
+
+
+  Test_LineInternal();
  // Serial.println(_pixy.area_ball);
   //Test_EscapeLine();
   //digitalWrite(led1, HIGH);
