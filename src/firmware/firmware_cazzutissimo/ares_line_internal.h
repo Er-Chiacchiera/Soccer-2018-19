@@ -11,12 +11,13 @@ typedef struct {
   double x; // componente x del vettore associato al sensore
   double y; // componente y del vettore associato al sensore
   uint16_t soglia;// soglia riconoscimento linea
+  uint16_t soglia_black;
   uint16_t misura;// misura attuale del sensore
   uint16_t misura_min;// x Calibrazione: Lettura di valore minimo
   uint16_t misura_max;// x Calibrazione: Lettura di valore massimo
   uint8_t detect_flag;// flag di rilevazione linea ( 1 : linea rilevata )
+  uint8_t detect_flag_black;
   uint8_t calibra_flag;// x Calibrazione: flag di calibrazione
-
   // Sezione gruppo Francesco
   /**
    * Mappatura dei sensori:
@@ -74,6 +75,10 @@ void PhoenixLineSensor_startCalib(PhoenixLineSensor* l);
  * Poi azzera anche misura_min e misura_max
  **/
 void PhoenixLineSensor_stopCalib(PhoenixLineSensor* l);
+
+void PhoenixLineSensor_startCalibBlack(PhoenixLineSensor * l);
+
+void PhoenixLineSensor_stopCalibBlack(PhoenixLineSensor * l);
 
 /**
  * restituisce il valore di detect_flag

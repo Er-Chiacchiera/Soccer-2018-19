@@ -58,10 +58,12 @@ void PhoenixLineSensor_init(PhoenixLineSensor* l) {
    **/
   // Da completare...
   l->soglia = 0;
+  l->soglia_black = 0;
   l->misura = 0;
   l->misura_max = 0;
   l->misura_min = 65535;
   l->detect_flag = 0;
+  l->detect_flag_black = 0;
   l->calibra_flag = 0;
   return;
 }
@@ -101,11 +103,12 @@ void PhoenixLineSensor_handle(PhoenixLineSensor* l) {
         l->misura_max = l->misura;
       }
     }
-    if(l->misura > l->soglia)
+    if(l->misura > l->soglia || l->misura < l->soglia_black)
     {
       l->detect_flag = 1;
-    } else {
-      l->detect_flag=0;
+    } 
+    else{
+      l->detect_flag = 0;
     }
   return;
 }
@@ -134,6 +137,20 @@ void PhoenixLineSensor_stopCalib(PhoenixLineSensor* l) {
   return;
 }
 
+void PhoenixLineSensor_startCalibBlack(PhoenixLineSensor * l){
+  l->calibra_flag = 1;
+}
+
+void PhoenixLineSensor_stopCalibBlack(PhoenixLineSensor * l){
+  l->calibra_flag = 0;
+  l->soglia_black = (l->misura_max + l->misura_min) / 2;
+  l->misura_min = 65535;
+  l->misura_max = 0;
+  return;
+}
+
+
+
 /**
  * restituisce il valore di detect_flag
  **/
@@ -149,3 +166,4 @@ void PhoenixLineSensor_reset(PhoenixLineSensor* l) {
   l->detect_flag = 0;
   return;
 }
+

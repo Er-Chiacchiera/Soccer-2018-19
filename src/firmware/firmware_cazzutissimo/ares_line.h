@@ -7,7 +7,7 @@
 #include "ares_params.h"
 #include "ares_line_internal.h"
 
-#define ESCAPE_TTL 20
+#define ESCAPE_TTL 8
 
 // Funzioni utili per lavorare con la maschera.
 uint8_t mask_read(uint16_t* mask, uint8_t index);
@@ -121,3 +121,7 @@ void PhoenixLineHandler_startCalib(PhoenixLineHandler* d);
  * per ogni sensore in line_sensors
  **/
 void PhoenixLineHandler_stopCalib(PhoenixLineHandler* d);
+
+void PhoenixLineHandler_startCalibBlack(PhoenixLineHandler * d);
+
+void PhoenixLineHandler_stopCalibBlack(PhoenixLineHandler * d);

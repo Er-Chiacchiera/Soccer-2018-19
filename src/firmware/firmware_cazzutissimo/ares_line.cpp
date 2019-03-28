@@ -136,6 +136,20 @@ void PhoenixLineHandler_startCalib(PhoenixLineHandler* d){
   }
 }
 
+void PhoenixLineHandler_startCalibBlack(PhoenixLineHandler * d){
+  d->calib_flag = 1;
+  for(int i=0;i<NUM_LINE_SENSORS;++i){
+    PhoenixLineSensor_startCalibBlack(&d->line_sensors[i]);
+  }
+}
+
+void PhoenixLineHandler_stopCalibBlack(PhoenixLineHandler * d){
+  d->calib_flag = 1;
+  for(int i=0;i<NUM_LINE_SENSORS;++i){
+    PhoenixLineSensor_stopCalibBlack(&d->line_sensors[i]);
+  }
+  return;
+}
 /**
  * azzera calib_flag e lancia la funzione PhoenixLineSensor_stopCalib
  * per ogni sensore in line_sensors
