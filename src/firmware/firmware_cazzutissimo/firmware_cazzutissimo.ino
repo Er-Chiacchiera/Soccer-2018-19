@@ -48,6 +48,8 @@ int led7 = A7;
 int led8 = 37;
 int encoder_sel = 40;
 int batteria = A2;
+//int solenoide = 43;
+
 void setup() {
   
   pinMode(led1, OUTPUT);
@@ -55,6 +57,7 @@ void setup() {
   pinMode(led3, OUTPUT);
   pinMode(led4, OUTPUT);
   pinMode(batteria, INPUT);
+  //pinMode(solenoide, OUTPUT);
   Serial.begin(9600);
   Serial.println("Serial initialized...");
 
@@ -99,7 +102,6 @@ void setup() {
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
   Serial.println("Line Handler initialized...");
-  
   pinMode(encoder_sel, INPUT_PULLUP);
   digitalWrite(led4, LOW);
   if(ENABLE_LINE_CALIB == 1) {
@@ -149,13 +151,13 @@ void setup() {
   Serial.println("Timers initialized...");
 
   
-  struct Timer* t1_fn=Timer_create(1000/50, 
+  /*struct Timer* t1_fn=Timer_create(1000/50, 
     pixyTimerFn, NULL);
   Timer_start(t1_fn);
   
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
   Timer_start(t2_fn);
-  
+  */
   
   
 }
@@ -194,19 +196,18 @@ void Test_ImuPid(void){
 }
 
 void Test_LineInternal(void){
-  for(int i=0;i<1;i++){
-  Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
+  for(int i=0;i<9;i++){
+  //Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
   Serial.print(" ");
   PhoenixLineSensor_handle(&line_sensors[i]);
   //Serial.print(" ");
 
   Serial.print(line_sensors[i].misura); 
- /** Serial.print(" ");
-  Serial.print(line_sensors[i].soglia);
   Serial.print(" ");
-  Serial.print(line_sensors[i].soglia_black);
+ /** Serial.print(line_sensors[i].soglia);
   Serial.print(" ");**/
-
+ /* Serial.print(line_sensors[i].soglia_black);
+  Serial.print(" ");*/
   /*
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");*/
@@ -266,6 +267,7 @@ void Test_EscapeLine(void){
   else{
     x=0;
     y=1;
+    t=-imu.output_pid/180;
   }
   
   PhoenixDrive_setSpeed(&drive, x, y, t);
@@ -304,10 +306,11 @@ void playFn() {
   PhoenixLineHandler_handle(&line_handler);
 
   if(PhoenixCamera_getBallStatus(&_pixy)){
+    Serial.println("vedo la palla");
     t=-_pixy.output_pid_camera/180;
     x=-imu.x;
     y=1-imu.y;
-    if(modulo(x,y) < 0.10){
+    if(modulo(x,y) < 0.20){
       y = 1;
       t = -imu.output_pid/180;
     }
@@ -407,35 +410,34 @@ void batteria_bassa(void){
  */
 
 void loop() {
-  if(imu_handle_flag) {
+  /*if(imu_handle_flag) {
     PhoenixImu_handle(&imu);
     imu_handle_flag=0;
   }
   if(pixy_handle_flag) {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
-  }
+  }*/
 
   //batteria_bassa();
   
   //portierefn();
 
-  /**if(_pixy.ball_x > 200 && _pixy.ball_x < 50){
-      digitalWrite(led3, HIGH);
-      delay(500);
-      digitalWrite(led3, LOW);
-      delay(500);
-    }**/
+ // Test_RulloSingleStart();
+  //Serial.println("sono nel loop");
 
+/**
+  digitalWrite(solenoide, HIGH);
+  delay(1000);
+  digitalWrite(solenoide, 100);
+  Serial.println("sto calciando");**/
   //Test_LineInternal();
-
-
-  Test_LineInternal();
  // Serial.println(_pixy.area_ball);
-  //Test_EscapeLine();
+  Test_EscapeLine();
   //digitalWrite(led1, HIGH);
   //digitalWrite(led3, HIGH);
   ///digitalWrite(led4, HIGH);
-  
-
+  //Test_Rullo();
+  //playFn();
+  //Test_LineInternal();
 }
