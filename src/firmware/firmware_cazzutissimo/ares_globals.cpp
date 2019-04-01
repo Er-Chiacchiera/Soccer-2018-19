@@ -185,8 +185,8 @@ PhoenixImu imu = {
   sum_i: 0,
   max_i: 180,
   max_output: 180,
-  kp : 7,   //9
-  ki : 30,  //40
+  kp : 10,   //9
+  ki : 60,  //40
   kd : 0
 };
 
@@ -205,7 +205,7 @@ PhoenixCamera _pixy = {
   door_age : 0,
   area_ball : 0,
   area_door : 0,
-  kp : 1.5,
+  kp : 1.9,
   ki : 0,
   kd : 0,
   errore : 0,

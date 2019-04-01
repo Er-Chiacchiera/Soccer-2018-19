@@ -1,0 +1,25 @@
+1) Prova rullo: inizio mercoledi 10/10/2018   fine prova lunedì 22/10/2018     
+   osservazioni --> (sistema funzionante, necessaria la creazione di un circuito con condensatore per rullo)
+
+2) aggiornare il file del modello 3D: inizio mercoledì 24/10/2018 fine 07/11/2018
+   osservazioni --> prove riuscite con successo il rullo sembra funzionare quasi correttamente si necessita di ulteriori modifiche:
+   -altezza del rullo rispetto alla terra 6cm
+   -lunghezza rampa da aumentare di 1.5 cm
+   -altezza rampa da incrementare ulteriormante
+   modifiche:
+    supporto solenoide
+    buchi sul rullo
+    sistemare buco per motore sulla paratia
+    buco per solenoide sulla paratia
+    cerchietto per spinta solenoide 
+    supporti motore
+
+3) creare circuito con condensatore per solenoide: inizio  mercoledì 24/10/2018
+   osservazioni -->
+
+4) aggiornare il file del modello 3D: inizio giovedì 08/11/2018
+    osservazioni -->
+    
+    
+4) realizzazione e progettazione delle ruotre: inizio giovedì 08/11/2018
+    osservazioni -->
