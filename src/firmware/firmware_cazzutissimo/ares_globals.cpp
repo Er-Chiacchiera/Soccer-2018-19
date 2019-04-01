@@ -205,7 +205,7 @@ PhoenixCamera _pixy = {
   door_age : 0,
   area_ball : 0,
   area_door : 0,
-  kp : 1.9,
+  kp : 3,
   ki : 0,
   kd : 0,
   errore : 0,

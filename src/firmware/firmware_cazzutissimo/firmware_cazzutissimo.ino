@@ -310,15 +310,15 @@ void playFn() {
 
   if(PhoenixCamera_getBallStatus(&_pixy)){
     Serial.println("vedo la palla");
-    t=_pixy.output_pid_camera/180;
-    x=-imu.x;
-    y=1-imu.y;
-    if(modulo(x,y) < 0.18){
+     x = -imu.x;
+     y = 1-imu.y;
+     t = _pixy.output_pid_camera/180;
+    if(modulo(x,y) < 0.15){
       x = 0;
       y = 1;
       t = -imu.output_pid/180;
     }
-    if(abs(Area) > 18000){
+    if(abs(Area) > 19500){
       digitalWrite(solenoide, HIGH);
       delay(25);
       digitalWrite(solenoide, LOW);
@@ -386,23 +386,16 @@ void Test_pixyBall(void){
   double x;
   double y;
   double t;
-  double Area = _pixy.area_ball;
+  PhoenixImu_handle(&imu);
   if(PhoenixCamera_getBallStatus(&_pixy)){
-    if(abs(Area) > 10000){
-      digitalWrite(solenoide, HIGH);
-      delay(50);
-      digitalWrite(solenoide, LOW);
-      delay(500);
-    }
-    if(abs(Area) < 100){
-      PhoenixRullo_start();
-    }
+    x = -imu.x;
+    y = 1-imu.y;
+    t = _pixy.output_pid_camera/180;
   }
   else{
     x = 0;
-    y = 0;
+    y = -1;
     t = -imu.output_pid/180;
-    digitalWrite(solenoide, LOW);
   }
   PhoenixDrive_setSpeed(&drive, x,y,t);
   PhoenixDrive_handle(&drive);
@@ -429,12 +422,6 @@ void batteria_bassa(void){
   }
 }
 
-void Attackfn(void){
-    if(PhoenixCamera_getBallStatus(&_pixy)){
-
-    }
-}
-
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
  * indietro = 0, -1, 0
@@ -453,11 +440,6 @@ void loop() {
   }
 
   playFn();
-  //Test_LineInternal();
-  //Test_pixy();
-  //Test_LineInternal();
-  /**Test_ImuPid();
-  Serial.println(imu.errore);**/
-  Serial.println(_pixy.area_ball);
+  //Test_pixyBall();
 
 }
