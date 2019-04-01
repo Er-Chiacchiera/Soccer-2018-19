@@ -313,7 +313,7 @@ void playFn() {
      x = -imu.x;
      y = 1-imu.y;
      t = _pixy.output_pid_camera/180;
-    if(modulo(x,y) < 0.15){
+    if(modulo(x,y) < 0.16){
       x = 0;
       y = 1;
       t = -imu.output_pid/180;
@@ -330,7 +330,6 @@ void playFn() {
     y = -1;
     t = -imu.output_pid/180;
   }
-  /**
   if(line_handler.escape_flag == 1){
     x = line_handler.escape_x;
     y = line_handler.escape_y;
@@ -340,7 +339,7 @@ void playFn() {
     x = 0;
     y = 1;
     t = -imu.output_pid/180;
-  }**/
+  }
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
@@ -355,16 +354,15 @@ void portierefn(void){
 
   if(PhoenixCamera_getBallStatus(&_pixy)){
     t = -_pixy.output_pid_camera/180;
-    Serial.println(_pixy.output_pid_camera/180);
     if(imu.x > 0){
       x = -imu.y;
       y = imu.x;
-      t = -_pixy.output_pid_camera/180;
+      t = _pixy.output_pid_camera/180;
     }
     else{
       x = imu.y;
       y = -imu.x;
-      t = -_pixy.output_pid_camera/180;
+      t = _pixy.output_pid_camera/180;
     }
   }
   else{
@@ -372,12 +370,11 @@ void portierefn(void){
     y = 0;
     t = -imu.output_pid/180;
   }
-  /*
   if(line_handler.escape_flag == 1){
     x= line_handler.escape_x;
     y= line_handler.escape_y;
     t= -imu.output_pid/180;
-  }*/
+  }
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
@@ -441,5 +438,11 @@ void loop() {
 
   playFn();
   //Test_pixyBall();
+/**
+  1. calibro linee solo bianche
+  2. carico playfn() su primo robot
 
+  3. calibro linee nere e bianche
+  4. carico portierefn() su secondo robot
+**/
 }
