@@ -115,7 +115,11 @@ void setup() {
     uint16_t start = millis();
     while(1){
       PhoenixLineHandler_handle(&line_handler);
-      if(millis() - start > 10000){
+            Serial.print(start);
+            Serial.print(" ");
+            Serial.println(millis());
+      if(millis() - start > 5000){
+        Serial.println("funzica");
         break; 
       }
     }
@@ -123,7 +127,8 @@ void setup() {
     PhoenixDrive_handle(&drive);
     PhoenixLineHandler_stopCalib(&line_handler);
     PhoenixEeprom_storeLineSensor();
-    /**while(digitalRead(encoder_sel) != LOW){
+    /*
+    while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
     digitalWrite(led4, LOW);
@@ -133,13 +138,13 @@ void setup() {
     start = millis();
     while(1){
       PhoenixLineHandler_handle(&line_handler);
-      if(millis() - start > 10000){
+      if(millis() - start > 5000){
         break; 
       }
     }
     PhoenixDrive_setSpeed(&drive, 0,0,0);
     PhoenixDrive_handle(&drive);
-    PhoenixLineHandler_stopCalibBlack(&line_handler);**/
+    PhoenixLineHandler_stopCalibBlack(&line_handler);*/
     for(int i=0;i<NUM_LINE_SENSORS;++i){
       line_sensors[i].soglia_black = 0;
     }
@@ -178,11 +183,12 @@ void* pixyTimerFn() {
 }
 
 void Test_connections(void){
-  PhoenixJoint_setSpeed(&joints[0], 255); 
+  PhoenixJoint_setSpeed(&joints[0], 150); 
+  Serial.println(joints[0].velocita);
   PhoenixJoint_handle(&joints[0]);
-  PhoenixJoint_setSpeed(&joints[1], 255); 
+  PhoenixJoint_setSpeed(&joints[1], 150); 
   PhoenixJoint_handle(&joints[1]);
-  PhoenixJoint_setSpeed(&joints[2], 255); 
+  PhoenixJoint_setSpeed(&joints[2], 150); 
   PhoenixJoint_handle(&joints[2]);
 }
   
@@ -200,14 +206,15 @@ void Test_ImuPid(void){
 }
 
 void Test_LineInternal(void){
-  for(int i=0;i<6;i++){
-  Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
-  Serial.print("    ");
+  for(int i=0;i<9;i++){
+  //Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
+  //Serial.print("    ");
   PhoenixLineSensor_handle(&line_sensors[i]);
   //Serial.print(" ");
 
-  /**Serial.print(line_sensors[i].misura); 
+  Serial.print(line_sensors[i].misura); 
   Serial.print(" ");
+  /**
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");
   Serial.print(line_sensors[i].soglia_black);
@@ -307,27 +314,26 @@ void playFn() {
   double Area = _pixy.area_ball;
   PhoenixImu_handle(&imu);
   PhoenixLineHandler_handle(&line_handler);
-
   if(PhoenixCamera_getBallStatus(&_pixy)){
-    Serial.println("vedo la palla");
-     x = -imu.x;
-     y = 1-imu.y;
+     x = (-imu.x)*1.2;
+     y = (1-imu.y)*1.2;
      t = _pixy.output_pid_camera/180;
-    if(modulo(x,y) < 0.16){
-      x = 0;
-      y = 1;
-      t = -imu.output_pid/180;
+    if(modulo(x,y) < 0.35){
+      x = imu.x;
+      y = imu.y;
+      t = _pixy.output_pid_camera/180;
     }
-    if(abs(Area) > 19500){
+    if(abs(Area) > 10000 && _pixy.ball_y < 90){
+      delay(130);
       digitalWrite(solenoide, HIGH);
       delay(25);
       digitalWrite(solenoide, LOW);
-      delay(500);
+      delay(100);
     }
   }
   else{
     x = 0;
-    y = -1;
+    y = -0.7;
     t = -imu.output_pid/180;
   }
   if(line_handler.escape_flag == 1){
@@ -335,14 +341,11 @@ void playFn() {
     y = line_handler.escape_y;
     t = -imu.output_pid/180;
   }
-  else{
-    x = 0;
-    y = 1;
-    t = -imu.output_pid/180;
-  }
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
+  Serial.println(line_handler.escape_flag);
 }
+
 
 void portierefn(void){
   double t=0;
@@ -353,7 +356,7 @@ void portierefn(void){
   PhoenixLineHandler_handle(&line_handler);
 
   if(PhoenixCamera_getBallStatus(&_pixy)){
-    t = -_pixy.output_pid_camera/180;
+    t = _pixy.output_pid_camera/180;
     if(imu.x > 0){
       x = -imu.y;
       y = imu.x;
@@ -370,11 +373,12 @@ void portierefn(void){
     y = 0;
     t = -imu.output_pid/180;
   }
+  /*
   if(line_handler.escape_flag == 1){
     x= line_handler.escape_x;
     y= line_handler.escape_y;
     t= -imu.output_pid/180;
-  }
+  }*/
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
@@ -391,7 +395,7 @@ void Test_pixyBall(void){
   }
   else{
     x = 0;
-    y = -1;
+    y = 0;
     t = -imu.output_pid/180;
   }
   PhoenixDrive_setSpeed(&drive, x,y,t);
@@ -435,14 +439,5 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-
   playFn();
-  //Test_pixyBall();
-/**
-  1. calibro linee solo bianche
-  2. carico playfn() su primo robot
-
-  3. calibro linee nere e bianche
-  4. carico portierefn() su secondo robot
-**/
 }
