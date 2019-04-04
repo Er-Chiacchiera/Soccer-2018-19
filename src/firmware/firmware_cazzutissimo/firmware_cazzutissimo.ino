@@ -86,7 +86,6 @@ void setup() {
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);
 
-  Encoder_init();
   
   Serial.println("Initializing EEPRPOM...");
   PhoenixEeprom_init();
@@ -118,7 +117,7 @@ void setup() {
             Serial.print(start);
             Serial.print(" ");
             Serial.println(millis());
-      if(millis() - start > 5000){
+      if(millis() - start > 10000){
         Serial.println("funzica");
         break; 
       }
@@ -127,7 +126,9 @@ void setup() {
     PhoenixDrive_handle(&drive);
     PhoenixLineHandler_stopCalib(&line_handler);
     PhoenixEeprom_storeLineSensor();
-    /*
+
+    // QUI 
+/**
     while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
@@ -144,7 +145,10 @@ void setup() {
     }
     PhoenixDrive_setSpeed(&drive, 0,0,0);
     PhoenixDrive_handle(&drive);
-    PhoenixLineHandler_stopCalibBlack(&line_handler);*/
+    PhoenixLineHandler_stopCalibBlack(&line_handler);
+**/
+    //QUI
+
     for(int i=0;i<NUM_LINE_SENSORS;++i){
       line_sensors[i].soglia_black = 0;
     }
@@ -206,19 +210,18 @@ void Test_ImuPid(void){
 }
 
 void Test_LineInternal(void){
-  for(int i=0;i<9;i++){
-  //Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
-  //Serial.print("    ");
+  for(int i=0;i<3;i++){
+  Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
+  Serial.print("\t");
   PhoenixLineSensor_handle(&line_sensors[i]);
   //Serial.print(" ");
 
   Serial.print(line_sensors[i].misura); 
   Serial.print(" ");
-  /**
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");
   Serial.print(line_sensors[i].soglia_black);
-  Serial.print(" ");**/
+  Serial.print(" ");
   /*
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");*/
@@ -296,9 +299,8 @@ void Test_pixy(void){
       Serial.print(t);
       Serial.println();
       t_prev=t;
-      x=-imu.x;
-      y=1-imu.y;
-    } else {
+    } 
+    else{
       t=-imu.output_pid/180;
       x=0;
       y=0;
@@ -315,18 +317,18 @@ void playFn() {
   PhoenixImu_handle(&imu);
   PhoenixLineHandler_handle(&line_handler);
   if(PhoenixCamera_getBallStatus(&_pixy)){
-     x = (-imu.x)*1.2;
-     y = (1-imu.y)*1.2;
+     x = (-imu.x)*1.10;
+     y = (1-imu.y)*1.10;
      t = _pixy.output_pid_camera/180;
-    if(modulo(x,y) < 0.35){
+    if(modulo(x,y) < 0.36){
       x = imu.x;
       y = imu.y;
       t = _pixy.output_pid_camera/180;
     }
-    if(abs(Area) > 10000 && _pixy.ball_y < 90){
-      delay(130);
+    if(abs(Area) > 10000){
+      delay(160);
       digitalWrite(solenoide, HIGH);
-      delay(25);
+      delay(45);
       digitalWrite(solenoide, LOW);
       delay(100);
     }
@@ -356,21 +358,21 @@ void portierefn(void){
   PhoenixLineHandler_handle(&line_handler);
 
   if(PhoenixCamera_getBallStatus(&_pixy)){
-    t = _pixy.output_pid_camera/180;
+    t = -_pixy.output_pid_camera/180;
     if(imu.x > 0){
       x = -imu.y;
       y = imu.x;
-      t = _pixy.output_pid_camera/180;
+      t =- _pixy.output_pid_camera/180;
     }
     else{
       x = imu.y;
       y = -imu.x;
-      t = _pixy.output_pid_camera/180;
+      t =-_pixy.output_pid_camera/180;
     }
   }
   else{
     x = 0;
-    y = 0;
+    y = -0.8;
     t = -imu.output_pid/180;
   }
   /*
@@ -402,25 +404,12 @@ void Test_pixyBall(void){
   PhoenixDrive_handle(&drive);
 }
 
-void batteria_bassa(void){
-  if(analogRead(batteria) < 724){
-    digitalWrite(led1, HIGH);
-    digitalWrite(led2, HIGH);
-    digitalWrite(led3, HIGH);
-    digitalWrite(led4, HIGH);
-    digitalWrite(led5, HIGH);
-    digitalWrite(led6, HIGH);
-    analogWrite(led7, 255);
-  }
-  else{
-    digitalWrite(led1, LOW);
-    digitalWrite(led2, LOW);
-    digitalWrite(led3, LOW);
-    digitalWrite(led4, LOW);
-    digitalWrite(led5, LOW);
-    digitalWrite(led6, LOW);
-    analogWrite(led7, 0);
-  }
+void destra_sinistraFn(void){
+  PhoenixDrive_setSpeed(&drive, 1,0,0);
+  PhoenixDrive_handle(&drive);
+  delay(600);
+  PhoenixDrive_setSpeed(&drive, -1,0,0);
+  PhoenixDrive_handle(&drive);
 }
 
 /**
@@ -439,5 +428,6 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
+
   playFn();
 }
