@@ -34,7 +34,7 @@ PhoenixJoint joints[NUM_JOINTS] = {
 
 PhoenixDrive drive;
 
-PhoenixLineSensor line_sensors[NUM_LINE_SENSORS] = {   // sen = y
+PhoenixLineSensor line_sensors[] = {   // sen = y
   {
   x : 0.97,
   y : 0.23,
@@ -205,8 +205,8 @@ PhoenixCamera _pixy = {
   door_age : 0,
   area_ball : 0,
   area_door : 0,
-  kp : 1.5,
-  ki : 0,
+  kp : 1.3,
+  ki : 0.4,
   kd : 0,
   errore : 0,
   errore_prec : 0,

@@ -320,22 +320,22 @@ void playFn() {
      x = (-imu.x)*1.10;
      y = (1-imu.y)*1.10;
      t = _pixy.output_pid_camera/180;
-    if(modulo(x,y) < 0.36){
+    if(modulo(x,y) < 0.35){
       x = imu.x;
       y = imu.y;
       t = _pixy.output_pid_camera/180;
     }
-    if(abs(Area) > 10000){
-      delay(160);
+    if(abs(Area) > 12000){
+      delay(180);
       digitalWrite(solenoide, HIGH);
-      delay(45);
+      delay(50);
       digitalWrite(solenoide, LOW);
       delay(100);
     }
   }
   else{
     x = 0;
-    y = -0.7;
+    y = -0.6;
     t = -imu.output_pid/180;
   }
   if(line_handler.escape_flag == 1){

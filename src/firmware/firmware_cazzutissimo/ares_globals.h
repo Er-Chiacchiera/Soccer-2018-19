@@ -17,7 +17,7 @@
 
 extern PhoenixJoint joints[NUM_JOINTS];
 extern PhoenixDrive drive;
-extern PhoenixLineSensor line_sensors[NUM_LINE_SENSORS];
+extern PhoenixLineSensor line_sensors[];
 extern PhoenixLineHandler line_handler;
 extern BNO055 dev_bno055;
 extern PhoenixImu imu;
