@@ -317,25 +317,25 @@ void playFn() {
   PhoenixImu_handle(&imu);
   PhoenixLineHandler_handle(&line_handler);
   if(PhoenixCamera_getBallStatus(&_pixy)){
-     x = (-imu.x)*1.10;
-     y = (1-imu.y)*1.10;
+     x = (-imu.x)*1.27777;
+     y = (1-imu.y)*1.27777;
      t = _pixy.output_pid_camera/180;
-    if(modulo(x,y) < 0.35){
+    if(modulo(x,y) < 0.55){
       x = imu.x;
       y = imu.y;
       t = _pixy.output_pid_camera/180;
     }
-    if(abs(Area) > 12000){
+    if(abs(Area) > 11000){
       delay(180);
       digitalWrite(solenoide, HIGH);
-      delay(50);
+      delay(70);
       digitalWrite(solenoide, LOW);
       delay(100);
     }
   }
   else{
     x = 0;
-    y = -0.6;
+    y = -0.87777;
     t = -imu.output_pid/180;
   }
   if(line_handler.escape_flag == 1){
@@ -428,6 +428,5 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-
   playFn();
 }
