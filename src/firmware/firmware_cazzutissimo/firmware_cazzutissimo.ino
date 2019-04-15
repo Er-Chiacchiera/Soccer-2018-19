@@ -1,3 +1,4 @@
+
 /**
    firmware.ino
 -----------------------------------------------------
@@ -16,6 +17,7 @@
 #include "ares_eeprom.h"
 #include "ares_pixy.h"
 #include "utils.h"
+#include "ares_management.h"
 
 const uint8_t ENABLE_LINE_CALIB = 0;
 
@@ -314,11 +316,12 @@ void playFn() {
   double x=0;
   double y=0;
   double Area = _pixy.area_ball;
+  double valore_const = 1.27777;
   PhoenixImu_handle(&imu);
   PhoenixLineHandler_handle(&line_handler);
   if(PhoenixCamera_getBallStatus(&_pixy)){
-     x = (-imu.x)*1.27777;
-     y = (1-imu.y)*1.27777;
+     x = (-imu.x)*valore_const;
+     y = (1-imu.y)*valore_const;
      t = _pixy.output_pid_camera/180;
     if(modulo(x,y) < 0.55){
       x = imu.x;
@@ -428,5 +431,4 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-  playFn();
 }
