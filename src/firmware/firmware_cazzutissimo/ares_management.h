@@ -1,5 +1,5 @@
 /**
- * ares_management
+ * ares_management.h
 **/
 
 #pragma once
@@ -16,7 +16,6 @@ typedef struct {
     double t_prev;
     double value_const;
     int value_modulo;
-
 } PhoenixManagement;
 
 void PhoenixManagement_init(PhoenixManagement * g);

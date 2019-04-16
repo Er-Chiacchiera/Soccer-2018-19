@@ -3,7 +3,7 @@
 #include  "ares_management.h"
 
 
-void PhoenixManagement_init(Gestione * g){
+void PhoenixManagement_init(PhoenixManagement * g){
     g->x = 0;
     g->y = 0;
     g->t = 0;
@@ -12,7 +12,7 @@ void PhoenixManagement_init(Gestione * g){
     g->value_modulo = 0;
 }
 
-void PhoenixManagement_handleAttack(Gestione * g){
+void PhoenixManagement_handleAttack(PhoenixManagement * g){
     PhoenixImu_handle(&imu);
     PhoenixLineHandler_handle(&line_handler);
     if(PhoenixCamera_getBallStatus(&_pixy)){
@@ -44,7 +44,7 @@ void PhoenixManagement_handleAttack(Gestione * g){
     PhoenixDrive_handle(&drive);
 }
 
-void PhoenixManagement_handlePortiere(Gestione * g){
+void PhoenixManagement_handlePortiere(PhoenixManagement * g){
     PhoenixImu_handle(&imu);
     PhoenixLineHandler_handle(&line_handler);
     if(PhoenixCamera_getBallStatus(&_pixy)){
@@ -75,11 +75,9 @@ void PhoenixManagement_handlePortiere(Gestione * g){
 }
 
 
-void PhoenixManagement_reset(Gestione * g){
+void PhoenixManagement_reset(PhoenixManagement * g){
     g->x = 0;
     g->y = 0;
     g->t = 0;
     g->t_prev = 0;
-    g->value_const = 0;
-    g->value_modulo = 0;
 }
