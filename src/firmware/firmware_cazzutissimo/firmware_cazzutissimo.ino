@@ -75,7 +75,6 @@ void setup() {
 
   PhoenixDrive_init(&drive, joints);
 
-  
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
