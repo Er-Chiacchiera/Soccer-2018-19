@@ -14,6 +14,7 @@
 #include "ares_rullo.h"
 #include "ares_pixy.h"
 #include "Adafruit_ADS1015.h"
+#include "ares_management.h"
 
 extern PhoenixJoint joints[NUM_JOINTS];
 extern PhoenixDrive drive;
