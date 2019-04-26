@@ -218,11 +218,15 @@ PhoenixCamera _pixy = {
   max_output : 180
 };
 
-PhoenixManagement gestione = {
+/*PhoenixManagement gestione = {
+  imu : &imu,
+  line_handler : &line_handler,
+  drive : &drive,
+  _pixy : &_pixy,
   x : 0,
   y : 0,
   t : 0,
   t_prev : 0,
   value_const : 0,
   value_modulo : 0
-};
+};*/

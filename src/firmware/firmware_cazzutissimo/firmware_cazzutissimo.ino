@@ -20,8 +20,8 @@
 #include "ares_management.h"
 
 const uint8_t ENABLE_LINE_CALIB = 0;
-
-
+static uint8_t ENABLE_SOLENOIDE = 0;
+static uint8_t FLAG_ALLINEAMENTO = 0;
 
 void TestEncoderFn() {
   static volatile int state=0;
@@ -112,12 +112,10 @@ void setup() {
     PhoenixLineHandler_startCalib(&line_handler);
     PhoenixDrive_setSpeed(&drive, 0,0,1);
     PhoenixDrive_handle(&drive);
+    Serial.println();
     uint16_t start = millis();
     while(1){
       PhoenixLineHandler_handle(&line_handler);
-            Serial.print(start);
-            Serial.print(" ");
-            Serial.println(millis());
       if(millis() - start > 10000){
         Serial.println("funzica");
         break; 
@@ -129,7 +127,7 @@ void setup() {
     PhoenixEeprom_storeLineSensor();
 
     // QUI 
-/**
+
     while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
@@ -147,20 +145,26 @@ void setup() {
     PhoenixDrive_setSpeed(&drive, 0,0,0);
     PhoenixDrive_handle(&drive);
     PhoenixLineHandler_stopCalibBlack(&line_handler);
-**/
-    //QUI
 
-    for(int i=0;i<NUM_LINE_SENSORS;++i){
+    //QUI
+    /*
+    for(int i=0;i<6;++i){
       line_sensors[i].soglia_black = 0;
-    }
+    }*/
     PhoenixEeprom_storeLineSensor();
     while(1);
 
   }
-     
-
+    
   Serial.println("Loading line params from eeprom...");
   PhoenixEeprom_loadLineSensor();
+  for(int i=0;i<9;i++){
+    Serial.print(line_sensors[i].soglia);
+    Serial.print(" ");
+    Serial.print(line_sensors[i].soglia_black);
+    Serial.print(" ");
+  }
+  Serial.println();
   Timer_init();
   Serial.println("Timers initialized...");
 
@@ -171,9 +175,11 @@ void setup() {
   
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
   Timer_start(t2_fn);
-  
-  
-  
+
+  while(digitalRead(encoder_sel) != LOW){
+      digitalWrite(led4, HIGH);
+    }
+    digitalWrite(led4, LOW);
 }
 
 volatile uint8_t imu_handle_flag=0;
@@ -211,18 +217,19 @@ void Test_ImuPid(void){
 }
 
 void Test_LineInternal(void){
-  for(int i=0;i<3;i++){
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
   Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
   Serial.print("\t");
   PhoenixLineSensor_handle(&line_sensors[i]);
   //Serial.print(" ");
 
-  Serial.print(line_sensors[i].misura); 
+  /*Serial.print(line_sensors[i].misura); 
   Serial.print(" ");
   Serial.print(line_sensors[i].soglia);
-  Serial.print(" ");
+  Serial.print(" ");*/
+  /*
   Serial.print(line_sensors[i].soglia_black);
-  Serial.print(" ");
+  Serial.print(" ");*/
   /*
   Serial.print(line_sensors[i].soglia);
   Serial.print(" ");*/
@@ -276,8 +283,8 @@ void Test_EscapeLine(void){
   t=-imu.output_pid/180.0;
   PhoenixLineHandler_handle(&line_handler);
   if(line_handler.escape_flag == 1){
-    x=line_handler.escape_x;
-    y=line_handler.escape_y;
+    x=line_handler.escape_x/8;
+    y=line_handler.escape_y/8;
   }
   else{
     x=0;
@@ -288,6 +295,28 @@ void Test_EscapeLine(void){
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
   Serial.println(PhoenixLineHandler_getStatus(&line_handler));
+}
+
+void Test_EscapeLinePortiere(void){
+  double x=0;
+  double y=0;
+  double t=0;
+
+  PhoenixImu_handle(&imu);
+  t=-imu.output_pid/180.0;
+  PhoenixLineHandler_handle(&line_handler);
+  if(line_handler.escape_flag == 1){
+    x=line_handler.escape_x/4;
+    y=line_handler.escape_y/4;
+  }
+  else{
+    x=0;
+    y=0.6;
+    t=-imu.output_pid/180;
+  }
+  
+  PhoenixDrive_setSpeed(&drive, x, y, t);
+  PhoenixDrive_handle(&drive);
 }
 
 void Test_pixy(void){
@@ -326,28 +355,33 @@ void playFn() {
       x = imu.x;
       y = imu.y;
       t = _pixy.output_pid_camera/180;
+      FLAG_ALLINEAMENTO = 1;
     }
     if(abs(Area) > 11000){
       delay(180);
       digitalWrite(solenoide, HIGH);
       delay(70);
       digitalWrite(solenoide, LOW);
-      delay(100);
+    }
+    if(abs(Area) > 10000 && FLAG_ALLINEAMENTO == 1){
+      x = 0;
+      y = 1;
+      t = 0;
     }
   }
   else{
     x = 0;
     y = -0.87777;
     t = -imu.output_pid/180;
+    FLAG_ALLINEAMENTO = 0;
   }
   if(line_handler.escape_flag == 1){
-    x = line_handler.escape_x;
-    y = line_handler.escape_y;
+    x = line_handler.escape_x/10;
+    y = line_handler.escape_y/10;
     t = -imu.output_pid/180;
   }
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
-  Serial.println(line_handler.escape_flag);
 }
 
 
@@ -374,15 +408,14 @@ void portierefn(void){
   }
   else{
     x = 0;
-    y = -0.8;
+    y = 0;
     t = -imu.output_pid/180;
   }
-  /*
   if(line_handler.escape_flag == 1){
-    x= line_handler.escape_x;
-    y= line_handler.escape_y;
+    x= line_handler.escape_x/10;
+    y= line_handler.escape_y/10;
     t= -imu.output_pid/180;
-  }*/
+  }
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
@@ -430,4 +463,5 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
+  playFn();
 }

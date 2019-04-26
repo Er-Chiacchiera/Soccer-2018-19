@@ -24,5 +24,5 @@ extern BNO055 dev_bno055;
 extern PhoenixImu imu;
 extern Adafruit_ADS1015 line_adc;
 extern PhoenixCamera _pixy;
-extern PhoenixManagement gestione;
+//extern PhoenixManagement gestione;
 

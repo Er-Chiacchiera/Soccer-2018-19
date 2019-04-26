@@ -6,10 +6,14 @@
 #include "ares_pixy.h"
 #include "ares_line.h"
 #include "ares_drive.h"
+#include "ares_imu.h"
 #include "utils.h"
-#include "ares_globals.h"
 
 typedef struct {
+    PhoenixImu *imu;
+    PhoenixLineHandler *line_handler;
+    PhoenixDrive *drive;
+    PhoenixCamera *_pixy;
     double x;
     double y;
     double t;
