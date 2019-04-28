@@ -1,7 +1,7 @@
 
 #include "ares_rullo.h"
 
-PhoenixJoint rullo = {
+PhoenixJoint solenoide = {
     pin_dira : 28,
     pin_dirb : 29,
     pin_pwm : 5, 
@@ -9,20 +9,20 @@ PhoenixJoint rullo = {
     velocita : 0
 };
 
-void PhoenixRullo_init()
+void PhoenixSolenoide_init()
 {
-    PhoenixJoint_init(&rullo);
+    PhoenixJoint_init(&solenoide);
 }
 
-void PhoenixRullo_start()
+void PhoenixSolenoide_start()
 {
-    PhoenixJoint_setSpeed(&rullo, -SPEED_RULLO);
-    PhoenixJoint_handle(&rullo);
+    PhoenixJoint_setSpeed(&solenoide, SOLENOIDE);
+    PhoenixJoint_handle(&solenoide);
 }
 
-void PhoenixRullo_stop()
+void PhoenixSolenoide_stop()
 {
-    PhoenixJoint_setSpeed(&rullo, 0);
-    PhoenixJoint_handle(&rullo);
+    PhoenixJoint_setSpeed(&solenoide, 0);
+    PhoenixJoint_handle(&solenoide);
 }
 

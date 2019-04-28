@@ -22,6 +22,9 @@
 const uint8_t ENABLE_LINE_CALIB = 0;
 static uint8_t ENABLE_SOLENOIDE = 0;
 static uint8_t FLAG_ALLINEAMENTO = 0;
+static uint8_t ENABLE_STOP = 0;
+static uint8_t escape_flag_prec = 0;
+
 
 void TestEncoderFn() {
   static volatile int state=0;
@@ -40,17 +43,19 @@ void TestEncoderFn() {
   state = (state+1)%2;
 }
 
+
+
 int led1 = 8;
 int led2 = 33;
-int led3 = 9;
-int led4 = 12;
-int led5 = 10;
-int led6 = 35;
-int led7 = A7;
-int led8 = 37;
+int led3 = 9;  //alto a destra
+int led4 = 12;  //per calibrazione
+int led5 = 10;  //NON FUNZICA
+int led6 = 35; //basso a sinistra
+int led7 = A7;  //centrale
+int led8 = 37;  //alto a sinistra
 int encoder_sel = 40;
 int batteria = A2;
-int solenoide = 43;
+int solenoid = 43;
 
 void setup() {
   
@@ -58,8 +63,10 @@ void setup() {
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
   pinMode(led4, OUTPUT);
+  pinMode(led8, OUTPUT);
+  pinMode(led7, OUTPUT);
   pinMode(batteria, INPUT);
-  pinMode(solenoide, OUTPUT);
+  pinMode(solenoid, OUTPUT);
   Serial.begin(9600);
   Serial.println("Serial initialized...");
 
@@ -92,8 +99,8 @@ void setup() {
   PhoenixEeprom_init();
   Serial.println("EEPROM initialized...");
   
-  PhoenixRullo_init();
-  Serial.println("Rullo inizialized...");
+  PhoenixSolenoide_init();
+  Serial.println("Solenoide inizialized...");
 
   PhoenixLineSensor_ADCBegin();
   for(int i=0;i<NUM_LINE_SENSORS;++i) {
@@ -127,7 +134,7 @@ void setup() {
     PhoenixEeprom_storeLineSensor();
 
     // QUI 
-
+/* 
     while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
@@ -147,15 +154,15 @@ void setup() {
     PhoenixLineHandler_stopCalibBlack(&line_handler);
 
     //QUI
-    /*
+    */
     for(int i=0;i<6;++i){
       line_sensors[i].soglia_black = 0;
-    }*/
+    }
     PhoenixEeprom_storeLineSensor();
     while(1);
 
   }
-    
+  
   Serial.println("Loading line params from eeprom...");
   PhoenixEeprom_loadLineSensor();
   for(int i=0;i<9;i++){
@@ -176,6 +183,9 @@ void setup() {
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
   Timer_start(t2_fn);
 
+  struct Timer* t3_fn = Timer_create(1000, solenoideTimerFn, NULL);
+  Timer_start(t3_fn);
+
   while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
@@ -191,6 +201,10 @@ void* imuTimerFn() {
 
 void* pixyTimerFn() {
   pixy_handle_flag=1;
+}
+
+void* solenoideTimerFn(){
+  ENABLE_SOLENOIDE = 0;
 }
 
 void Test_connections(void){
@@ -248,16 +262,6 @@ void Test_Line(void){
   PhoenixLineHandler_reset(&line_handler);
 }
 
-void Test_Rullo(void){
-  PhoenixRullo_start();
-  PhoenixDrive_setSpeed(&drive, 0,1,-imu.output_pid/180);
-  PhoenixDrive_handle(&drive);
-}
-
-void Test_RulloSingleStart(void){
-  PhoenixRullo_start();
-}
-
 void Test_Encoder(void){
   Encoder_sample();
   Serial.print(Encoder_getValue(0));
@@ -306,12 +310,12 @@ void Test_EscapeLinePortiere(void){
   t=-imu.output_pid/180.0;
   PhoenixLineHandler_handle(&line_handler);
   if(line_handler.escape_flag == 1){
-    x=line_handler.escape_x/4;
-    y=line_handler.escape_y/4;
+    x=line_handler.escape_x/8;
+    y=line_handler.escape_y/8;
   }
   else{
     x=0;
-    y=0.6;
+    y=0.5;
     t=-imu.output_pid/180;
   }
   
@@ -319,25 +323,43 @@ void Test_EscapeLinePortiere(void){
   PhoenixDrive_handle(&drive);
 }
 
+void TestStranoPerLine(void){
+  PhoenixLineHandler_handle(&line_handler);
+  if(line_handler.escape_flag == 1){
+    digitalWrite(led3, HIGH);
+  }
+  else{
+    digitalWrite(led3, LOW);
+  }
+}
+
 void Test_pixy(void){
-  double t=0.0;
-  double x=0.0;
-  double y=0.0;
+  static double t=0.0;
+  static double x=0.0;
+  static double y=0.0;
   static double t_prev=0.0;
     if(PhoenixCamera_getBallStatus(&_pixy)){
-      t=_pixy.output_pid_camera/180;
+      t=-_pixy.output_pid_camera/180;
       Serial.print(t);
       Serial.println();
       t_prev=t;
     } 
+    /*
     else{
       t=-imu.output_pid/180;
       x=0;
       y=0;
-    }
+    }*/
     PhoenixDrive_setSpeed(&drive, x,y,t);
     PhoenixDrive_handle(&drive);
   }
+
+void SolenoideDriver(void){
+  PhoenixSolenoide_start();
+  delay(100);
+  PhoenixSolenoide_stop();
+  delay(60);
+}
 
 void playFn() {
   double t=0;
@@ -348,25 +370,28 @@ void playFn() {
   PhoenixImu_handle(&imu);
   PhoenixLineHandler_handle(&line_handler);
   if(PhoenixCamera_getBallStatus(&_pixy)){
+    ENABLE_STOP = 0;
      x = (-imu.x)*valore_const;
      y = (1-imu.y)*valore_const;
      t = _pixy.output_pid_camera/180;
-    if(modulo(x,y) < 0.55){
+    if(modulo(x,y) < 0.40){
       x = imu.x;
       y = imu.y;
       t = _pixy.output_pid_camera/180;
       FLAG_ALLINEAMENTO = 1;
     }
-    if(abs(Area) > 11000){
-      delay(180);
-      digitalWrite(solenoide, HIGH);
-      delay(70);
-      digitalWrite(solenoide, LOW);
+    if(Area > 30000 && ENABLE_SOLENOIDE == 0){
+      delay(30);
+      PhoenixSolenoide_start();
+      delay(30);
+      PhoenixSolenoide_stop();
+      delay(60);
+      ENABLE_SOLENOIDE = 1;
     }
-    if(abs(Area) > 10000 && FLAG_ALLINEAMENTO == 1){
+    if(Area > 20000 && FLAG_ALLINEAMENTO == 1){
       x = 0;
       y = 1;
-      t = 0;
+      t = -imu.output_pid/180;
     }
   }
   else{
@@ -376,19 +401,39 @@ void playFn() {
     FLAG_ALLINEAMENTO = 0;
   }
   if(line_handler.escape_flag == 1){
-    x = line_handler.escape_x/10;
-    y = line_handler.escape_y/10;
+    x = line_handler.escape_x;
+    y = line_handler.escape_y;
     t = -imu.output_pid/180;
   }
+   /* if(escape_flag_prec == 0){
+       ++ ENABLE_STOP;
+       Serial.println("funzica");
+    }
+  }
+  if(ENABLE_STOP == 2){
+    x = line_handler.escape_x;
+    y = line_handler.escape_y;
+    t = -imu.output_pid/180;
+    PhoenixDrive_setSpeed(&drive, x,y,t);
+    PhoenixDrive_handle(&drive);
+    delay(200);
+    ++ ENABLE_STOP;
+  }
+  if(ENABLE_STOP == 3){
+    x = 0;
+    y = 0;
+    t = -imu.output_pid/180;
+  }
+  escape_flag_prec = line_handler.escape_flag;*/
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
 
 
 void portierefn(void){
-  double t=0;
-  double x=0;
-  double y=0;
+  static double t=0;
+  static double x=0;
+  static double y=0;
   static double t_prev=0;
   PhoenixImu_handle(&imu);
   PhoenixLineHandler_handle(&line_handler);
@@ -396,14 +441,16 @@ void portierefn(void){
   if(PhoenixCamera_getBallStatus(&_pixy)){
     t = -_pixy.output_pid_camera/180;
     if(imu.x > 0){
-      x = -imu.y;
-      y = imu.x;
-      t =- _pixy.output_pid_camera/180;
+      x = -imu.y*2;
+      y = imu.x*2;
     }
     else{
-      x = imu.y;
-      y = -imu.x;
-      t =-_pixy.output_pid_camera/180;
+      x = imu.y*2;
+      y = -imu.x*2;
+    }
+    if(modulo(imu.x,imu.x) < 0.3){
+      x = 0;
+      y = 0.4;
     }
   }
   else{
@@ -412,8 +459,8 @@ void portierefn(void){
     t = -imu.output_pid/180;
   }
   if(line_handler.escape_flag == 1){
-    x= line_handler.escape_x/10;
-    y= line_handler.escape_y/10;
+    x= line_handler.escape_x/12;
+    y= line_handler.escape_y/12;
     t= -imu.output_pid/180;
   }
   PhoenixDrive_setSpeed(&drive, x, y, t);
@@ -453,7 +500,6 @@ void destra_sinistraFn(void){
  * destra = 1, 0, 0
  * sinistra -1, 0, 0
  */
-
 void loop() {
   if(imu_handle_flag) {
     PhoenixImu_handle(&imu);
@@ -464,4 +510,5 @@ void loop() {
     pixy_handle_flag=0;
   }
   playFn();
+
 }

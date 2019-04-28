@@ -5,8 +5,7 @@
 #include "ares_params.h"
 
 
-void PhoenixRullo_init();
-void PhoenixRullo_setSpeed();
-void PhoenixRullo_start();
-void PhoenixRullo_stop();
+void PhoenixSolenoide_init();
+void PhoenixSolenoide_start();
+void PhoenixSolenoide_stop();
 

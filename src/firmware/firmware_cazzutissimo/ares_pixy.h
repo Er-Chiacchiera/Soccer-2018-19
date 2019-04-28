@@ -23,7 +23,7 @@ typedef struct {
   uint16_t door_h;
   uint8_t ball_age;
   uint8_t door_age;
-  int area_ball;
+  long int area_ball;
   int area_door;
 
   double kp;

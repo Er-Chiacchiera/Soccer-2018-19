@@ -50,8 +50,8 @@ PhoenixLineSensor line_sensors[] = {   // sen = y
   adc_idx : 0
   },
   {
-  x : 0.5,
-  y : 0,
+  x : 0.5, //0.5
+  y : 0,  //0
   soglia : 0,
   soglia_black : 0,
   misura : 0,
@@ -93,8 +93,8 @@ PhoenixLineSensor line_sensors[] = {   // sen = y
   adc_idx : 0
   },
   {
-  x : 0.5,
-  y : -0.86,
+  x : 0.5,  //0.5
+  y : -0.86,  //-0.86
   soglia : 0,
   soglia_black : 0,
   misura : 0,
@@ -205,7 +205,7 @@ PhoenixCamera _pixy = {
   door_age : 0,
   area_ball : 0,
   area_door : 0,
-  kp : 1.3,
+  kp : 1.0,
   ki : 0.4,
   kd : 0,
   errore : 0,
