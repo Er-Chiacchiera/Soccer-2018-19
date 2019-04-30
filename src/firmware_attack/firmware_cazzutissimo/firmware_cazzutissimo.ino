@@ -140,6 +140,9 @@ void setup() {
     while(1);
 
   }
+
+  PhoenixManagement_init(&gestione);
+  Serial.println("Gestione inizialized");
   
   Serial.println("Loading line params from eeprom...");
   PhoenixEeprom_loadLineSensor();
@@ -432,7 +435,7 @@ void destra_sinistraFn(void){
 void loop() {
   if(ENABLE_LOOP == 0){    
     if(imu_handle_flag) {
-    PhoenixImu_handle(&imu)
+    PhoenixImu_handle(&imu);
     imu_handle_flag=0;
   }
   if(pixy_handle_flag) {
@@ -440,7 +443,7 @@ void loop() {
     pixy_handle_flag=0;
   }
   
-  playFn();
+  PhoenixManagement_handleAttack(&gestione);
   
   }
   else{
