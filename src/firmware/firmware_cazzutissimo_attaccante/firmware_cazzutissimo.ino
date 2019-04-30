@@ -1,6 +1,6 @@
 
 /**
-   firmware.ino
+   firmware.ino attaccante 
 -----------------------------------------------------
 **/
 
@@ -24,6 +24,7 @@ static uint8_t ENABLE_SOLENOIDE = 0;
 static uint8_t FLAG_ALLINEAMENTO = 0;
 static uint8_t ENABLE_STOP = 0;
 static uint8_t escape_flag_prec = 0;
+static uint8_t ENABLE_LOOP = 0;
 
 
 void TestEncoderFn() {
@@ -119,7 +120,6 @@ void setup() {
     PhoenixLineHandler_startCalib(&line_handler);
     PhoenixDrive_setSpeed(&drive, 0,0,1);
     PhoenixDrive_handle(&drive);
-    Serial.println();
     uint16_t start = millis();
     while(1){
       PhoenixLineHandler_handle(&line_handler);
@@ -133,29 +133,7 @@ void setup() {
     PhoenixLineHandler_stopCalib(&line_handler);
     PhoenixEeprom_storeLineSensor();
 
-    // QUI 
-/* 
-    while(digitalRead(encoder_sel) != LOW){
-      digitalWrite(led4, HIGH);
-    }
-    digitalWrite(led4, LOW);
-    PhoenixLineHandler_startCalibBlack(&line_handler);
-    PhoenixDrive_setSpeed(&drive, 0,0,1);
-    PhoenixDrive_handle(&drive);
-    start = millis();
-    while(1){
-      PhoenixLineHandler_handle(&line_handler);
-      if(millis() - start > 5000){
-        break; 
-      }
-    }
-    PhoenixDrive_setSpeed(&drive, 0,0,0);
-    PhoenixDrive_handle(&drive);
-    PhoenixLineHandler_stopCalibBlack(&line_handler);
-
-    //QUI
-    */
-    for(int i=0;i<6;++i){
+    for(int i=0;i<NUM_LINE_SENSORS;++i){
       line_sensors[i].soglia_black = 0;
     }
     PhoenixEeprom_storeLineSensor();
@@ -186,6 +164,9 @@ void setup() {
   struct Timer* t3_fn = Timer_create(1000, solenoideTimerFn, NULL);
   Timer_start(t3_fn);
 
+  struct Timer* t4_fn = Timer_create(1000/40, TimeLoopFn, NULL);
+  Timer_start(t4_fn);
+
   while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
@@ -205,6 +186,10 @@ void* pixyTimerFn() {
 
 void* solenoideTimerFn(){
   ENABLE_SOLENOIDE = 0;
+}
+
+void* TimeLoopFn(){
+  ENABLE_LOOP = 0;
 }
 
 void Test_connections(void){
@@ -430,62 +415,6 @@ void playFn() {
 }
 
 
-void portierefn(void){
-  static double t=0;
-  static double x=0;
-  static double y=0;
-  static double t_prev=0;
-  PhoenixImu_handle(&imu);
-  PhoenixLineHandler_handle(&line_handler);
-
-  if(PhoenixCamera_getBallStatus(&_pixy)){
-    t = -_pixy.output_pid_camera/180;
-    if(imu.x > 0){
-      x = -imu.y*2;
-      y = imu.x*2;
-    }
-    else{
-      x = imu.y*2;
-      y = -imu.x*2;
-    }
-    if(modulo(imu.x,imu.x) < 0.3){
-      x = 0;
-      y = 0.4;
-    }
-  }
-  else{
-    x = 0;
-    y = 0;
-    t = -imu.output_pid/180;
-  }
-  if(line_handler.escape_flag == 1){
-    x= line_handler.escape_x/12;
-    y= line_handler.escape_y/12;
-    t= -imu.output_pid/180;
-  }
-  PhoenixDrive_setSpeed(&drive, x, y, t);
-  PhoenixDrive_handle(&drive);
-}
-
-void Test_pixyBall(void){
-  double x;
-  double y;
-  double t;
-  PhoenixImu_handle(&imu);
-  if(PhoenixCamera_getBallStatus(&_pixy)){
-    x = -imu.x;
-    y = 1-imu.y;
-    t = _pixy.output_pid_camera/180;
-  }
-  else{
-    x = 0;
-    y = 0;
-    t = -imu.output_pid/180;
-  }
-  PhoenixDrive_setSpeed(&drive, x,y,t);
-  PhoenixDrive_handle(&drive);
-}
-
 void destra_sinistraFn(void){
   PhoenixDrive_setSpeed(&drive, 1,0,0);
   PhoenixDrive_handle(&drive);
@@ -501,14 +430,20 @@ void destra_sinistraFn(void){
  * sinistra -1, 0, 0
  */
 void loop() {
-  if(imu_handle_flag) {
-    PhoenixImu_handle(&imu);
+  if(ENABLE_LOOP == 0){    
+    if(imu_handle_flag) {
+    PhoenixImu_handle(&imu)
     imu_handle_flag=0;
   }
   if(pixy_handle_flag) {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
+  
   playFn();
-
+  
+  }
+  else{
+    Serial.println("non succede un cazzo jack");
+  }
 }
