@@ -230,3 +230,17 @@ PhoenixManagement gestione = {
   value_const : 0,
   value_modulo : 0
 };
+
+Ultrasound ultrasuono = {
+  trigger_port : 0,
+  echo_port : 0,
+  distanza : 0,
+  durata : 0,
+  soglia_ultrasound : 0,
+  detect_wall : 0
+};
+
+ManagementUltrasound _gestione2 = {
+  sound : &ultrasuono,
+  flag_wall : 0
+};

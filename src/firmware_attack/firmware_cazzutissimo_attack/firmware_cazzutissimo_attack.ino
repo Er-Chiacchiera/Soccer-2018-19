@@ -95,7 +95,9 @@ void setup() {
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);
 
-  
+  PhoenixManagementUltra_init(&_gestione2);
+  Serial.println("ultrasound Inizialized");
+
   Serial.println("Initializing EEPRPOM...");
   PhoenixEeprom_init();
   Serial.println("EEPROM initialized...");
@@ -444,7 +446,9 @@ void loop() {
   }
   
   PhoenixManagement_handleAttack(&gestione);
-  
+  Serial.print(PhoenixManagementUltra_returnDistance(&_gestione2));
+  Serial.print(" ");
+  Serial.println();
   }
   else{
     Serial.println("non succede un cazzo jack");
