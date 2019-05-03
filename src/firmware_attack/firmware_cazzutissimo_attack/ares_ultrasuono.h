@@ -5,6 +5,8 @@
 
 #pragma once
 #include <Arduino.h>
+#include "ares_params.h"
+
 
 
 typedef struct{

@@ -28,6 +28,6 @@ int PhoenixManagementUltra_returnFlag(ManagementUltrasound * m){
 
 int PhoenixManagementUltra_returnDistance(ManagementUltrasound * m){
     for(int i=0;i<NUM_ULTRASOUND;++i){
-        PhoenixUltrasound_returnDistance(&sound[i]);
+        PhoenixUltrasound_returnDistance(m->sound);
     }
 }

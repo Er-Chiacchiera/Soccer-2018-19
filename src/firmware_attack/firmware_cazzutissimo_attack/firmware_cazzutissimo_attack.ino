@@ -17,7 +17,9 @@
 #include "ares_eeprom.h"
 #include "ares_pixy.h"
 #include "utils.h"
+#include "ares_ultrasuono.h"
 #include "ares_management.h"
+
 
 const uint8_t ENABLE_LINE_CALIB = 0;
 static uint8_t ENABLE_SOLENOIDE = 0;
@@ -159,8 +161,7 @@ void setup() {
   Serial.println("Timers initialized...");
 
   
-  struct Timer* t1_fn=Timer_create(1000/50, 
-    pixyTimerFn, NULL);
+  struct Timer* t1_fn=Timer_create(1000/50, pixyTimerFn, NULL);
   Timer_start(t1_fn);
   
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
@@ -445,10 +446,8 @@ void loop() {
     pixy_handle_flag=0;
   }
   
-  PhoenixManagement_handleAttack(&gestione);
-  Serial.print(PhoenixManagementUltra_returnDistance(&_gestione2));
-  Serial.print(" ");
-  Serial.println();
+  playFn();
+
   }
   else{
     Serial.println("non succede un cazzo jack");

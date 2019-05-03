@@ -231,16 +231,57 @@ PhoenixManagement gestione = {
   value_modulo : 0
 };
 
-Ultrasound ultrasuono = {
-  trigger_port : 0,
-  echo_port : 0,
-  distanza : 0,
-  durata : 0,
-  soglia_ultrasound : 0,
-  detect_wall : 0
+Ultrasound ultrasuono[NUM_ULTRASOUND] = {
+  {
+    trigger_port : 1,
+    echo_port : 2,
+    distanza : 0,
+    durata : 0,
+    soglia_ultrasound : 0,
+    detect_wall : 0,
+  },
+  {
+    trigger_port : 3,
+    echo_port : 4,
+    distanza : 0,
+    durata : 0,
+    soglia_ultrasound : 0,
+    detect_wall : 0,
+  },
+  {
+    trigger_port : 5,
+    echo_port : 6,
+    distanza : 0,
+    durata : 0,
+    soglia_ultrasound : 0,
+    detect_wall : 0,
+  },
+  {
+    trigger_port : 7,
+    echo_port : 8,
+    distanza : 0,
+    durata : 0,
+    soglia_ultrasound : 0,
+    detect_wall : 0,
+  }
 };
 
-ManagementUltrasound _gestione2 = {
+ManagementUltrasound _gestione2 = 
+{
+  {
   sound : &ultrasuono,
-  flag_wall : 0
+  flag_wall : 0,
+  },
+  {
+  sound : &ultrasuono,
+  flag_wall : 0,
+  },
+  {
+  sound : &ultrasuono,
+  flag_wall : 0,
+  },
+  {
+  sound : &ultrasuono,
+  flag_wall : 0,
+  }
 };
