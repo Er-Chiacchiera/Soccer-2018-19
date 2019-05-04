@@ -73,18 +73,19 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Serial initialized...");
 
+//TELECAMERA
   Serial.println("Initializing Camera...");
   delay(1000);
   PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
-
+//JOINTS
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
   Serial.println("Joint inizialized...");
-
+//DRIVE
   PhoenixDrive_init(&drive, joints);
-
+//IMU
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -96,17 +97,22 @@ void setup() {
   delay(1000);
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);
-
+//ULTRASUONI
+  for(int i=0;i<NUM_ULTRASOUND;++i){
+    PhoenixUltrasound_init(&ultrasuono[i]);
+  }
+  Serial.println("ultrasuoni inizialized...");
+//GESTORE ULTRASUONI
   PhoenixManagementUltra_init(&_gestione2);
   Serial.println("ultrasound Inizialized");
-
+//EEPROM
   Serial.println("Initializing EEPRPOM...");
   PhoenixEeprom_init();
   Serial.println("EEPROM initialized...");
-  
+//SOLENOIDE
   PhoenixSolenoide_init();
   Serial.println("Solenoide inizialized...");
-
+//ADC SINGOLI
   PhoenixLineSensor_ADCBegin();
   for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -114,6 +120,7 @@ void setup() {
   Serial.println("Line Sensors initialized...");
   PhoenixLineHandler_init(&line_handler, line_sensors);
   Serial.println("Line Handler initialized...");
+//CALIBRAZIONE
   pinMode(encoder_sel, INPUT_PULLUP);
   digitalWrite(led4, LOW);
   if(ENABLE_LINE_CALIB == 1) {
@@ -144,23 +151,24 @@ void setup() {
     while(1);
 
   }
-
+//GESTORE STRATEGIE
   PhoenixManagement_init(&gestione);
   Serial.println("Gestione inizialized");
-  
+//CARICAMENTO FILE EEPROM
   Serial.println("Loading line params from eeprom...");
   PhoenixEeprom_loadLineSensor();
-  for(int i=0;i<9;i++){
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
     Serial.print(line_sensors[i].soglia);
     Serial.print(" ");
     Serial.print(line_sensors[i].soglia_black);
     Serial.print(" ");
   }
   Serial.println();
+//TIMER
   Timer_init();
   Serial.println("Timers initialized...");
 
-  
+//CREAZIONE TIMER
   struct Timer* t1_fn=Timer_create(1000/50, pixyTimerFn, NULL);
   Timer_start(t1_fn);
   
@@ -172,7 +180,7 @@ void setup() {
 
   struct Timer* t4_fn = Timer_create(1000/40, TimeLoopFn, NULL);
   Timer_start(t4_fn);
-
+//stop...
   while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
@@ -420,14 +428,6 @@ void playFn() {
   PhoenixDrive_handle(&drive);
 }
 
-
-void destra_sinistraFn(void){
-  PhoenixDrive_setSpeed(&drive, 1,0,0);
-  PhoenixDrive_handle(&drive);
-  delay(600);
-  PhoenixDrive_setSpeed(&drive, -1,0,0);
-  PhoenixDrive_handle(&drive);
-}
 
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2

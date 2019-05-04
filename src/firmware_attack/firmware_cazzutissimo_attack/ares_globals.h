@@ -27,5 +27,5 @@ extern PhoenixImu imu;
 extern Adafruit_ADS1015 line_adc;
 extern PhoenixCamera _pixy;
 extern PhoenixManagement gestione;
-extern Ultrasound ultrasuono [NUM_ULTRASOUND];
+extern Ultrasound ultrasuono[NUM_ULTRASOUND];
 extern ManagementUltrasound _gestione2;

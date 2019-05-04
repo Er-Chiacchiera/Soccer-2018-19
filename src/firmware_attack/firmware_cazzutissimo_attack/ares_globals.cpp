@@ -266,22 +266,4 @@ Ultrasound ultrasuono[NUM_ULTRASOUND] = {
   }
 };
 
-ManagementUltrasound _gestione2 = 
-{
-  {
-  sound : &ultrasuono,
-  flag_wall : 0,
-  },
-  {
-  sound : &ultrasuono,
-  flag_wall : 0,
-  },
-  {
-  sound : &ultrasuono,
-  flag_wall : 0,
-  },
-  {
-  sound : &ultrasuono,
-  flag_wall : 0,
-  }
-};
+ManagementUltrasound _gestione2;

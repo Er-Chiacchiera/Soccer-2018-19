@@ -34,14 +34,12 @@ void PhoenixUltrasound_init(Ultrasound * u){
  * Se il valore di distanza > soglia_ultrasound -> detect_wall = 0   
  */
 void PhoenixUltrasound_handle(Ultrasound * u){
-    for(int i=0;i<NUM_ULTRASOUND;++i){
         digitalWrite(u->trigger_port, LOW);
         digitalWrite(u->trigger_port, HIGH);
         delayMicroseconds( 10 );
         digitalWrite(u->trigger_port, LOW);
         u->durata = pulseIn(u->echo_port, HIGH);
         u->distanza = 0.034 * u->durata / 2;
-    }
 }
 
 /**
@@ -58,16 +56,12 @@ void PhoenixUltrasound_reset(Ultrasound * u){
  * Questa funzione ritorna il valore di detect_wall
  */
 int PhoenixUltrasound_getWallStatus(Ultrasound * u){
-    for(int i=0;i<NUM_ULTRASOUND;++i){
         return u->detect_wall;
-    }
 }
 
 /**
  * Questa funzione ritorna il valore di distanza
  */
 int PhoenixUltrasound_returnDistance(Ultrasound * u){
-    for(int i=0;i<NUM_ULTRASOUND;++i){
         return u->detect_wall;
-    }
 }

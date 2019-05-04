@@ -7,14 +7,14 @@ void PhoenixManagementUltra_init(ManagementUltrasound * m){
 }
 
 void PhoenixManagementUltra_handle(ManagementUltrasound * m){
-    for(int i=0;i<NUM_ULTRASOUND;i++){
+    for(int i=0;i<NUM_ULTRASOUND;++i){
         PhoenixUltrasound_handle(m->sound);
-        if(PhoenixUltrasound_getWallStatus(m->sound) == 1){
-            m->flag_wall = 1;
-        }
-        else{
-            m->flag_wall = 0;
-        }
+    }
+    if(PhoenixUltrasound_getWallStatus(m->sound) == 1){
+        m->flag_wall = 1;
+    }
+    else{
+        m->flag_wall = 0;
     }
 }
 
