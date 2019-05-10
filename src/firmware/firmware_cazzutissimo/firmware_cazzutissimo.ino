@@ -400,11 +400,12 @@ void playFn() {
     t = -imu.output_pid/180;
     FLAG_ALLINEAMENTO = 0;
   }
+  /*
   if(line_handler.escape_flag == 1){
     x = line_handler.escape_x;
     y = line_handler.escape_y;
     t = -imu.output_pid/180;
-  }
+}*/
    /* if(escape_flag_prec == 0){
        ++ ENABLE_STOP;
        Serial.println("funzica");
@@ -509,6 +510,6 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-  playFn();
+  portierefn();
 
 }
