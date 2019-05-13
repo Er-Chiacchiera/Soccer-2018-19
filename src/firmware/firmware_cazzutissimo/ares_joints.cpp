@@ -3,6 +3,8 @@
  * phoenix_joints.cpp
  **/
 #include "ares_joints.h"
+#include "ares_encoders.h"
+#include "utils.h"
 /**
  * Azzera i valori di direzione e velocita,
  * inizializza i pin di dira, dirb e pwm 
@@ -26,7 +28,19 @@ void PhoenixJoint_init(PhoenixJoint* j) {
  * velocita = modulo(velocita) [0, 255]
  */
 void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
-  if(velocita>= 0){
+  Encoder_sample();
+  j->speed_encoder = Encoder_getValue(j->num_ticks);
+  j->errore = j->speed_encoder;
+  j->errore = cconstraint(j->errore, 255, -255);
+  double e_p = j->errore * j->kp;
+  double e_d = j->kd*(j->errore - j->errore_prec)*j->idt;
+  j->sum_i += j->ki*j->errore*j->dt;
+  j->sum_i = clamp(j->sum_i, j->max_i);
+  j->output_pid_joint = e_p + e_d + j->sum_i;
+  j->output_pid_joint = clamp(j->output_pid_joint, j->max_output);
+  j->errore_prec = j->errore;
+  
+  if(j->output_pid_joint>= 0){
     j->velocita = velocita;
     j->direzione = 0;
   }

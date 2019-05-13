@@ -14,6 +14,20 @@ typedef struct {
   uint16_t velocita;
 
   uint8_t pwm;
+
+  double kp;
+  double ki;
+  double kd;
+  double errore;
+  double errore_prec;
+  double dt;
+  double idt;
+  double sum_i;
+  double max_i;
+  double output_pid_joint;
+  double max_output;
+  double speed_encoder;
+  double num_ticks;
 }PhoenixJoint;
 
 
