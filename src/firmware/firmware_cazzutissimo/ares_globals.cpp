@@ -12,9 +12,9 @@ PhoenixJoint joints[NUM_JOINTS] = {
   direzione : 0,
   velocita : 0,
   pwm : 0,
-  kp : 5,
-  ki : 30,
-  kd : 0,
+  kp : 500,
+  ki : 500,
+  kd : 500,
   errore : 0,
   errore_prec : 0,
   dt : 0.01,
@@ -27,7 +27,7 @@ PhoenixJoint joints[NUM_JOINTS] = {
   velocita_desiderata : 0,
   velocita_misurata : 0,
   prev_ticks : 0,
-  num_ticks : 0
+  num_ticks : 3
   },
   {// Joint 1
   pin_dira : 24, //24
@@ -36,9 +36,9 @@ PhoenixJoint joints[NUM_JOINTS] = {
   direzione : 0,
   velocita : 0,
   pwm : 0,
-  kp : 5,
-  ki : 30,
-  kd : 0,
+  kp : 300,
+  ki : 300,
+  kd : 300,
   errore : 0,
   errore_prec : 0,
   dt : 0.01,
@@ -51,7 +51,7 @@ PhoenixJoint joints[NUM_JOINTS] = {
   velocita_desiderata : 0,
   velocita_misurata : 0,
   prev_ticks : 0,
-  num_ticks : 0
+  num_ticks : 3
   },
   {// Joint 2
   pin_dira : 26,  
@@ -60,9 +60,9 @@ PhoenixJoint joints[NUM_JOINTS] = {
   direzione : 0,
   velocita : 0,
   pwm : 0,
-  kp : 5,
-  ki : 30,
-  kd : 0,
+  kp : 300,
+  ki : 300,
+  kd : 300,
   errore : 0,
   errore_prec : 0,
   dt : 0.01,
@@ -75,7 +75,7 @@ PhoenixJoint joints[NUM_JOINTS] = {
   velocita_desiderata : 0,
   velocita_misurata : 0,
   prev_ticks : 0,
-  num_ticks : 0
+  num_ticks : 3
   }
 };
 

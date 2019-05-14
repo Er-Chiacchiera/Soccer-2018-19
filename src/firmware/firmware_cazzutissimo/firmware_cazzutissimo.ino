@@ -516,7 +516,7 @@ void loop() {
     pixy_handle_flag=0;
   }
   //portierefn();
-
+  //Test_Encoder();
   PhoenixDrive_setSpeed(&drive, 0,1,0);
   PhoenixDrive_handle(&drive);
 
