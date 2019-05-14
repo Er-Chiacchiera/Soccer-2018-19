@@ -26,7 +26,7 @@ static uint8_t ENABLE_STOP = 0;
 static uint8_t escape_flag_prec = 0;
 
 
-void TestEncoderFn() {
+/*void TestEncoderFn() {
   static volatile int state=0;
   static volatile int joint=0;
   switch(state) {
@@ -41,7 +41,7 @@ void TestEncoderFn() {
     break;
   }
   state = (state+1)%2;
-}
+}*/
 
 
 
@@ -58,7 +58,7 @@ int batteria = A2;
 int solenoid = 43;
 
 void setup() {
-  
+  //pin
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
@@ -69,19 +69,22 @@ void setup() {
   pinMode(solenoid, OUTPUT);
   Serial.begin(9600);
   Serial.println("Serial initialized...");
-
+  //PIXY
   Serial.println("Initializing Camera...");
   delay(1000);
   PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
-
+  //ENCODER
+  Encoder_init();
+  Serial.println("Encoder initialized...");
+  //JOINTS
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
   Serial.println("Joint inizialized...");
-
+  //DRIVE
   PhoenixDrive_init(&drive, joints);
-
+  //IMU
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -94,14 +97,14 @@ void setup() {
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);
 
-  
+  //EEPROM
   Serial.println("Initializing EEPRPOM...");
   PhoenixEeprom_init();
   Serial.println("EEPROM initialized...");
-  
+  //SOLENOIDE
   PhoenixSolenoide_init();
   Serial.println("Solenoide inizialized...");
-
+  //SINGLE ADC
   PhoenixLineSensor_ADCBegin();
   for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -206,7 +209,7 @@ void* pixyTimerFn() {
 void* solenoideTimerFn(){
   ENABLE_SOLENOIDE = 0;
 }
-
+/*
 void Test_connections(void){
   PhoenixJoint_setSpeed(&joints[0], 150); 
   Serial.println(joints[0].velocita);
@@ -215,7 +218,7 @@ void Test_connections(void){
   PhoenixJoint_handle(&joints[1]);
   PhoenixJoint_setSpeed(&joints[2], 150); 
   PhoenixJoint_handle(&joints[2]);
-}
+}*/
   
 void Test_ImuPid(void){
   PhoenixImu_handle(&imu);
@@ -263,6 +266,8 @@ void Test_Line(void){
 }
 
 void Test_Encoder(void){
+  PhoenixDrive_setSpeed(&drive, 0,1,0);
+  PhoenixDrive_handle(&drive);
   Encoder_sample();
   Serial.print(Encoder_getValue(0));
   Serial.print("\t");
@@ -510,6 +515,9 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-  portierefn();
+  //portierefn();
+
+  PhoenixDrive_setSpeed(&drive, 0,1,0);
+  PhoenixDrive_handle(&drive);
 
 }

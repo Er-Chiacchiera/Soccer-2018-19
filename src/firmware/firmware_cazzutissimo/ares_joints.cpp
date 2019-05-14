@@ -30,7 +30,9 @@ void PhoenixJoint_init(PhoenixJoint* j) {
 void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
   Encoder_sample();
   j->speed_encoder = Encoder_getValue(j->num_ticks);
-  j->errore = j->speed_encoder;
+  j->velocita_misurata = j->speed_encoder - j->prev_ticks;
+  j->velocita_desiderata = j->velocita;
+  j->errore = j->velocita_desiderata - j->velocita_misurata;
   j->errore = cconstraint(j->errore, 255, -255);
   double e_p = j->errore * j->kp;
   double e_d = j->kd*(j->errore - j->errore_prec)*j->idt;
@@ -39,14 +41,15 @@ void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
   j->output_pid_joint = e_p + e_d + j->sum_i;
   j->output_pid_joint = clamp(j->output_pid_joint, j->max_output);
   j->errore_prec = j->errore;
-  
-  if(j->output_pid_joint>= 0){
-    j->velocita = velocita;
-    j->direzione = 0;
+  uint16_t speed = j->output_pid_joint;
+  uint8_t dir = 0;
+  if(speed < 0){
+    j->velocita = - speed;
+    dir = 1;
   }
   else{
-    j->velocita = - velocita;
-    j->direzione = 1;
+  j->direzione = dir;
+  j->output_pid_joint = speed;
   }
   if(j->velocita > 255){
     j->velocita = 255;

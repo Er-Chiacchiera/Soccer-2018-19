@@ -11,7 +11,23 @@ PhoenixJoint joints[NUM_JOINTS] = {
   pin_pwm : 2,   
   direzione : 0,
   velocita : 0,
-  pwm : 0
+  pwm : 0,
+  kp : 5,
+  ki : 30,
+  kd : 0,
+  errore : 0,
+  errore_prec : 0,
+  dt : 0.01,
+  idt : 100,
+  sum_i : 0,
+  max_i : 255,
+  output_pid_joint : 0,
+  max_output : 255,
+  speed_encoder : 0,
+  velocita_desiderata : 0,
+  velocita_misurata : 0,
+  prev_ticks : 0,
+  num_ticks : 0
   },
   {// Joint 1
   pin_dira : 24, //24
@@ -19,7 +35,23 @@ PhoenixJoint joints[NUM_JOINTS] = {
   pin_pwm : 3,  //3
   direzione : 0,
   velocita : 0,
-  pwm : 0
+  pwm : 0,
+  kp : 5,
+  ki : 30,
+  kd : 0,
+  errore : 0,
+  errore_prec : 0,
+  dt : 0.01,
+  idt : 100,
+  sum_i : 0,
+  max_i : 255,
+  output_pid_joint : 0,
+  max_output : 255,
+  speed_encoder : 0,
+  velocita_desiderata : 0,
+  velocita_misurata : 0,
+  prev_ticks : 0,
+  num_ticks : 0
   },
   {// Joint 2
   pin_dira : 26,  
@@ -27,7 +59,23 @@ PhoenixJoint joints[NUM_JOINTS] = {
   pin_pwm : 4,   
   direzione : 0,
   velocita : 0,
-  pwm : 0
+  pwm : 0,
+  kp : 5,
+  ki : 30,
+  kd : 0,
+  errore : 0,
+  errore_prec : 0,
+  dt : 0.01,
+  idt : 100,
+  sum_i : 0,
+  max_i : 255,
+  output_pid_joint : 0,
+  max_output : 255,
+  speed_encoder : 0,
+  velocita_desiderata : 0,
+  velocita_misurata : 0,
+  prev_ticks : 0,
+  num_ticks : 0
   }
 };
 

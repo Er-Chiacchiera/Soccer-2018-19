@@ -27,6 +27,9 @@ typedef struct {
   double output_pid_joint;
   double max_output;
   double speed_encoder;
+  double velocita_desiderata;
+  double velocita_misurata;
+  double prev_ticks;
   double num_ticks;
 }PhoenixJoint;
 
