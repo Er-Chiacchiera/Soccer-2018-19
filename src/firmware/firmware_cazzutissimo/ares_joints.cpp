@@ -36,15 +36,15 @@ void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
   j->output_pid_joint = e_p + e_d + j->sum_i;
   j->output_pid_joint = clamp(j->output_pid_joint, j->max_output);
   j->errore_prec = j->errore;
-  uint16_t speed = j->output_pid_joint;
+  uint16_t new_speed = j->output_pid_joint;
   uint8_t dir = 0;
-  if(speed < 0){
-    j->velocita = - speed;
+  if(new_speed < 0){
+    j->velocita = - new_speed;
     j->direzione = 1;
   }
   else{
   j->direzione = dir;
-  j->output_pid_joint = speed;
+  j->output_pid_joint = new_speed;
   }
   if(j->velocita > 255){
     j->velocita = 255;
