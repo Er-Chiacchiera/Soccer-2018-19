@@ -28,12 +28,6 @@ void PhoenixJoint_init(PhoenixJoint* j) {
  * velocita = modulo(velocita) [0, 255]
  */
 void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
-  Encoder_sample();
-  j->prev_ticks = j->speed_encoder;
-  j->speed_encoder = Encoder_getValue(j->num_ticks);
-  j->velocita_misurata = j->speed_encoder - j->prev_ticks;
-  j->velocita_desiderata = j->velocita;
-  j->errore = j->velocita_desiderata - j->velocita_misurata;
   j->errore = cconstraint(j->errore, 255, -255);
   double e_p = j->errore * j->kp;
   double e_d = j->kd*(j->errore - j->errore_prec)*j->idt;
@@ -46,7 +40,7 @@ void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
   uint8_t dir = 0;
   if(speed < 0){
     j->velocita = - speed;
-    dir = 1;
+    j->direzione = 1;
   }
   else{
   j->direzione = dir;
@@ -66,9 +60,15 @@ void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
  * analogWrite
  */
 void PhoenixJoint_handle(PhoenixJoint* j) {
-  if(j->velocita < 70){
+  if(j->velocita < 10){
     j->velocita = 0;
   }
+  Encoder_sample();
+  j->prev_ticks = j->speed_encoder;
+  j->speed_encoder = Encoder_getValue(j->num_ticks);
+  j->velocita_misurata = j->speed_encoder - j->prev_ticks;
+  j->velocita_desiderata = j->velocita;
+  j->errore = j->velocita_desiderata - j->velocita_misurata;
   digitalWrite(j->pin_dira, j->direzione);
   digitalWrite(j->pin_dirb, !j->direzione);
   analogWrite(j->pin_pwm, j->output_pid_joint);
