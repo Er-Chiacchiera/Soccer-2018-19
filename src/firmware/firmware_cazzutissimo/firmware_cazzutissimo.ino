@@ -517,7 +517,17 @@ void loop() {
   }
   //portierefn();
   //Test_Encoder();
-  PhoenixDrive_setSpeed(&drive, 0,1,0);
-  PhoenixDrive_handle(&drive);
+  
+  /*
+  Serial.println("sono nel loop");
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, HIGH);
+  digitalWrite(led5, HIGH);
+  digitalWrite(led6, HIGH);
+  analogWrite(led7, 255);
+  digitalWrite(led8, HIGH);
+*/
 
 }

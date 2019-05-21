@@ -23,6 +23,8 @@ typedef struct {
   double dt;
   double idt;
   double sum_i;
+  double e_p;
+  double e_d;
   double max_i;
   double output_pid_joint;
   double max_output;
