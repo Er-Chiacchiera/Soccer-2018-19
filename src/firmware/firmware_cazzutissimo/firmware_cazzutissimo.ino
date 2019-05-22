@@ -209,7 +209,7 @@ void* pixyTimerFn() {
 void* solenoideTimerFn(){
   ENABLE_SOLENOIDE = 0;
 }
-/*
+
 void Test_connections(void){
   PhoenixJoint_setSpeed(&joints[0], 150); 
   Serial.println(joints[0].velocita);
@@ -218,7 +218,7 @@ void Test_connections(void){
   PhoenixJoint_handle(&joints[1]);
   PhoenixJoint_setSpeed(&joints[2], 150); 
   PhoenixJoint_handle(&joints[2]);
-}*/
+}
   
 void Test_ImuPid(void){
   PhoenixImu_handle(&imu);
@@ -492,12 +492,15 @@ void Test_pixyBall(void){
   PhoenixDrive_handle(&drive);
 }
 
-void destra_sinistraFn(void){
-  PhoenixDrive_setSpeed(&drive, 1,0,0);
-  PhoenixDrive_handle(&drive);
-  delay(600);
-  PhoenixDrive_setSpeed(&drive, -1,0,0);
-  PhoenixDrive_handle(&drive);
+void OnLight(void){
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, HIGH);
+  digitalWrite(led5, HIGH);
+  digitalWrite(led6, HIGH);
+  analogWrite(led7, 255);
+  digitalWrite(led8, HIGH);
 }
 
 /**
@@ -515,19 +518,11 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-  //portierefn();
-  //Test_Encoder();
-  
-  /*
-  Serial.println("sono nel loop");
-  digitalWrite(led1, HIGH);
-  digitalWrite(led2, HIGH);
-  digitalWrite(led3, HIGH);
-  digitalWrite(led4, HIGH);
-  digitalWrite(led5, HIGH);
-  digitalWrite(led6, HIGH);
-  analogWrite(led7, 255);
-  digitalWrite(led8, HIGH);
-*/
+
+  for(int i=0;i<NUM_JOINTS;i++){
+  PhoenixJoint_setSpeed(&joints[i], 255);
+  PhoenixJoint_handle(&joints[i]);
+  }
+
 
 }
