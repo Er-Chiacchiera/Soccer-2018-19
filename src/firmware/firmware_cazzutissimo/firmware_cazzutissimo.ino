@@ -519,10 +519,15 @@ void loop() {
     pixy_handle_flag=0;
   }
 
-  for(int i=0;i<NUM_JOINTS;i++){
+//Joint funzica singolo but no in all joint
+  for(int i=0;i<NUM_JOINTS;++i){
   PhoenixJoint_setSpeed(&joints[i], 255);
   PhoenixJoint_handle(&joints[i]);
   }
+//Drive 
+/*
+  PhoenixDrive_setSpeed(&drive, 0,1,0);
+  PhoenixDrive_handle(&drive);
 
-
+*/
 }
