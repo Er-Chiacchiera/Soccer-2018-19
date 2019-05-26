@@ -519,7 +519,7 @@ void loop() {
     pixy_handle_flag=0;
   }
 
-//Joint funzica singolo but no in all joint
+//Joint funzica singolo but no in all joint e devo da capi il perchè 
   for(int i=0;i<NUM_JOINTS;++i){
   PhoenixJoint_setSpeed(&joints[i], 255);
   PhoenixJoint_handle(&joints[i]);
