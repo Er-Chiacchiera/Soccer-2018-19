@@ -72,7 +72,7 @@ void setup() {
   //PIXY
   Serial.println("Initializing Camera...");
   delay(1000);
-  PhoenixCamera_init(&_pixy);
+ // PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
   //ENCODER
   Encoder_init();
@@ -179,9 +179,9 @@ void setup() {
   Serial.println("Timers initialized...");
 
   
-  struct Timer* t1_fn=Timer_create(1000/50, 
+  /*struct Timer* t1_fn=Timer_create(1000/50, 
     pixyTimerFn, NULL);
-  Timer_start(t1_fn);
+  Timer_start(t1_fn);*/
   
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
   Timer_start(t2_fn);
@@ -189,10 +189,10 @@ void setup() {
   struct Timer* t3_fn = Timer_create(1000, solenoideTimerFn, NULL);
   Timer_start(t3_fn);
 
-  while(digitalRead(encoder_sel) != LOW){
+  /*while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
-    digitalWrite(led4, LOW);
+    digitalWrite(led4, LOW);*/
 }
 
 volatile uint8_t imu_handle_flag=0;
@@ -234,15 +234,15 @@ void Test_ImuPid(void){
 }
 
 void Test_LineInternal(void){
-  for(int i=0;i<NUM_LINE_SENSORS;i++){
-  Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
-  Serial.print("\t");
+  for(int i=0;i<3;i++){
+  //Serial.print(PhoenixLineSensor_getStatus(&line_sensors[i]));
+  //Serial.print("\t");
   PhoenixLineSensor_handle(&line_sensors[i]);
   //Serial.print(" ");
 
-  /*Serial.print(line_sensors[i].misura); 
+  Serial.print(line_sensors[i].misura); 
   Serial.print(" ");
-  Serial.print(line_sensors[i].soglia);
+  /*Serial.print(line_sensors[i].soglia);
   Serial.print(" ");*/
   /*
   Serial.print(line_sensors[i].soglia_black);
@@ -514,20 +514,25 @@ void loop() {
     PhoenixImu_handle(&imu);
     imu_handle_flag=0;
   }
-  if(pixy_handle_flag) {
+  /*if(pixy_handle_flag) {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
-  }
+  }*/
 
 //Joint funzica singolo but no in all joint e devo da capi il perchè 
-  for(int i=0;i<NUM_JOINTS;++i){
+  /*for(int i=0;i<NUM_JOINTS;++i){
   PhoenixJoint_setSpeed(&joints[i], 255);
   PhoenixJoint_handle(&joints[i]);
-  }
+  }*/
 //Drive 
 /*
   PhoenixDrive_setSpeed(&drive, 0,1,0);
   PhoenixDrive_handle(&drive);
 
 */
+  for(int i=0;i<3;i++){
+    PhoenixLineSensor_handle(&line_sensors[i]);
+    Serial.print(line_sensors[i].soglia);
+  }
+  Serial.println();
 } 
