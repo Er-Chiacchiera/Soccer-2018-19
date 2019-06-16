@@ -4,5 +4,5 @@
 #pragma once
 
 #define NUM_JOINTS 3
-#define NUM_LINE_SENSORS 5
+#define NUM_LINE_SENSORS 3
 #define SOLENOIDE 255

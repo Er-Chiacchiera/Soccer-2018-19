@@ -530,9 +530,10 @@ void loop() {
   PhoenixDrive_handle(&drive);
 
 */
-  for(int i=0;i<3;i++){
+  for(int i=0;i<NUM_LINE_SENSORS;i++){
     PhoenixLineSensor_handle(&line_sensors[i]);
-    Serial.print(line_sensors[i].soglia);
+    Serial.print(line_sensors[i].misura);
+    Serial.print(" ");
   }
   Serial.println();
 } 
