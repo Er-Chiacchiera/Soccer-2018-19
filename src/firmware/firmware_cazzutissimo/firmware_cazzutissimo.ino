@@ -72,7 +72,7 @@ void setup() {
 
   Serial.println("Initializing Camera...");
   delay(1000);
-  PhoenixCamera_init(&_pixy);
+ // PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
 
   for(int i=0;i<NUM_JOINTS;++i) {
@@ -487,13 +487,6 @@ void Test_pixyBall(void){
   PhoenixDrive_handle(&drive);
 }
 
-void destra_sinistraFn(void){
-  PhoenixDrive_setSpeed(&drive, 1,0,0);
-  PhoenixDrive_handle(&drive);
-  delay(600);
-  PhoenixDrive_setSpeed(&drive, -1,0,0);
-  PhoenixDrive_handle(&drive);
-}
 
 /**
  * avanti = 0, 1, 0      per toccare la vel_max imposta a 2
@@ -506,10 +499,11 @@ void loop() {
     PhoenixImu_handle(&imu);
     imu_handle_flag=0;
   }
-  if(pixy_handle_flag) {
+  /*if(pixy_handle_flag) {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
-  }
-  portierefn();
+  }*/
+  PhoenixDrive_setSpeed(&drive, 0,1,0);
+  PhoenixDrive_handle(&drive);
 
 }
