@@ -72,7 +72,7 @@ void setup() {
 
   Serial.println("Initializing Camera...");
   delay(1000);
- // PhoenixCamera_init(&_pixy);
+  PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
 
   for(int i=0;i<NUM_JOINTS;++i) {
@@ -400,32 +400,6 @@ void playFn() {
     t = -imu.output_pid/180;
     FLAG_ALLINEAMENTO = 0;
   }
-  /*
-  if(line_handler.escape_flag == 1){
-    x = line_handler.escape_x;
-    y = line_handler.escape_y;
-    t = -imu.output_pid/180;
-}*/
-   /* if(escape_flag_prec == 0){
-       ++ ENABLE_STOP;
-       Serial.println("funzica");
-    }
-  }
-  if(ENABLE_STOP == 2){
-    x = line_handler.escape_x;
-    y = line_handler.escape_y;
-    t = -imu.output_pid/180;
-    PhoenixDrive_setSpeed(&drive, x,y,t);
-    PhoenixDrive_handle(&drive);
-    delay(200);
-    ++ ENABLE_STOP;
-  }
-  if(ENABLE_STOP == 3){
-    x = 0;
-    y = 0;
-    t = -imu.output_pid/180;
-  }
-  escape_flag_prec = line_handler.escape_flag;*/
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
@@ -499,11 +473,10 @@ void loop() {
     PhoenixImu_handle(&imu);
     imu_handle_flag=0;
   }
-  /*if(pixy_handle_flag) {
+  if(pixy_handle_flag) {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
-  }*/
-  PhoenixDrive_setSpeed(&drive, 0,1,0);
-  PhoenixDrive_handle(&drive);
+  }
+  Test_connections();
 
 }
