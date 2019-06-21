@@ -28,8 +28,8 @@ PhoenixJoint joints[NUM_JOINTS] = {
   speed_encoder : 0,
   velocita_desiderata : 0,
   velocita_misurata : 0,
-  prev_ticks : 0,
-  num_ticks : 3
+  prev_ticks : 0, 
+  num_ticks : 0
   },
   {// Joint 1
   pin_dira : 24, //24
@@ -55,7 +55,7 @@ PhoenixJoint joints[NUM_JOINTS] = {
   velocita_desiderata : 0,
   velocita_misurata : 0,
   prev_ticks : 0,
-  num_ticks : 3
+  num_ticks : 1
   },
   {// Joint 2
   pin_dira : 26,  
@@ -81,7 +81,7 @@ PhoenixJoint joints[NUM_JOINTS] = {
   velocita_desiderata : 0,
   velocita_misurata : 0,
   prev_ticks : 0,
-  num_ticks : 3
+  num_ticks : 2
   }
 };
 

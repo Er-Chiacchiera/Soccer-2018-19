@@ -40,7 +40,6 @@ void PhoenixJoint_setSpeed(PhoenixJoint* j, int velocita) {
  * analogWrite
  */
 void PhoenixJoint_handle(PhoenixJoint* j) {
-  Encoder_sample();
   j->prev_ticks = j->speed_encoder;
   j->speed_encoder = Encoder_getValue(j->num_ticks);
   j->velocita_misurata = j->speed_encoder - j->prev_ticks;

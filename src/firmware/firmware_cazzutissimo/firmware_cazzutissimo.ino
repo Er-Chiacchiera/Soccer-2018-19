@@ -1,6 +1,6 @@
 
 /**
-   firmware.ino
+   firmware cazzutissimo.ino
 -----------------------------------------------------
 **/
 
@@ -25,23 +25,6 @@ static uint8_t FLAG_ALLINEAMENTO = 0;
 static uint8_t ENABLE_STOP = 0;
 static uint8_t escape_flag_prec = 0;
 
-
-/*void TestEncoderFn() {
-  static volatile int state=0;
-  static volatile int joint=0;
-  switch(state) {
-    case 0:
-    PhoenixJoint_setSpeed(&joints[joint], 100);
-    PhoenixJoint_handle(&joints[joint]);
-    break;
-    case 1:
-    PhoenixJoint_setSpeed(&joints[joint], 0);
-    PhoenixJoint_handle(&joints[joint]);
-    joint = (joint+1)%3;
-    break;
-  }
-  state = (state+1)%2;
-}*/
 
 
 
@@ -179,9 +162,9 @@ void setup() {
   Serial.println("Timers initialized...");
 
   
-  /*struct Timer* t1_fn=Timer_create(1000/50, 
+  struct Timer* t1_fn=Timer_create(1000/50, 
     pixyTimerFn, NULL);
-  Timer_start(t1_fn);*/
+  Timer_start(t1_fn);
   
   struct Timer* t2_fn = Timer_create(5, imuTimerFn, NULL);
   Timer_start(t2_fn);
@@ -189,10 +172,10 @@ void setup() {
   struct Timer* t3_fn = Timer_create(1000, solenoideTimerFn, NULL);
   Timer_start(t3_fn);
 
-  /*while(digitalRead(encoder_sel) != LOW){
+  while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
     }
-    digitalWrite(led4, LOW);*/
+    digitalWrite(led4, LOW);
 }
 
 volatile uint8_t imu_handle_flag=0;
@@ -514,17 +497,16 @@ void loop() {
     PhoenixImu_handle(&imu);
     imu_handle_flag=0;
   }
-  /*if(pixy_handle_flag) {
+ /* if(pixy_handle_flag) {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }*/
 
 //Joint funzica singolo but no in all joint e devo da capi il perchè 
- /* for(int i=0;i<NUM_JOINTS;++i){
+  /*for(int i=0;i<NUM_JOINTS;++i){
   PhoenixJoint_setSpeed(&joints[i], 255);
   PhoenixJoint_handle(&joints[i]);
   }*/
 //Drive 
-  /*PhoenixDrive_setSpeed(&drive, 0,1,0);
-  PhoenixDrive_handle(&drive);*/
+  Test_ImuPid();
 } 

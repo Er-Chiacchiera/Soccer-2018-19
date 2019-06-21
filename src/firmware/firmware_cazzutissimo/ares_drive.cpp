@@ -3,6 +3,7 @@
  **/
 #include "ares_drive.h"
 #include "ares_params.h"
+#include "ares_encoders.h"
 
 /**
  * matrice cinematica robot a 3 assi
@@ -52,6 +53,7 @@ void PhoenixDrive_setSpeed(PhoenixDrive* d, double x, double y, double r) {
  * ogni Joint presente in d->joints 
  **/
 void PhoenixDrive_handle(PhoenixDrive* d) {
+  Encoder_sample();
   double comp_vector[3] = {d->vel_x_desiderata, d->vel_y_desiderata, d->rot_desiderata};
   for(int a=0;a<NUM_JOINTS;a++)
   {
