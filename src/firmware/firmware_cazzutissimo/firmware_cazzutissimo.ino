@@ -19,7 +19,7 @@
 #include "utils.h"
 #include "ares_management.h"
 
-const uint8_t ENABLE_LINE_CALIB = 0;
+static uint8_t ENABLE_LINE_CALIB;
 static uint8_t ENABLE_SOLENOIDE = 0;
 static uint8_t FLAG_ALLINEAMENTO = 0;
 static uint8_t ENABLE_STOP = 0;
@@ -41,6 +41,10 @@ int batteria = A2;
 int solenoid = 43;
 
 void setup() {
+  int read_encoder = digitalRead(encoder_sel);
+  if(read_encoder == LOW){
+    ENABLE_LINE_CALIB = 1;
+  }
   //pin
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
@@ -55,7 +59,7 @@ void setup() {
   //PIXY
   Serial.println("Initializing Camera...");
   delay(1000);
- // PhoenixCamera_init(&_pixy);
+  PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
   //ENCODER
   Encoder_init();
@@ -102,6 +106,7 @@ void setup() {
       digitalWrite(led4, HIGH);
     }
     digitalWrite(led4, LOW);
+    Serial.println("Calibration Mode...");
     PhoenixLineHandler_startCalib(&line_handler);
     PhoenixDrive_setSpeed(&drive, 0,0,1);
     PhoenixDrive_handle(&drive);
@@ -388,32 +393,12 @@ void playFn() {
     t = -imu.output_pid/180;
     FLAG_ALLINEAMENTO = 0;
   }
-  /*
+
   if(line_handler.escape_flag == 1){
     x = line_handler.escape_x;
     y = line_handler.escape_y;
     t = -imu.output_pid/180;
-}*/
-   /* if(escape_flag_prec == 0){
-       ++ ENABLE_STOP;
-       Serial.println("funzica");
-    }
   }
-  if(ENABLE_STOP == 2){
-    x = line_handler.escape_x;
-    y = line_handler.escape_y;
-    t = -imu.output_pid/180;
-    PhoenixDrive_setSpeed(&drive, x,y,t);
-    PhoenixDrive_handle(&drive);
-    delay(200);
-    ++ ENABLE_STOP;
-  }
-  if(ENABLE_STOP == 3){
-    x = 0;
-    y = 0;
-    t = -imu.output_pid/180;
-  }
-  escape_flag_prec = line_handler.escape_flag;*/
   PhoenixDrive_setSpeed(&drive, x, y, t);
   PhoenixDrive_handle(&drive);
 }
@@ -501,4 +486,11 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
+
+
+
+  //&Serial.println("launch loop");
+
+  Serial.println(digitalRead(encoder_sel));
+
 } 
