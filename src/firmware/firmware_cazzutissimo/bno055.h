@@ -193,9 +193,9 @@ typedef struct {
   double eul_roll;
   double eul_pitch;
   // LIA (LInear Acceleration)
-  int16_t lia_x;
-  int16_t lia_y;
-  int16_t lia_z;
+  double lia_x;
+  double lia_y;
+  double lia_z;
 }BNO055;
 
 /**

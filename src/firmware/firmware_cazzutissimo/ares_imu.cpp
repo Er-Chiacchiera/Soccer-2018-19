@@ -22,7 +22,7 @@ uint8_t PhoenixImu_init(PhoenixImu* m) {
   m->heading_offset = 0;
   m->errore = 0;
   m->imu->i2c_addr = BNO055_I2C_ADDR;
-  m->imu->op = NDOF;
+  m->imu->op = IMU;
   m->x = 0;
   m->y = 0;
   if(BNO055_init(m->imu) != 0)   //mi da problemi con le linee

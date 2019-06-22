@@ -126,7 +126,7 @@ void PhoenixLineHandler_reset(PhoenixLineHandler* d) {
     mask_clearBit(&d->mask, i); 
     PhoenixLineSensor_reset(&d->line_sensors[i]);
   }
-  Serial.println("Resettato");
+  //Serial.println("Resettato");
 }
 
 void PhoenixLineHandler_startCalib(PhoenixLineHandler* d){

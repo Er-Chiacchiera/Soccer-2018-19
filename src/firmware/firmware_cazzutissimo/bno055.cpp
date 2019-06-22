@@ -125,11 +125,25 @@ static void _BNO055_getHeading(BNO055* b, uint8_t* buf) {
   b->eul_pitch=((double)d3)/div_factor;
 }
 
+static void _BNO055_getLia(BNO055* b, uint8_t* buf) {
+  readLen(b->i2c_addr, ACC_DATA_X_LSB, buf, 6);
+
+  int16_t d1 = ((int16_t)(buf[0]) | (int16_t)(buf[1])<<8);
+  int16_t d2 = ((int16_t)(buf[2]) | (int16_t)(buf[3])<<8);
+  int16_t d3 = ((int16_t)(buf[4]) | (int16_t)(buf[5])<<8);
+
+  double div_factor=10.0;
+
+  b->lia_x=d1/div_factor;
+  b->lia_y=d2/div_factor;
+  b->lia_z=d3/div_factor;
+}
 /**
  * Depending on the op selected, executes and 
  * gets data from the Device
  **/
 void BNO055_handle(BNO055* b) {
   _BNO055_getHeading(b, received_buf);  
+  _BNO055_getLia(b, received_buf);
   return;
 }
