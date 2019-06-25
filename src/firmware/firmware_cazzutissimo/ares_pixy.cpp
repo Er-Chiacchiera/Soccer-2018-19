@@ -57,22 +57,21 @@ void PhoenixCamera_handle(PhoenixCamera* p) {
 
     for(int i=0;i<blocks_num;i++)
     {
-      if(pixy.ccc.blocks[i].m_signature == BALL_SIG)
+      if(pixy.ccc.blocks[i].m_signature == BALL_SIG)  //controllo se ho un blocco che ha la firma della palla
       {
-        p->ball_age = pixy.ccc.blocks[i].m_age;
-        if(p->ball_age > BALL_RELIABLE_AGE){
-          p->ball_x = pixy.ccc.blocks[i].m_x;
-          p->ball_y = pixy.ccc.blocks[i].m_y;
-          p->ball_w = pixy.ccc.blocks[i].m_width;
+        p->ball_age = pixy.ccc.blocks[i].m_age;    
+        if(p->ball_age > BALL_RELIABLE_AGE){   //controllo se "l'età della palla" è abbastanza stabile
+          p->ball_x = pixy.ccc.blocks[i].m_x;     
+          p->ball_y = pixy.ccc.blocks[i].m_y;          //scarico i dati ottenuti dalla telecamera dentro
+          p->ball_w = pixy.ccc.blocks[i].m_width;      //una struttura (un "contenitore di dati")
           p->ball_h = pixy.ccc.blocks[i].m_height;
-          p->ball_detection = 1;
+          p->ball_detection = 1;                      //prendo visione di una palla vista
           p->area_ball = p->ball_w * p->ball_h;
-          /*Serial.print("Area della palla:");
-          Serial.println(p->area_ball);*/
+
           p->errore = (int16_t)p->ball_x - 160;
           p->errore = cconstraint(p->errore, 180, -180);
 
-          double e_p = p->errore * p->kp;
+          double e_p = p->errore * p->kp;                          //calcolo del PID per la telecamera
           double e_d = p->kd*(p->errore - p->errore_prec)*p->idt;
           p->sum_i += p->ki*p->errore*p->dt;
           p->sum_i = clamp(p->sum_i, p->max_i);

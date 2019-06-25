@@ -19,7 +19,7 @@
 #include "utils.h"
 #include "ares_management.h"
 
-const uint8_t ENABLE_LINE_CALIB = 0;
+static uint8_t ENABLE_LINE_CALIB;
 static uint8_t ENABLE_SOLENOIDE = 0;
 static uint8_t FLAG_ALLINEAMENTO = 0;
 static uint8_t ENABLE_STOP = 0;
@@ -59,7 +59,10 @@ int batteria = A2;
 int solenoid = 43;
 
 void setup() {
-  
+  int read_encoder = analogRead(encoder_sel);
+  if(read_encoder == LOW){
+    ENABLE_LINE_CALIB = 1;
+  }
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
@@ -68,21 +71,22 @@ void setup() {
   pinMode(led7, OUTPUT);
   pinMode(batteria, INPUT);
   pinMode(solenoid, OUTPUT);
+  //Seriale
   Serial.begin(9600);
   Serial.println("Serial initialized...");
-
+  //Pixy
   Serial.println("Initializing Camera...");
   delay(1000);
-PhoenixCamera_init(&_pixy);
+  PhoenixCamera_init(&_pixy);
   Serial.println("Camera initialized...");
-
+  //Joint
   for(int i=0;i<NUM_JOINTS;++i) {
     PhoenixJoint_init(&joints[i]);
   }
   Serial.println("Joint inizialized...");
-
+  //drive
   PhoenixDrive_init(&drive, joints);
-
+  //IMU
   if(PhoenixImu_init(&imu)==0)
   {
     Serial.println("IMU inizialized...");
@@ -95,14 +99,14 @@ PhoenixCamera_init(&_pixy);
   PhoenixImu_handle(&imu);
   PhoenixImu_setOffset(&imu, imu.heading_attuale);
 
-  
+  //EEPROM
   Serial.println("Initializing EEPRPOM...");
   PhoenixEeprom_init();
   Serial.println("EEPROM initialized...");
-  
+  //Solenoide
   PhoenixSolenoide_init();
   Serial.println("Solenoide inizialized...");
-
+  //Adc Singoli 
   PhoenixLineSensor_ADCBegin();
   for(int i=0;i<NUM_LINE_SENSORS;++i) {
     PhoenixLineSensor_init(&line_sensors[i]);
@@ -112,6 +116,7 @@ PhoenixCamera_init(&_pixy);
   Serial.println("Line Handler initialized...");
   pinMode(encoder_sel, INPUT_PULLUP);
   digitalWrite(led4, LOW);
+  //Calibrazione
   if(ENABLE_LINE_CALIB == 1) {
     while(digitalRead(encoder_sel) != LOW){
       digitalWrite(led4, HIGH);
@@ -165,7 +170,7 @@ PhoenixCamera_init(&_pixy);
     while(1);
 
   }
-  
+  //upload eeprom params
   Serial.println("Loading line params from eeprom...");
   PhoenixEeprom_loadLineSensor();
   for(int i=0;i<NUM_LINE_SENSORS;i++){
@@ -175,6 +180,7 @@ PhoenixCamera_init(&_pixy);
     Serial.print(" ");
   }
   Serial.println();
+  //timer
   Timer_init();
   Serial.println("Timers initialized...");
 
@@ -495,7 +501,6 @@ void Test_pixyBall(void){
  * sinistra -1, 0, 0
  */
 void loop() {
-//Serial.println("ci sono...");
   if(imu_handle_flag) {
     PhoenixImu_handle(&imu);
     imu_handle_flag=0;
@@ -504,10 +509,7 @@ void loop() {
     PhoenixCamera_handle(&_pixy);
     pixy_handle_flag=0;
   }
-//Serial.println("sono nel loop");
- //Test_LineInternal();
-  //portierefn();
-  //SolenoideDriver();
- //portierefn();
- playFn();
+
+  playFn();
+  portierefn();
 }
