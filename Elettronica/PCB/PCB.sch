@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.3.1">
+<eagle version="9.2.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -10751,7 +10751,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <plain>
 <text x="40.64" y="167.64" size="2.54" layer="91">Encoder pin</text>
 <text x="127" y="167.64" size="2.54" layer="91">Battery</text>
-<text x="172.72" y="167.64" size="2.54" layer="91">Drill switch</text>
 <text x="43.18" y="134.62" size="2.54" layer="91">Led</text>
 <text x="121.92" y="109.22" size="1.778" layer="91">ADR-GND
 ADR-VCC
@@ -10956,8 +10955,7 @@ ADR-SDA</text>
 <wire x1="5.08" y1="5.08" x2="160.02" y2="5.08" width="1.016" layer="91" style="longdash"/>
 <wire x1="160.02" y1="5.08" x2="160.02" y2="25.4" width="1.016" layer="91" style="longdash"/>
 <wire x1="160.02" y1="25.4" x2="255.27" y2="25.4" width="1.016" layer="91" style="longdash"/>
-<wire x1="198.12" y1="173.99" x2="162.56" y2="173.99" width="1.016" layer="91" style="longdash"/>
-<wire x1="162.56" y1="173.99" x2="99.06" y2="173.99" width="1.016" layer="91" style="longdash"/>
+<wire x1="180.34" y1="173.99" x2="99.06" y2="173.99" width="1.016" layer="91" style="longdash"/>
 <wire x1="99.06" y1="173.99" x2="5.08" y2="173.99" width="1.016" layer="91" style="longdash"/>
 <wire x1="5.08" y1="173.99" x2="5.08" y2="139.7" width="1.016" layer="91" style="longdash"/>
 <wire x1="5.08" y1="139.7" x2="5.08" y2="88.9" width="1.016" layer="91" style="longdash"/>
@@ -10966,11 +10964,8 @@ ADR-SDA</text>
 <wire x1="5.08" y1="139.7" x2="88.9" y2="139.7" width="1.016" layer="91" style="longdash"/>
 <wire x1="88.9" y1="139.7" x2="99.06" y2="139.7" width="1.016" layer="91" style="longdash"/>
 <wire x1="99.06" y1="139.7" x2="99.06" y2="173.99" width="1.016" layer="91" style="longdash"/>
-<wire x1="99.06" y1="139.7" x2="162.56" y2="139.7" width="1.016" layer="91" style="longdash"/>
-<wire x1="162.56" y1="139.7" x2="180.34" y2="139.7" width="1.016" layer="91" style="longdash"/>
-<wire x1="180.34" y1="139.7" x2="198.12" y2="139.7" width="1.016" layer="91" style="longdash"/>
-<wire x1="198.12" y1="173.99" x2="198.12" y2="139.7" width="1.016" layer="91" style="longdash"/>
-<wire x1="162.56" y1="173.99" x2="162.56" y2="139.7" width="1.016" layer="91" style="longdash"/>
+<wire x1="99.06" y1="139.7" x2="180.34" y2="139.7" width="1.016" layer="91" style="longdash"/>
+<wire x1="180.34" y1="173.99" x2="180.34" y2="139.7" width="1.016" layer="91" style="longdash"/>
 <wire x1="5.08" y1="88.9" x2="50.8" y2="88.9" width="1.016" layer="91" style="longdash"/>
 <wire x1="50.8" y1="88.9" x2="88.9" y2="88.9" width="1.016" layer="91" style="longdash"/>
 <wire x1="88.9" y1="88.9" x2="111.76" y2="88.9" width="1.016" layer="91" style="longdash"/>
@@ -10987,12 +10982,12 @@ ADR-SDA</text>
 <wire x1="50.8" y1="22.86" x2="104.14" y2="22.86" width="1.016" layer="91" style="longdash"/>
 <wire x1="104.14" y1="22.86" x2="104.14" y2="38.1" width="1.016" layer="91" style="longdash"/>
 <wire x1="104.14" y1="38.1" x2="104.14" y2="60.96" width="1.016" layer="91" style="longdash"/>
-<wire x1="198.12" y1="173.99" x2="255.27" y2="173.99" width="1.016" layer="91" style="longdash"/>
+<wire x1="180.34" y1="173.99" x2="255.27" y2="173.99" width="1.016" layer="91" style="longdash"/>
 <wire x1="255.27" y1="173.99" x2="255.27" y2="139.7" width="1.016" layer="91" style="longdash"/>
 <wire x1="255.27" y1="139.7" x2="255.27" y2="88.9" width="1.016" layer="91" style="longdash"/>
 <wire x1="255.27" y1="88.9" x2="255.27" y2="60.96" width="1.016" layer="91" style="longdash"/>
 <wire x1="255.27" y1="60.96" x2="255.27" y2="25.4" width="1.016" layer="91" style="longdash"/>
-<wire x1="198.12" y1="139.7" x2="255.27" y2="139.7" width="1.016" layer="91" style="longdash"/>
+<wire x1="180.34" y1="139.7" x2="255.27" y2="139.7" width="1.016" layer="91" style="longdash"/>
 <wire x1="180.34" y1="88.9" x2="255.27" y2="88.9" width="1.016" layer="91" style="longdash"/>
 <wire x1="111.76" y1="60.96" x2="142.24" y2="60.96" width="1.016" layer="91" style="longdash"/>
 <wire x1="142.24" y1="60.96" x2="165.1" y2="60.96" width="1.016" layer="91" style="longdash"/>
